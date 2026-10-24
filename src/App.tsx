@@ -1,0 +1,144 @@
+import React, { useState } from 'react';
+import { DineInProvider, useDineIn } from './contexts/DineInContext';
+import { ALL_PRODUCTS, getMustTryProducts } from './services/catalog';
+import { CompactHeader } from './components/CompactHeader';
+import { HeroCarousel } from './components/HeroCarousel';
+import { MustTryRail } from './components/MustTryRail';
+import { MenuSection } from './components/MenuSection';
+import { ProductDetailsModal } from './components/ProductDetailsModal';
+import { CartDrawer } from './components/CartDrawer';
+import { FloatingNavigation } from './components/FloatingNavigation';
+import { CustomerAuthModal } from './components/CustomerAuthModal';
+import { SearchModal } from './components/SearchModal';
+import { Product } from './types';
+
+const DiningAppContent: React.FC = () => {
+  const {
+    customer,
+    tableNumber,
+    isAuthModalOpen,
+    closeAuthModal,
+    selectedProduct,
+    setSelectedProduct,
+  } = useDineIn();
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const mustTryProducts = getMustTryProducts();
+
+  const handleExploreClick = () => {
+    const el = document.getElementById('main-menu-catalog');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleProductSelect = (product: Product) => {
+    setSelectedProduct(product);
+  };
+
+  return (
+    <div
+      style={{
+        minHeight: '100vh',
+        backgroundColor: '#080808',
+        color: '#FAF7F2',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        overflowX: 'hidden',
+      }}
+    >
+      {/* 1. Compact Dining Header */}
+      <CompactHeader onSearchClick={() => setIsSearchOpen(true)} />
+
+      {/* 2. Customer Authentication Gate (Section 5) */}
+      <CustomerAuthModal
+        isOpen={isAuthModalOpen || (!customer && false)} // open when requested or first visit if mandatory
+        onClose={closeAuthModal}
+        mandatory={false}
+      />
+
+      {/* 3. Main Content Container */}
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* 3A. Hero Carousel — The Defining Visual Feature (Section 7) */}
+        <HeroCarousel
+          products={ALL_PRODUCTS}
+          onProductClick={handleProductSelect}
+          onExploreClick={handleExploreClick}
+          onSearchClick={() => setIsSearchOpen(true)}
+        />
+
+        {/* 3B. Must Try Product Rail (Section 9) */}
+        <MustTryRail
+          products={mustTryProducts}
+          onProductClick={handleProductSelect}
+        />
+
+        {/* 3C. Main Menu & Category Navigation (Section 10) */}
+        <MenuSection
+          onProductClick={handleProductSelect}
+          searchQuery={searchQuery}
+          onClearSearch={() => setSearchQuery('')}
+        />
+      </main>
+
+      {/* 4. Product Details Modal / Sheet (Section 11) */}
+      <ProductDetailsModal
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+      />
+
+      {/* 5. Cart Drawer & Bill Summary (Section 11) */}
+      <CartDrawer />
+
+      {/* 6. Floating Bottom Navigation & Floating Checkout Bar (Section 12) */}
+      <FloatingNavigation onMenuClick={handleExploreClick} />
+
+      {/* 7. Search Modal */}
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onSelectProduct={handleProductSelect}
+      />
+
+      {/* 8. Minimalist Footer */}
+      <footer
+        style={{
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+          backgroundColor: '#050505',
+          padding: '24px 20px 90px 20px',
+          textAlign: 'center',
+          fontSize: '11px',
+          color: '#9C8C7E',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
+          <img
+            src="/branding/little-monkey-logo-nav.png"
+            alt="Little Monkey"
+            style={{ width: '20px', height: 'auto', opacity: 0.7 }}
+          />
+          <span style={{ fontWeight: 700, color: '#FAF7F2' }}>Little Monkey Café</span>
+        </div>
+        <p style={{ margin: '0 0 4px 0' }}>
+          In-Café Digital Dining • {tableNumber} • Authentic Handcrafted Menu
+        </p>
+        <p style={{ margin: 0, color: 'rgba(255, 255, 255, 0.25)' }}>
+          © {new Date().getFullYear()} Little Monkey Café. All rights reserved.
+        </p>
+      </footer>
+    </div>
+  );
+};
+
+export const App: React.FC = () => {
+  return (
+    <DineInProvider>
+      <DiningAppContent />
+    </DineInProvider>
+  );
+};
+
+export default App;

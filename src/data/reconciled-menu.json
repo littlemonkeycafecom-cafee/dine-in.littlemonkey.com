@@ -1,0 +1,3245 @@
+{
+  "metadata": {
+    "source": "Official Little Monkey Café Menu PDF: LM_menu_26_jun_v3.pdf",
+    "verified_pages": 14,
+    "currency": "INR",
+    "unit": "paise",
+    "categories_count": 32,
+    "products_count": 184,
+    "variants_count": 194,
+    "must_try_count": 28,
+    "charges": [
+      {
+        "name": "PACKING CHARGES",
+        "price_paise": 1500,
+        "scope": "Takeaway packing charge"
+      },
+      {
+        "name": "TAKE AWAY COFFEE CUP WITH LID",
+        "price_paise": 1500,
+        "scope": "Coffee takeaway cup"
+      }
+    ]
+  },
+  "products": [
+    {
+      "slug": "thin-crust-pizza-margherita-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Margherita Pizza",
+      "description": "CHEESE & TOMATO TOPPING • 11 inch, 8 slices",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 29400
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-spicy-mexican-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Spicy Mexican Pizza",
+      "description": "ONION, CAPSICUM, CHILLI FLAKES • 11 inch, 8 slices",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 37500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-desi-masala-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Desi Masala Pizza",
+      "description": "ONION, CAPSICUM, DESI MASALA • 11 inch, 8 slices",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 37500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-sweet-corn-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Sweet Corn Pizza",
+      "description": "ONION, CAPSICUM, SWEET CORN • 11 inch, 8 slices",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 37500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-peri-peri-mexican-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Peri Peri Mexican Pizza",
+      "description": "ONION, CAPSICUM, JALAPENO, SPICY PERI PERI SAUCE • 11 inch, 8 slices",
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 39600
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-farmhouse",
+      "category": "thin-crust-pizza",
+      "name": "Farmhouse",
+      "description": "ONION, CAPSICUM, SWEET CORN, TOMATOES, OLIVES • 11 inch, 8 slices",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 39900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-veggie-paradise-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Veggie Paradise Pizza",
+      "description": "ONION, CAPSICUM, JALAPENO, OLIVES • 11 inch, 8 slices",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 41000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-spicy-paneer-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Spicy Paneer Pizza",
+      "description": "ONION, CAPSICUM, PANEER • 11 inch, 8 slices",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 44900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-peri-peri-italio-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Peri Peri Italio Pizza",
+      "description": "ONION, CAPSICUM, JALAPENO, BABY CORN, MUSHROOM, BLACK OLIVES, SPICY PERI PERI • 11 inch, 8 slices",
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 44900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-mexican-chicken-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Mexican Chicken Pizza",
+      "description": "CHICKEN, ONION, CAPSICUM, JALAPENO, CHILLI FLAKES • 11 inch, 8 slices",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 44900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-chicken-and-sweet-corn-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Chicken and Sweet Corn Pizza",
+      "description": "CHICKEN, ONION, SWEET CORN, CHILLI FLAKES • 11 inch, 8 slices",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 44900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-chicken-mushroom-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Chicken Mushroom Pizza",
+      "description": "CHICKEN, MUSHROOM, ONION, CAPSICUM, CHILLI FLAKES • 11 inch, 8 slices",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 44900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-chicken-tikka-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Chicken Tikka Pizza",
+      "description": "CHICKEN TIKKA, ONION, CAPSICUM, TOMATOES • 11 inch, 8 slices",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 44900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-pineapple-chicken-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Pineapple Chicken Pizza",
+      "description": "CHICKEN, PINEAPPLE, ONION, CAPSICUM, CHILLI FLAKES • 11 inch, 8 slices",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 44900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-barbeque-chicken-pizza",
+      "category": "thin-crust-pizza",
+      "name": "Barbeque Chicken Pizza",
+      "description": "BARBEQUE CHICKEN, ONION, CAPSICUM, BLACK OLIVES, HERBS • 11 inch, 8 slices",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 45900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-chicken-tikka-pizza-pineapple",
+      "category": "thin-crust-pizza",
+      "name": "Chicken Tikka Pizza Pineapple",
+      "description": "CHICKEN TIKKA, ONION, CAPSICUM, TOMATOES, PINEAPPLE • 11 inch, 8 slices",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 46900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thin-crust-pizza-chicken-pepperoni",
+      "category": "thin-crust-pizza",
+      "name": "Chicken Pepperoni",
+      "description": "PEPPERONI CHICKEN, CHEESE, HERBS • 11 inch, 8 slices",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 49900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "pizza-combos-veg-pizza-combo",
+      "category": "pizza-combos",
+      "name": "Veg Pizza Combo",
+      "description": "10inch pizza [spicy Mexicana / desi masala / sweet corn], 3 pc garlic bread, small French fries",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 54900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null,
+      "options_json": {
+        "choices": [
+          "Spicy Mexicana",
+          "Desi Masala",
+          "Sweet Corn"
+        ]
+      }
+    },
+    {
+      "slug": "pizza-combos-non-veg-pizza-combo",
+      "category": "pizza-combos",
+      "name": "Non-Veg Pizza Combo",
+      "description": "8INC ANY NON-VEG PIZZA, 3 PC GARLIC BREAD, SMALL FRENCH FRIES",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 59900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null,
+      "options_json": {
+        "choices": [
+          "Mexican Chicken Pizza",
+          "Chicken and Sweet Corn Pizza",
+          "Chicken Mushroom Pizza",
+          "Chicken Tikka Pizza",
+          "Pineapple Chicken Pizza",
+          "Barbeque Chicken Pizza",
+          "Chicken Tikka Pizza Pineapple",
+          "Chicken Pepperoni"
+        ]
+      }
+    },
+    {
+      "slug": "pasta-pasta-veg",
+      "category": "pasta",
+      "name": "Pasta Veg",
+      "description": "Penne / spaghetti; red sauce / white sauce / mix sauce. Full: CAPSICUM, ZUCCHINI, BROCCOLI, CHOICE OF SAUCE, GARLIC BREAD",
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 24900
+        },
+        {
+          "name": "Full",
+          "price_paise": 32900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null,
+      "options_json": {
+        "pastaType": {
+          "choices": [
+            "Penne",
+            "Spaghetti"
+          ]
+        },
+        "sauce": {
+          "choices": [
+            "Red sauce",
+            "White sauce",
+            "Mix sauce"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "pasta-pasta-non-veg",
+      "category": "pasta",
+      "name": "Pasta Non-Veg",
+      "description": "Half: CHICKEN, CHOICE OF SAUCE. Full: CHICKEN, CHOICE OF SAUCE, GARLIC BREAD",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 29900
+        },
+        {
+          "name": "Full",
+          "price_paise": 35900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null,
+      "options_json": {
+        "pastaType": {
+          "choices": [
+            "Penne",
+            "Spaghetti"
+          ]
+        },
+        "sauce": {
+          "choices": [
+            "Red sauce",
+            "White sauce",
+            "Mix sauce"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sandwiches-veg-grill",
+      "category": "sandwiches",
+      "name": "Veg Grill",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 12900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "sandwiches-veg-corn",
+      "category": "sandwiches",
+      "name": "Veg Corn",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 14900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "sandwiches-paneer-grill",
+      "category": "sandwiches",
+      "name": "Paneer Grill",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "sandwiches-chicken-onion",
+      "category": "sandwiches",
+      "name": "Chicken Onion",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "sandwiches-chicken-tikka",
+      "category": "sandwiches",
+      "name": "Chicken Tikka",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "sandwiches-bbq-chicken-sandwich",
+      "category": "sandwiches",
+      "name": "BBQ Chicken Sandwich",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "sandwiches-special-chicken-tikka",
+      "category": "sandwiches",
+      "name": "Special Chicken Tikka",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "shawarma-classic-paneer-shawarma",
+      "category": "shawarma",
+      "name": "Classic Paneer Shawarma",
+      "description": "PANEER, LETTUCE, CAPSICUM; PITTA BREAD",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "shawarma-classic-chicken-shawarma",
+      "category": "shawarma",
+      "name": "Classic Chicken Shawarma",
+      "description": "BREAST CHICKEN, LETTUCE, CAPSICUM; PITTA BREAD",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "shawarma-fried-chicken-shawarma",
+      "category": "shawarma",
+      "name": "Fried Chicken Shawarma",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 22000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "shawarma-veg-corn-cheese-grilled-roll",
+      "category": "shawarma",
+      "name": "Veg Corn Cheese Grilled Roll",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "fries-french-fries",
+      "category": "fries",
+      "name": "French Fries",
+      "description": "MIXED WITH SALT",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "M",
+          "price_paise": 12900
+        },
+        {
+          "name": "L",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "fries-masala-french-fries",
+      "category": "fries",
+      "name": "Masala French Fries",
+      "description": "PERI PERI MIX",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "M",
+          "price_paise": 14000
+        },
+        {
+          "name": "L",
+          "price_paise": 17900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "fries-french-fries-with-cheese-sauce",
+      "category": "fries",
+      "name": "French Fries with Cheese Sauce",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 20900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "burgers-veg-delight-burger",
+      "category": "burgers",
+      "name": "Veg Delight Burger",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "burgers-veg-popular-burger",
+      "category": "burgers",
+      "name": "Veg Popular Burger",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "burgers-paneer-burger",
+      "category": "burgers",
+      "name": "Paneer Burger",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 26900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "burgers-crispy-chicken-burger",
+      "category": "burgers",
+      "name": "Crispy Chicken Burger",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "burgers-crispy-chicken-cheese-burger",
+      "category": "burgers",
+      "name": "Crispy Chicken Cheese Burger",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "burgers-spicy-mexican-chicken-burger",
+      "category": "burgers",
+      "name": "Spicy Mexican Chicken Burger",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 23000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "burgers-spicy-mexican-chicken-cheese-burger",
+      "category": "burgers",
+      "name": "Spicy Mexican Chicken Cheese Burger",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 23900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "burgers-crispy-fish-burger",
+      "category": "burgers",
+      "name": "Crispy Fish Burger",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 24900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "burgers-crispy-fish-cheese-burger",
+      "category": "burgers",
+      "name": "Crispy Fish Cheese Burger",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 26900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "burger-combos-veg-burger-combo",
+      "category": "burger-combos",
+      "name": "Veg Burger Combo",
+      "description": "VEG DELIGHT BURGER, 4 PCS POTATOES CHEESE SHOTS, SMALL FRENCH FRIES, 1 SOFT DRINK",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 34900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "burger-combos-chicken-burger-combo",
+      "category": "burger-combos",
+      "name": "Chicken Burger Combo",
+      "description": "1 PC CRISPY CHICKEN BURGER, 2 PC CHICKEN WINGS, SMALL FRENCH FRIES, 1 SOFT DRINK",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 39900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "burger-combos-chicken-crispy-combo",
+      "category": "burger-combos",
+      "name": "Chicken Crispy Combo",
+      "description": "1 PC CRISPY CHICKEN CHEESE BURGER, 3 PC NUGGETS, SMALL FRENCH FRIES, 1 SOFT DRINK",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 41000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "garlic-bread-garlic-bread",
+      "category": "garlic-bread",
+      "name": "Garlic Bread",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 14900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "garlic-bread-cheese-garlic-bread",
+      "category": "garlic-bread",
+      "name": "Cheese Garlic Bread",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "garlic-bread-cheese-corn-garlic-bread",
+      "category": "garlic-bread",
+      "name": "Cheese & Corn Garlic Bread",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "sides-quick-bites-8-pcs-potato-cheese-shots",
+      "category": "sides-quick-bites",
+      "name": "8 Pcs Potato Cheese Shots",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "sides-quick-bites-potato-wedges",
+      "category": "sides-quick-bites",
+      "name": "Potato Wedges",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "sides-quick-bites-peri-peri-potato-wedges",
+      "category": "sides-quick-bites",
+      "name": "Peri Peri Potato Wedges",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "sides-quick-bites-veg-fries-5-pcs",
+      "category": "sides-quick-bites",
+      "name": "Veg Fries (5 Pcs)",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 14900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "sides-quick-bites-veg-spring-rolls-4-pcs",
+      "category": "sides-quick-bites",
+      "name": "Veg Spring Rolls (4 Pcs)",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 14900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "desserts-brownie",
+      "category": "desserts",
+      "name": "Brownie",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "desserts-brownie-with-ice-cream",
+      "category": "desserts",
+      "name": "Brownie with Ice Cream",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "desserts-sizzling-brownie",
+      "category": "desserts",
+      "name": "Sizzling Brownie",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 27500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "desserts-marshmallow-with-hot-chocolate",
+      "category": "desserts",
+      "name": "Marshmallow with Hot Chocolate",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 22500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "desserts-apricot-delight",
+      "category": "desserts",
+      "name": "Apricot Delight",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "desserts-chocolava",
+      "category": "desserts",
+      "name": "Chocolava",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 12000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "desserts-chocolava-with-ice-cream",
+      "category": "desserts",
+      "name": "Chocolava with Ice Cream",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "desserts-chocolate-sandwich",
+      "category": "desserts",
+      "name": "Chocolate Sandwich",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "desserts-nutella-sandwich",
+      "category": "desserts",
+      "name": "Nutella Sandwich",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "desserts-sunday-mug-brownie",
+      "category": "desserts",
+      "name": "Sunday Mug Brownie",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 22000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "crispy-chicken-chicken-wings",
+      "category": "crispy-chicken",
+      "name": "Chicken Wings",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "crispy-chicken-chicken-nuggets",
+      "category": "crispy-chicken",
+      "name": "Chicken Nuggets",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "crispy-chicken-chicken-popcorn",
+      "category": "crispy-chicken",
+      "name": "Chicken Popcorn",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "crispy-fish-crispy-fish-fingers-5",
+      "category": "crispy-fish",
+      "name": "Crispy Fish Fingers (5)",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "crispy-fish-crumb-fried-prawns-4",
+      "category": "crispy-fish",
+      "name": "Crumb Fried Prawns (4)",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "crispy-fish-fish-chips",
+      "category": "crispy-fish",
+      "name": "Fish & Chips",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 43900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "combos-mojito-garlic-bread",
+      "category": "combos",
+      "name": "Mojito + Garlic Bread",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 28900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "combos-sandwich-french-fries-mayo",
+      "category": "combos",
+      "name": "Sandwich French Fries + Mayo",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 25000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "combos-chicken-sandwich-french-fries-mayo",
+      "category": "combos",
+      "name": "Chicken Sandwich French Fries + Mayo",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 29900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "combos-paneer-sandwich-french-fries-mayo",
+      "category": "combos",
+      "name": "Paneer Sandwich French Fries + Mayo",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 29900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "combos-veg-salad-half-sandwich",
+      "category": "combos",
+      "name": "Veg Salad Half Sandwich",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 34900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "combos-chicken-salad-half-sandwich",
+      "category": "combos",
+      "name": "Chicken Salad Half + Sandwich",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 41900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "combos-coffee-brownie-cappuccino-latte",
+      "category": "combos",
+      "name": "Coffee Brownie (Cappuccino/Latte)",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 24900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "combos-salted-french-fries-chilly-mayo",
+      "category": "combos",
+      "name": "Salted French Fries + Chilly Mayo",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "combos-peri-peri-fries-plain-mayo",
+      "category": "combos",
+      "name": "Peri Peri Fries + Plain Mayo",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "healthy-bowls-healthy-veg-fried-quinoa-bowl",
+      "category": "healthy-bowls",
+      "name": "Healthy Veg Fried Quinoa Bowl",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "healthy-bowls-healthy-fried-quinoa-with-egg-bowl",
+      "category": "healthy-bowls",
+      "name": "Healthy Fried Quinoa with Egg Bowl",
+      "description": null,
+      "dietary_classification": "EGG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 24900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "healthy-bowls-boiled-quinoa-with-spicy-creamy-sauce",
+      "category": "healthy-bowls",
+      "name": "Boiled Quinoa with Spicy Creamy Sauce",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 29900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "healthy-bowls-brown-rice-bowl-with-cream-cheese-sauce",
+      "category": "healthy-bowls",
+      "name": "Brown Rice Bowl with Cream Cheese Sauce",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 14900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "healthy-bowls-veggi-paneer-rice-bowl",
+      "category": "healthy-bowls",
+      "name": "Veggi & Paneer Rice Bowl",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "healthy-bowls-creamy-corn-rice-bowl",
+      "category": "healthy-bowls",
+      "name": "Creamy Corn Rice Bowl",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "salads-greek-salad",
+      "category": "salads",
+      "name": "Greek Salad",
+      "description": "ONION, CAPSICUM, TOMATOES, CUCUMBER, OLIVE, LETTUCE, OLIVE OIL, FETA CHEESE, DRESSING",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 23900
+        },
+        {
+          "name": "Full",
+          "price_paise": 28900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "salads-caesar-salad",
+      "category": "salads",
+      "name": "Caesar Salad",
+      "description": "LETTUCE, OLIVE OIL, BLACK OLIVE, CROUTON, PARMESAN CHEESE, MAYONNAISE, WORCESTERSHIRE SAUCE DRESSING",
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 23900
+        },
+        {
+          "name": "Full",
+          "price_paise": 28900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "salads-veg-salad",
+      "category": "salads",
+      "name": "Veg Salad",
+      "description": "ONION, CAPSICUM, TOMATOES, CUCUMBER, OLIVE, LETTUCE, OLIVE OIL DRESSING",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 23900
+        },
+        {
+          "name": "Full",
+          "price_paise": 28900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "salads-american-corn-salad",
+      "category": "salads",
+      "name": "American Corn Salad",
+      "description": "SWEET CORN, ONION, CAPSICUM, TOMATOES, CUCUMBER, GREEN CHILLI, CORIANDER DRESSING",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 23900
+        },
+        {
+          "name": "Full",
+          "price_paise": 28900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "salads-roasted-orange-salad",
+      "category": "salads",
+      "name": "Roasted Orange Salad",
+      "description": "ORANGE, ONION, BELL PEPPER, TOMATOES, CUCUMBER, LETTUCE, SESAME SEEDS, 7 ROASTED MIX SEEDS DRESSING",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 25900
+        },
+        {
+          "name": "Full",
+          "price_paise": 31000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "salads-chicken-salad",
+      "category": "salads",
+      "name": "Chicken Salad",
+      "description": "CHICKEN, ONION, CAPSICUM, TOMATOES, CUCUMBER, OLIVE, LETTUCE, OLIVE OIL DRESSING",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 26900
+        },
+        {
+          "name": "Full",
+          "price_paise": 32900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "extra-dips-extra-dip-sauces",
+      "category": "extra-dips",
+      "name": "Extra Dip (Sauces)",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 3000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "extra-dips-extra-olives",
+      "category": "extra-dips",
+      "name": "Extra Olives",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 3000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "grills-boneless-chicken-grill",
+      "category": "grills",
+      "name": "Boneless Chicken Grill",
+      "description": "CHICKEN, HERBS, OLIVE OIL",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 31900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "grills-boneless-fish-grill",
+      "category": "grills",
+      "name": "Boneless Fish Grill",
+      "description": "FISH, HERBS, OLIVE OIL",
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 34900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "grills-paneer-grill",
+      "category": "grills",
+      "name": "Paneer Grill",
+      "description": "PANEER, HERBS, OLIVE OIL",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 31900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-cheese",
+      "category": "add-ons",
+      "name": "Cheese",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 7500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-sweet-corn",
+      "category": "add-ons",
+      "name": "Sweet Corn",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 5000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-jalapeno",
+      "category": "add-ons",
+      "name": "Jalapeno",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 5000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-black-olive",
+      "category": "add-ons",
+      "name": "Black Olive",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 5000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-extra-chicken-pizza",
+      "category": "add-ons",
+      "name": "Extra Chicken (Pizza)",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 8900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-extra-chicken-salads",
+      "category": "add-ons",
+      "name": "Extra Chicken (Salads)",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 13900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-paneer",
+      "category": "add-ons",
+      "name": "Paneer",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 9900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-mushroom",
+      "category": "add-ons",
+      "name": "Mushroom",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 6000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-pineapple",
+      "category": "add-ons",
+      "name": "Pineapple",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 7000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-mayo-dip",
+      "category": "add-ons",
+      "name": "Mayo Dip",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 7000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-cheese-slice",
+      "category": "add-ons",
+      "name": "Cheese Slice",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 5000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-broccoli",
+      "category": "add-ons",
+      "name": "Broccoli",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 9900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-hazelnut",
+      "category": "add-ons",
+      "name": "Hazelnut",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 6000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-vanilla",
+      "category": "add-ons",
+      "name": "Vanilla",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 6000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-irish",
+      "category": "add-ons",
+      "name": "Irish",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 6000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "add-ons-caramel",
+      "category": "add-ons",
+      "name": "Caramel",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 6000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "milkshakes-vanilla",
+      "category": "milkshakes",
+      "name": "Vanilla",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "milkshakes-mango",
+      "category": "milkshakes",
+      "name": "Mango",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "milkshakes-butterscotch",
+      "category": "milkshakes",
+      "name": "Butterscotch",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "milkshakes-strawberry",
+      "category": "milkshakes",
+      "name": "Strawberry",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "milkshakes-chocolate",
+      "category": "milkshakes",
+      "name": "Chocolate",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18500
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "milkshakes-pinacolada",
+      "category": "milkshakes",
+      "name": "Pinacolada",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "milkshakes-red-velvet",
+      "category": "milkshakes",
+      "name": "Red Velvet",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 22900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "milkshakes-lotus-biscoff",
+      "category": "milkshakes",
+      "name": "Lotus Biscoff",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 22900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "cold-coffee-coffee-frappe",
+      "category": "cold-coffee",
+      "name": "Coffee Frappe",
+      "description": "ESPRESSO BLENDED WITH ICE-CREAM & MILK",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "cold-coffee-choco-frappe",
+      "category": "cold-coffee",
+      "name": "Choco Frappe",
+      "description": "ESPRESSO BLENDED WITH MILK & ICE-CREAM, SWIRLED WITH CHOCOLATE SAUCE & TOPPED WITH ICE-CREAM",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "cold-coffee-creamy-white",
+      "category": "cold-coffee",
+      "name": "Creamy White",
+      "description": "ESPRESSO BLENDED WITH MILK & ICE-CREAM, SWIRLED WITH CHOCOLATE SAUCE & TOPPED WITH WHIPPED CREAM",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "cold-coffee-evil-frappe",
+      "category": "cold-coffee",
+      "name": "Evil Frappe",
+      "description": "ESPRESSO BLENDED WITH MILK & CHOCOLATE BROWNIE, SWIRLED WITH CHOCOLATE SAUCE & TOPPED WITH WHIPPED CREAM",
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 24900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "cold-coffee-iced-black",
+      "category": "cold-coffee",
+      "name": "Iced Black",
+      "description": "ESPRESSO ICED COLD.. ON THE ROCK",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "mojito-virgin-mojito",
+      "category": "mojito",
+      "name": "Virgin Mojito",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 14900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "mojito-blue-mojito",
+      "category": "mojito",
+      "name": "Blue Mojito",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "mojito-green-mojito",
+      "category": "mojito",
+      "name": "Green Mojito",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "mojito-kiwi-mojito",
+      "category": "mojito",
+      "name": "Kiwi Mojito",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "mojito-orange-mojito",
+      "category": "mojito",
+      "name": "Orange Mojito",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "mojito-water-melon",
+      "category": "mojito",
+      "name": "Water Melon",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "mojito-hazelnut",
+      "category": "mojito",
+      "name": "Hazelnut",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "mojito-passion-fruit",
+      "category": "mojito",
+      "name": "Passion Fruit",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "mojito-black-currant",
+      "category": "mojito",
+      "name": "Black Currant",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thick-shakes-kitkat",
+      "category": "thick-shakes",
+      "name": "KitKat",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 25900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thick-shakes-brownie",
+      "category": "thick-shakes",
+      "name": "Brownie",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 25900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thick-shakes-oreo",
+      "category": "thick-shakes",
+      "name": "Oreo",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 25900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thick-shakes-ferrero-rocher",
+      "category": "thick-shakes",
+      "name": "Ferrero Rocher",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 31000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "thick-shakes-nutella",
+      "category": "thick-shakes",
+      "name": "Nutella",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 31000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "boba-tea-coffee-boba-tea",
+      "category": "boba-tea-coffee",
+      "name": "Boba Tea",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 22000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "boba-tea-coffee-boba-coffee",
+      "category": "boba-tea-coffee",
+      "name": "Boba Coffee",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 26900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "boba-tea-coffee-boba-coffee-with-brownie",
+      "category": "boba-tea-coffee",
+      "name": "Boba Coffee with Brownie",
+      "description": "BOBA ESPRESSO, BROWNIE, ICECREAM",
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 33000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "boba-tea-coffee-boba-hazelnut",
+      "category": "boba-tea-coffee",
+      "name": "Boba Hazelnut",
+      "description": "BOBA ICE CREAM, HAZELNUT",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 34000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "boba-tea-coffee-boba-nutella",
+      "category": "boba-tea-coffee",
+      "name": "Boba Nutella",
+      "description": "BOBA ICE CREAM, NUTELLA",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 34000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "momos-paneer-momos-6-pc",
+      "category": "momos",
+      "name": "Paneer Momos - 6 Pc",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "momos-non-veg-momos-6-pc",
+      "category": "momos",
+      "name": "Non-Veg Momos - 6 Pc",
+      "description": null,
+      "dietary_classification": "NON_VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "ice-creams-vanilla",
+      "category": "ice-creams",
+      "name": "Vanilla",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 12900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "ice-creams-mango",
+      "category": "ice-creams",
+      "name": "Mango",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 14900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "ice-creams-butterscotch",
+      "category": "ice-creams",
+      "name": "Butterscotch",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 14900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "ice-creams-strawberry",
+      "category": "ice-creams",
+      "name": "Strawberry",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 14900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "ice-creams-red-velvet",
+      "category": "ice-creams",
+      "name": "Red Velvet",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "hot-coffee-espresso",
+      "category": "hot-coffee",
+      "name": "Espresso",
+      "description": "A SHOT OF FULL FLAVOURED CONCENTRATED FRESHLY BREWED PURE COFFEE",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 11900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "hot-coffee-americano",
+      "category": "hot-coffee",
+      "name": "Americano",
+      "description": "A FRESHLY BREWED ESPRESSO SHOT TOPPED WITH HOT WATER",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 13900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "hot-coffee-cappuccino",
+      "category": "hot-coffee",
+      "name": "Cappuccino",
+      "description": "A FRESHLY BREWED ESPRESSO DOUBLE SHOT TOPPED WITH EQUAL PARTS STEAMED & FROTHED MILK",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "hot-coffee-cafe-latte",
+      "category": "hot-coffee",
+      "name": "Café Latte",
+      "description": "ESPRESSO SINGLE SHOT TOPPED WITH STEAMED MILK TO FILL & GARNISH WITH FROTH",
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "hot-coffee-cafe-mocha",
+      "category": "hot-coffee",
+      "name": "Café Mocha",
+      "description": "A FRESHLY BREWED ESPRESSO DOUBLE SHOT SERVED WITH CHOCOLATE MELT, STEAMED MILK AND LIGHT FOAM FROTH",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "hot-coffee-cafe-hot-chocolate",
+      "category": "hot-coffee",
+      "name": "Café Hot Chocolate",
+      "description": "ESPRESSO SINGLE SHOT TOPPED WITH DOUBLE SHOT CHOCOLATE MELT, STEAMED MILK",
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21000
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "hot-coffee-cafe-hot-chocolate-with-marshmallow",
+      "category": "hot-coffee",
+      "name": "Café Hot Chocolate with Marshmallow",
+      "description": "ESPRESSO SINGLE SHOT TOPPED WITH DOUBLE SHOT CHOCOLATE MELT, STEAMED MILK WITH MARSHMALLOWS",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 29900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "hot-coffee-espresso-affogato",
+      "category": "hot-coffee",
+      "name": "Espresso Affogato",
+      "description": "ESPRESSO POURED OVER A SCOOP OF VANILLA ICE-CREAM",
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "hot-coffee-ocean-latte",
+      "category": "hot-coffee",
+      "name": "Ocean Latte",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "hot-coffee-spanish-latte",
+      "category": "hot-coffee",
+      "name": "Spanish Latte",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "hot-coffee-vietnamese-hot-coffee",
+      "category": "hot-coffee",
+      "name": "Vietnamese Hot Coffee",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "signature-coffee-lotus-latte",
+      "category": "signature-coffee",
+      "name": "Lotus Latte",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "signature-coffee-floral-burst",
+      "category": "signature-coffee",
+      "name": "Floral Burst",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "iced-coffee-iced-ocean-latte",
+      "category": "iced-coffee",
+      "name": "Iced Ocean Latte",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "iced-coffee-iced-spanish-latte",
+      "category": "iced-coffee",
+      "name": "Iced Spanish Latte",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "iced-coffee-iced-vietnamese-coffee",
+      "category": "iced-coffee",
+      "name": "Iced Vietnamese Coffee",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "iced-tea-peach-iced-tea",
+      "category": "iced-tea",
+      "name": "Peach Iced Tea",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "iced-tea-lemon-iced-tea",
+      "category": "iced-tea",
+      "name": "Lemon Iced Tea",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "green-tea-classic-green-tea",
+      "category": "green-tea",
+      "name": "Classic Green Tea",
+      "description": "TEA BAG",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 9900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "green-tea-mint-green-tea",
+      "category": "green-tea",
+      "name": "Mint Green Tea",
+      "description": "TEA BAG",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 10900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "green-tea-ginger-green-tea",
+      "category": "green-tea",
+      "name": "Ginger Green Tea",
+      "description": "TEA BAG",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 10900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "green-tea-lemon-tea",
+      "category": "green-tea",
+      "name": "Lemon Tea",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 10900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "green-tea-classic-green-tea-pot",
+      "category": "green-tea",
+      "name": "Classic Green Tea Pot",
+      "description": "LEMON, HONEY",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 13900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "green-tea-mint-green-tea-pot",
+      "category": "green-tea",
+      "name": "Mint Green Tea Pot",
+      "description": "LEMON, HONEY, MINT",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "green-tea-ginger-green-tea-pot",
+      "category": "green-tea",
+      "name": "Ginger Green Tea Pot",
+      "description": "LEMON, HONEY, GINGER",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "special-green-tea-pot-rose-relaxing",
+      "category": "special-green-tea-pot",
+      "name": "Rose Relaxing",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "special-green-tea-pot-chamomile-detox-stress-relief",
+      "category": "special-green-tea-pot",
+      "name": "Chamomile - Detox & Stress Relief",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "special-green-tea-pot-turmeric-immunity-booster",
+      "category": "special-green-tea-pot",
+      "name": "Turmeric - Immunity Booster",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "special-green-tea-pot-slimming-weight-loss",
+      "category": "special-green-tea-pot",
+      "name": "Slimming - Weight Loss",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "special-green-tea-pot-hibiscus-liver-booster",
+      "category": "special-green-tea-pot",
+      "name": "Hibiscus - Liver Booster",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": true,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "special-green-tea-pot-blue-tea-hair-skin-booster",
+      "category": "special-green-tea-pot",
+      "name": "Blue Tea - Hair & Skin Booster",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    },
+    {
+      "slug": "special-green-tea-pot-royal-kashmiri-kahwa",
+      "category": "special-green-tea-pot",
+      "name": "Royal Kashmiri Kahwa",
+      "description": null,
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null
+    }
+  ],
+  "price_revision": "authoritative_verified_restoration_v3",
+  "updated_at": "2026-10-21T18:55:47.207Z"
+}
