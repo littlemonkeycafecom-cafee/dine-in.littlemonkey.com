@@ -62,6 +62,7 @@ export const CustomerAuthModal: React.FC<CustomerAuthModalProps> = ({
       }}
     >
       <div
+        className="lm-border-beam lm-surface-reflection"
         style={{
           width: '100%',
           maxWidth: '420px',
@@ -147,6 +148,7 @@ export const CustomerAuthModal: React.FC<CustomerAuthModalProps> = ({
         >
           <button
             type="button"
+            className="lm-interactive-btn"
             onClick={() => {
               setTab('signin');
               setError('');
@@ -169,6 +171,7 @@ export const CustomerAuthModal: React.FC<CustomerAuthModalProps> = ({
 
           <button
             type="button"
+            className="lm-interactive-btn"
             onClick={() => {
               setTab('signup');
               setError('');
@@ -327,6 +330,7 @@ export const CustomerAuthModal: React.FC<CustomerAuthModalProps> = ({
           {/* Submit Button */}
           <button
             type="submit"
+            className="lm-interactive-btn"
             style={{
               width: '100%',
               backgroundColor: '#FBC324',

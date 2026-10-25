@@ -9,6 +9,7 @@ import { ProductDetailsModal } from './components/ProductDetailsModal';
 import { CartDrawer } from './components/CartDrawer';
 import { FloatingNavigation } from './components/FloatingNavigation';
 import { CustomerAuthModal } from './components/CustomerAuthModal';
+import { CustomerLoginGate } from './components/CustomerLoginGate';
 import { SearchModal } from './components/SearchModal';
 import { Product } from './types';
 
@@ -37,6 +38,11 @@ const DiningAppContent: React.FC = () => {
   const handleProductSelect = (product: Product) => {
     setSelectedProduct(product);
   };
+
+  // Login-First Gate: Customer MUST authenticate before accessing menu
+  if (!customer) {
+    return <CustomerLoginGate />;
+  }
 
   return (
     <div

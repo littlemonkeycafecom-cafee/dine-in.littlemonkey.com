@@ -27,17 +27,19 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
     >
       {/* Left: Authentic Little Monkey Logo + Dining Badge */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-        <a href="/" style={{ display: 'flex', alignItems: 'center' }}>
-          <img
-            src="/branding/little-monkey-logo-transparent.png"
-            alt="Little Monkey Café"
-            style={{
-              height: '38px',
-              width: 'auto',
-              objectFit: 'contain',
-            }}
-          />
-        </a>
+        <div className="lm-logo-ambient-wrap">
+          <a href="/" style={{ display: 'flex', alignItems: 'center', position: 'relative', zIndex: 1 }}>
+            <img
+              src="/branding/little-monkey-logo-transparent.png"
+              alt="Little Monkey Café"
+              style={{
+                height: '38px',
+                width: 'auto',
+                objectFit: 'contain',
+              }}
+            />
+          </a>
+        </div>
 
         {/* DINING Badge */}
         <div
@@ -69,6 +71,7 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
         <button
           onClick={onSearchClick}
           aria-label="Search Menu"
+          className="lm-interactive-btn"
           style={{
             width: '36px',
             height: '36px',
@@ -91,6 +94,7 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
           {customer ? (
             <button
               onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              className="lm-interactive-btn"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -128,6 +132,7 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
           ) : (
             <button
               onClick={openAuthModal}
+              className="lm-interactive-btn"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -197,6 +202,7 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
         <button
           onClick={openCart}
           aria-label={`Cart with ${cartCount} items`}
+          className="lm-interactive-btn"
           style={{
             position: 'relative',
             width: '38px',

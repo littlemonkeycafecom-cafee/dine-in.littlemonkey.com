@@ -209,6 +209,7 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
                     </div>
                   ) : (
                     <button
+                      className="lm-interactive-btn"
                       onClick={(e) => {
                         e.stopPropagation();
                         addToCart(product);

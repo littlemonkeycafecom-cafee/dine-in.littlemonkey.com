@@ -495,6 +495,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           <button
             type="button"
             onClick={onExploreClick}
+            className="lm-interactive-btn"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -520,6 +521,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           <button
             type="button"
             onClick={onSearchClick}
+            className="lm-interactive-btn"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -631,6 +633,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
                 {/* Card Surface */}
                 <div
+                  className={isActive ? 'lm-border-beam lm-surface-reflection' : ''}
                   style={{
                     position: 'relative',
                     width: '100%',
@@ -736,6 +739,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
         <button
           onClick={handlePrev}
           aria-label="Previous Slide"
+          className="lm-interactive-btn"
           style={{
             width: '32px',
             height: '32px',
@@ -759,6 +763,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
         <button
           onClick={handleNext}
           aria-label="Next Slide"
+          className="lm-interactive-btn"
           style={{
             width: '32px',
             height: '32px',

@@ -51,6 +51,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
             <button
               key={group.id}
               onClick={() => setActiveGroupId(group.id)}
+              className="lm-interactive-btn"
               style={{
                 padding: '8px 16px',
                 borderRadius: '999px',
@@ -398,6 +399,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                       </div>
                     ) : (
                       <button
+                        className="lm-interactive-btn"
                         onClick={(e) => {
                           e.stopPropagation();
                           addToCart(product);

@@ -375,6 +375,7 @@ export const CartDrawer: React.FC = () => {
               {/* Confirm Order Button */}
               <button
                 onClick={handlePlaceOrder}
+                className="lm-interactive-btn"
                 style={{
                   width: '100%',
                   backgroundColor: '#FBC324',

@@ -17,6 +17,7 @@ export const FloatingNavigation: React.FC<FloatingNavigationProps> = ({ onMenuCl
       {/* Floating Centered Bottom Navigation Bar */}
       <nav
         aria-label="Dining Navigation"
+        className="lm-border-beam"
         style={{
           position: 'fixed',
           bottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
@@ -140,6 +141,7 @@ export const FloatingNavigation: React.FC<FloatingNavigationProps> = ({ onMenuCl
         >
           <button
             onClick={openCart}
+            className="lm-interactive-btn"
             style={{
               display: 'flex',
               alignItems: 'center',

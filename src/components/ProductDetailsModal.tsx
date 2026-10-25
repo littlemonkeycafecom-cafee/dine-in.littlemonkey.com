@@ -339,6 +339,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           {/* Add to Order Button */}
           <button
             onClick={handleAdd}
+            className="lm-interactive-btn"
             style={{
               flex: 1,
               backgroundColor: '#FBC324',
