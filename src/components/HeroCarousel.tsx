@@ -641,9 +641,9 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                     borderRadius: '20px',
                     overflow: 'hidden',
                     backgroundColor: '#191816',
-                    border: isActive ? '2px solid #FBC324' : '1px solid rgba(255, 255, 255, 0.1)',
+                    border: isActive ? '1px solid rgba(251, 195, 36, 0.35)' : '1px solid rgba(255, 255, 255, 0.1)',
                     boxShadow: isActive
-                      ? '0 16px 36px rgba(0, 0, 0, 0.85), 0 0 16px rgba(251, 195, 36, 0.25)'
+                      ? '0 16px 36px rgba(0, 0, 0, 0.85), 0 0 20px rgba(251, 195, 36, 0.20)'
                       : '0 8px 20px rgba(0, 0, 0, 0.6)',
                     boxSizing: 'border-box',
                     zIndex: 1,

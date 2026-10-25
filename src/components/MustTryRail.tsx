@@ -67,18 +67,19 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
           WebkitOverflowScrolling: 'touch',
         }}
       >
-        {products.map((product) => {
+        {products.map((product, index) => {
           const inCartItem = cart.find((item) => item.product.slug === product.slug);
           const price = Math.round(product.variants[0]?.price_paise / 100);
+          const delayClass = index % 3 === 0 ? '' : index % 3 === 1 ? 'lm-reflection-delay-1' : 'lm-reflection-delay-2';
 
           return (
             <div
               key={product.slug}
-              className={`must-try-editorial-card ${inCartItem ? 'in-cart' : ''}`}
+              className={`must-try-editorial-card lm-surface-reflection ${delayClass} ${inCartItem ? 'in-cart' : ''}`}
               onClick={() => onProductClick(product)}
             >
               {/* Image Container Placeholder */}
-              <div className="must-try-photo-container">
+              <div className="must-try-photo-container" style={{ position: 'relative', zIndex: 3 }}>
                 <div
                   style={{
                     width: '100%',
@@ -118,7 +119,7 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
               </div>
 
               {/* Product Info */}
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+              <div style={{ position: 'relative', zIndex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
                     <div

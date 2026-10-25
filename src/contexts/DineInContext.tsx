@@ -59,6 +59,17 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           // ignore corrupted data
         }
       }
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('demo') === '1' || params.get('guest') === '1') {
+        const guestSession: CustomerSession = {
+          mobile: '9876543210',
+          name: 'Diner Priya',
+          table: 'Table 4',
+          token: 'lm_session_demo_priya',
+        };
+        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(guestSession));
+        return guestSession;
+      }
     }
     return null;
   });

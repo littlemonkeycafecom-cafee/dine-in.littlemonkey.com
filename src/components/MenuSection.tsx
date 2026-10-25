@@ -222,25 +222,40 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
               <div
                 key={product.slug}
                 onClick={() => onProductClick(product)}
+                className={product.is_must_try ? 'lm-surface-reflection lm-reflection-delay-2' : ''}
                 style={{
                   backgroundColor: '#191816',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  border: inCartItem
+                    ? '1.5px solid #FBC324'
+                    : product.is_must_try
+                    ? '1px solid rgba(251, 195, 36, 0.32)'
+                    : '1px solid rgba(255, 255, 255, 0.08)',
                   borderRadius: '14px',
                   overflow: 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   cursor: 'pointer',
-                  transition: 'border-color 0.15s ease, transform 0.15s ease',
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
+                  transition: 'border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease',
+                  boxShadow: product.is_must_try
+                    ? '0 4px 18px rgba(0, 0, 0, 0.45), 0 0 10px rgba(251, 195, 36, 0.08)'
+                    : '0 4px 16px rgba(0, 0, 0, 0.4)',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(251, 195, 36, 0.4)';
+                  e.currentTarget.style.borderColor = 'rgba(251, 195, 36, 0.65)';
                   e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.6), 0 0 14px rgba(251, 195, 36, 0.16)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                  e.currentTarget.style.borderColor = inCartItem
+                    ? '#FBC324'
+                    : product.is_must_try
+                    ? 'rgba(251, 195, 36, 0.32)'
+                    : 'rgba(255, 255, 255, 0.08)';
                   e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = product.is_must_try
+                    ? '0 4px 18px rgba(0, 0, 0, 0.45), 0 0 10px rgba(251, 195, 36, 0.08)'
+                    : '0 4px 16px rgba(0, 0, 0, 0.4)';
                 }}
               >
                 {/* Image Placeholder Surface */}
@@ -256,6 +271,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                     justifyContent: 'center',
                     padding: '12px',
                     position: 'relative',
+                    zIndex: 3,
                   }}
                 >
                   {/* Dietary & Bestseller Badges */}
@@ -319,7 +335,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                 </div>
 
                 {/* Product Info */}
-                <div style={{ padding: '14px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div style={{ position: 'relative', zIndex: 3, padding: '14px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div>
                     <h3
                       style={{
