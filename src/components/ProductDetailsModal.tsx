@@ -171,6 +171,23 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             {product.description}
           </p>
 
+          {product.verification_flag && (
+            <div
+              style={{
+                backgroundColor: 'rgba(245, 158, 11, 0.12)',
+                border: '1px solid rgba(245, 158, 11, 0.35)',
+                borderRadius: '8px',
+                padding: '10px 14px',
+                fontSize: '12px',
+                color: '#FDE68A',
+                marginBottom: '16px',
+                lineHeight: 1.4,
+              }}
+            >
+              ℹ️ <strong>Menu Source Note:</strong> {product.verification_flag}
+            </div>
+          )}
+
           {/* Variants Selector if more than 1 */}
           {product.variants.length > 1 && (
             <div style={{ marginBottom: '18px' }}>

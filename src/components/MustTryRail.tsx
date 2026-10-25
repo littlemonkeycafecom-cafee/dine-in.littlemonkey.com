@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { Product } from '../types';
+import { getBasePrice } from '../services/catalog';
 import { useDineIn } from '../contexts/DineInContext';
 import { Plus, Minus, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 
@@ -69,7 +70,7 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
       >
         {products.map((product, index) => {
           const inCartItem = cart.find((item) => item.product.slug === product.slug);
-          const price = Math.round(product.variants[0]?.price_paise / 100);
+          const price = getBasePrice(product);
           const delayClass = index % 3 === 0 ? '' : index % 3 === 1 ? 'lm-reflection-delay-1' : 'lm-reflection-delay-2';
 
           return (
@@ -162,9 +163,27 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
 
                 {/* Price & Add Action */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: '15px', fontWeight: 800, color: '#FBC324' }}>
-                    ₹{price}
-                  </span>
+                  {price !== null ? (
+                    <span style={{ fontSize: '15px', fontWeight: 800, color: '#FBC324' }}>
+                      ₹{price}
+                    </span>
+                  ) : (
+                    <span
+                      style={{
+                        fontSize: '10px',
+                        fontWeight: 700,
+                        color: '#F59E0B',
+                        backgroundColor: 'rgba(245, 158, 11, 0.12)',
+                        border: '1px solid rgba(245, 158, 11, 0.3)',
+                        borderRadius: '4px',
+                        padding: '2px 5px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.03em',
+                      }}
+                    >
+                      Price Unclear
+                    </span>
+                  )}
 
                   {inCartItem ? (
                     <div

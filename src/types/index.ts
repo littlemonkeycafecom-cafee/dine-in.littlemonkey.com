@@ -19,6 +19,8 @@ export interface Product {
   variants: ProductVariant[];
   image_url?: string | null;
   is_available?: boolean;
+  is_price_unclear?: boolean;
+  verification_flag?: string | null;
 }
 
 export interface CartItem {

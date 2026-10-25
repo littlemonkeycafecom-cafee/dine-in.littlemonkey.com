@@ -26,13 +26,13 @@
       "slug": "thin-crust-pizza-margherita-pizza",
       "category": "thin-crust-pizza",
       "name": "Margherita Pizza",
-      "description": "CHEESE & TOMATO TOPPING • 11 inch, 8 slices",
+      "description": "Cheese and tomato topping • 11 inch, 8 slices",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
         {
           "name": "Regular",
-          "price_paise": 29400
+          "price_paise": 27900
         }
       ],
       "image_url": null,
@@ -110,8 +110,8 @@
     {
       "slug": "thin-crust-pizza-farmhouse",
       "category": "thin-crust-pizza",
-      "name": "Farmhouse",
-      "description": "ONION, CAPSICUM, SWEET CORN, TOMATOES, OLIVES • 11 inch, 8 slices",
+      "name": "Farmhouse Pizza",
+      "description": "Onion, capsicum, sweet corn, tomatoes, olives • 11 inch, 8 slices",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -128,7 +128,7 @@
       "slug": "thin-crust-pizza-veggie-paradise-pizza",
       "category": "thin-crust-pizza",
       "name": "Veggie Paradise Pizza",
-      "description": "ONION, CAPSICUM, JALAPENO, OLIVES • 11 inch, 8 slices",
+      "description": "Onion, capsicum, jalapeños, olives • 11 inch, 8 slices",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -139,7 +139,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": "Source-extracted: DEGGIE PARADISE PIZZA. Verify exact spelling."
     },
     {
       "slug": "thin-crust-pizza-spicy-paneer-pizza",
@@ -161,8 +162,8 @@
     {
       "slug": "thin-crust-pizza-peri-peri-italio-pizza",
       "category": "thin-crust-pizza",
-      "name": "Peri Peri Italio Pizza",
-      "description": "ONION, CAPSICUM, JALAPENO, BABY CORN, MUSHROOM, BLACK OLIVES, SPICY PERI PERI • 11 inch, 8 slices",
+      "name": "Peri Peri Italo Pizza",
+      "description": "Onion, capsicum, jalapeño, baby corn, mushroom, black olives, spicy peri-peri sauce • 11 inch, 8 slices",
       "dietary_classification": "VEG",
       "is_must_try": true,
       "variants": [
@@ -173,7 +174,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": "Source-extracted: PERI PERI ITALIO PIZZA. Verify exact spelling."
     },
     {
       "slug": "thin-crust-pizza-mexican-chicken-pizza",
@@ -196,18 +198,20 @@
       "slug": "thin-crust-pizza-chicken-and-sweet-corn-pizza",
       "category": "thin-crust-pizza",
       "name": "Chicken and Sweet Corn Pizza",
-      "description": "CHICKEN, ONION, SWEET CORN, CHILLI FLAKES • 11 inch, 8 slices",
+      "description": "Chicken, onion, sweet corn, chilli flakes • 11 inch, 8 slices",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
         {
-          "name": "Regular",
-          "price_paise": 44900
+          "name": "Price to be verified",
+          "price_paise": 0
         }
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "is_price_unclear": true,
+      "verification_flag": "PRICE NOT CLEAR in source extraction — verify against menu PDF"
     },
     {
       "slug": "thin-crust-pizza-chicken-mushroom-pizza",
@@ -297,8 +301,8 @@
     {
       "slug": "thin-crust-pizza-chicken-pepperoni",
       "category": "thin-crust-pizza",
-      "name": "Chicken Pepperoni",
-      "description": "PEPPERONI CHICKEN, CHEESE, HERBS • 11 inch, 8 slices",
+      "name": "Chicken Pepperoni Pizza",
+      "description": "Pepperoni chicken, cheese, herbs • 11 inch, 8 slices",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -513,13 +517,15 @@
       "is_must_try": true,
       "variants": [
         {
-          "name": "Regular",
-          "price_paise": 17900
+          "name": "Price to be verified",
+          "price_paise": 0
         }
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "is_price_unclear": true,
+      "verification_flag": "PRICE NOT CLEAR in source extraction — verify against menu PDF"
     },
     {
       "slug": "sandwiches-bbq-chicken-sandwich",
@@ -627,43 +633,45 @@
       "slug": "fries-french-fries",
       "category": "fries",
       "name": "French Fries",
-      "description": "MIXED WITH SALT",
+      "description": "Mixed with salt • Note: Two sizes listed in menu (Verify size labels)",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
         {
-          "name": "M",
+          "name": "Portion 1",
           "price_paise": 12900
         },
         {
-          "name": "L",
+          "name": "Portion 2",
           "price_paise": 16900
         }
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": "Two prices listed in source; size labels unconfirmed (Do not assign size labels without checking original menu)"
     },
     {
       "slug": "fries-masala-french-fries",
       "category": "fries",
       "name": "Masala French Fries",
-      "description": "PERI PERI MIX",
+      "description": "Peri-peri mix, as extracted; verify description • Note: Two sizes listed in menu (Verify size labels)",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
         {
-          "name": "M",
+          "name": "Portion 1",
           "price_paise": 14000
         },
         {
-          "name": "L",
+          "name": "Portion 2",
           "price_paise": 17900
         }
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": "Two prices listed in source; size labels unconfirmed (Do not assign size labels without checking original menu)"
     },
     {
       "slug": "fries-french-fries-with-cheese-sauce",
@@ -888,7 +896,7 @@
     },
     {
       "slug": "garlic-bread-garlic-bread",
-      "category": "garlic-bread",
+      "category": "starters-sides",
       "name": "Garlic Bread",
       "description": null,
       "dietary_classification": "VEG",
@@ -905,7 +913,7 @@
     },
     {
       "slug": "garlic-bread-cheese-garlic-bread",
-      "category": "garlic-bread",
+      "category": "starters-sides",
       "name": "Cheese Garlic Bread",
       "description": null,
       "dietary_classification": "VEG",
@@ -922,7 +930,7 @@
     },
     {
       "slug": "garlic-bread-cheese-corn-garlic-bread",
-      "category": "garlic-bread",
+      "category": "starters-sides",
       "name": "Cheese & Corn Garlic Bread",
       "description": null,
       "dietary_classification": "VEG",
@@ -939,7 +947,7 @@
     },
     {
       "slug": "sides-quick-bites-8-pcs-potato-cheese-shots",
-      "category": "sides-quick-bites",
+      "category": "starters-sides",
       "name": "8 Pcs Potato Cheese Shots",
       "description": null,
       "dietary_classification": "VEG",
@@ -956,7 +964,7 @@
     },
     {
       "slug": "sides-quick-bites-potato-wedges",
-      "category": "sides-quick-bites",
+      "category": "starters-sides",
       "name": "Potato Wedges",
       "description": null,
       "dietary_classification": "VEG",
@@ -973,7 +981,7 @@
     },
     {
       "slug": "sides-quick-bites-peri-peri-potato-wedges",
-      "category": "sides-quick-bites",
+      "category": "starters-sides",
       "name": "Peri Peri Potato Wedges",
       "description": null,
       "dietary_classification": "VEG",
@@ -990,7 +998,7 @@
     },
     {
       "slug": "sides-quick-bites-veg-fries-5-pcs",
-      "category": "sides-quick-bites",
+      "category": "starters-sides",
       "name": "Veg Fries (5 Pcs)",
       "description": null,
       "dietary_classification": "VEG",
@@ -1007,7 +1015,7 @@
     },
     {
       "slug": "sides-quick-bites-veg-spring-rolls-4-pcs",
-      "category": "sides-quick-bites",
+      "category": "starters-sides",
       "name": "Veg Spring Rolls (4 Pcs)",
       "description": null,
       "dietary_classification": "VEG",
@@ -1110,7 +1118,7 @@
     {
       "slug": "desserts-chocolava",
       "category": "desserts",
-      "name": "Chocolava",
+      "name": "Chocolaua",
       "description": null,
       "dietary_classification": "VEG",
       "is_must_try": false,
@@ -1122,12 +1130,13 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": "Verify spelling of Chocolaua against original menu"
     },
     {
       "slug": "desserts-chocolava-with-ice-cream",
       "category": "desserts",
-      "name": "Chocolava with Ice Cream",
+      "name": "Chocolaua with Ice Cream",
       "description": null,
       "dietary_classification": "VEG",
       "is_must_try": false,
@@ -1194,7 +1203,7 @@
     },
     {
       "slug": "crispy-chicken-chicken-wings",
-      "category": "crispy-chicken",
+      "category": "non-veg-starters",
       "name": "Chicken Wings",
       "description": null,
       "dietary_classification": "NON_VEG",
@@ -1211,7 +1220,7 @@
     },
     {
       "slug": "crispy-chicken-chicken-nuggets",
-      "category": "crispy-chicken",
+      "category": "non-veg-starters",
       "name": "Chicken Nuggets",
       "description": null,
       "dietary_classification": "NON_VEG",
@@ -1228,7 +1237,7 @@
     },
     {
       "slug": "crispy-chicken-chicken-popcorn",
-      "category": "crispy-chicken",
+      "category": "non-veg-starters",
       "name": "Chicken Popcorn",
       "description": null,
       "dietary_classification": "NON_VEG",
@@ -1245,8 +1254,8 @@
     },
     {
       "slug": "crispy-fish-crispy-fish-fingers-5",
-      "category": "crispy-fish",
-      "name": "Crispy Fish Fingers (5)",
+      "category": "non-veg-starters",
+      "name": "Crispy Fish Fingers (5 pieces)",
       "description": null,
       "dietary_classification": "NON_VEG",
       "is_must_try": true,
@@ -1262,8 +1271,8 @@
     },
     {
       "slug": "crispy-fish-crumb-fried-prawns-4",
-      "category": "crispy-fish",
-      "name": "Crumb Fried Prawns (4)",
+      "category": "non-veg-starters",
+      "name": "Crumb Fried Prawns",
       "description": null,
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
@@ -1275,12 +1284,13 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": "Quantity is unclear in the extracted source"
     },
     {
       "slug": "crispy-fish-fish-chips",
-      "category": "crispy-fish",
-      "name": "Fish & Chips",
+      "category": "non-veg-starters",
+      "name": "Fish and Chips",
       "description": null,
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
@@ -1518,7 +1528,7 @@
     {
       "slug": "healthy-bowls-veggi-paneer-rice-bowl",
       "category": "healthy-bowls",
-      "name": "Veggi & Paneer Rice Bowl",
+      "name": "Veggie and Paneer Rice Bowl",
       "description": null,
       "dietary_classification": "VEG",
       "is_must_try": false,
@@ -1530,7 +1540,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": "Source-extracted name: DEGGI & PANEER RICE BOWL. Verify exact spelling."
     },
     {
       "slug": "healthy-bowls-creamy-corn-rice-bowl",
@@ -1677,15 +1688,15 @@
     },
     {
       "slug": "extra-dips-extra-dip-sauces",
-      "category": "extra-dips",
-      "name": "Extra Dip (Sauces)",
-      "description": null,
+      "category": "add-ons-dips",
+      "name": "Packing Charges",
+      "description": "Takeaway packaging charge",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
         {
-          "name": "Regular",
-          "price_paise": 3000
+          "name": "Standard",
+          "price_paise": 1500
         }
       ],
       "image_url": null,
@@ -1694,15 +1705,15 @@
     },
     {
       "slug": "extra-dips-extra-olives",
-      "category": "extra-dips",
-      "name": "Extra Olives",
-      "description": null,
+      "category": "add-ons-dips",
+      "name": "Takeaway Coffee Cup with Lid",
+      "description": "Takeaway coffee cup with lid extra charge",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
         {
-          "name": "Regular",
-          "price_paise": 3000
+          "name": "Standard",
+          "price_paise": 1500
         }
       ],
       "image_url": null,
@@ -1762,7 +1773,7 @@
     },
     {
       "slug": "add-ons-cheese",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Cheese",
       "description": null,
       "dietary_classification": "VEG",
@@ -1770,7 +1781,7 @@
       "variants": [
         {
           "name": "Regular",
-          "price_paise": 7500
+          "price_paise": 7300
         }
       ],
       "image_url": null,
@@ -1779,7 +1790,7 @@
     },
     {
       "slug": "add-ons-sweet-corn",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Sweet Corn",
       "description": null,
       "dietary_classification": "VEG",
@@ -1787,7 +1798,7 @@
       "variants": [
         {
           "name": "Regular",
-          "price_paise": 5000
+          "price_paise": 3000
         }
       ],
       "image_url": null,
@@ -1796,7 +1807,7 @@
     },
     {
       "slug": "add-ons-jalapeno",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Jalapeno",
       "description": null,
       "dietary_classification": "VEG",
@@ -1813,7 +1824,7 @@
     },
     {
       "slug": "add-ons-black-olive",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Black Olive",
       "description": null,
       "dietary_classification": "VEG",
@@ -1821,7 +1832,7 @@
       "variants": [
         {
           "name": "Regular",
-          "price_paise": 5000
+          "price_paise": 5300
         }
       ],
       "image_url": null,
@@ -1830,7 +1841,7 @@
     },
     {
       "slug": "add-ons-extra-chicken-pizza",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Extra Chicken (Pizza)",
       "description": null,
       "dietary_classification": "NON_VEG",
@@ -1847,7 +1858,7 @@
     },
     {
       "slug": "add-ons-extra-chicken-salads",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Extra Chicken (Salads)",
       "description": null,
       "dietary_classification": "NON_VEG",
@@ -1864,7 +1875,7 @@
     },
     {
       "slug": "add-ons-paneer",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Paneer",
       "description": null,
       "dietary_classification": "VEG",
@@ -1881,7 +1892,7 @@
     },
     {
       "slug": "add-ons-mushroom",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Mushroom",
       "description": null,
       "dietary_classification": "VEG",
@@ -1898,7 +1909,7 @@
     },
     {
       "slug": "add-ons-pineapple",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Pineapple",
       "description": null,
       "dietary_classification": "VEG",
@@ -1915,7 +1926,7 @@
     },
     {
       "slug": "add-ons-mayo-dip",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Mayo Dip",
       "description": null,
       "dietary_classification": "VEG",
@@ -1932,7 +1943,7 @@
     },
     {
       "slug": "add-ons-cheese-slice",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Cheese Slice",
       "description": null,
       "dietary_classification": "VEG",
@@ -1949,7 +1960,7 @@
     },
     {
       "slug": "add-ons-broccoli",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Broccoli",
       "description": null,
       "dietary_classification": "VEG",
@@ -1966,7 +1977,7 @@
     },
     {
       "slug": "add-ons-hazelnut",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Hazelnut",
       "description": null,
       "dietary_classification": "VEG",
@@ -1983,7 +1994,7 @@
     },
     {
       "slug": "add-ons-vanilla",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Vanilla",
       "description": null,
       "dietary_classification": "VEG",
@@ -2000,24 +2011,26 @@
     },
     {
       "slug": "add-ons-irish",
-      "category": "add-ons",
-      "name": "Irish",
+      "category": "add-ons-dips",
+      "name": "Unclear Add-on (Verify Menu)",
       "description": null,
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
         {
-          "name": "Regular",
-          "price_paise": 6000
+          "name": "Price to be verified",
+          "price_paise": 0
         }
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "is_price_unclear": true,
+      "verification_flag": "Unclear item between Vanilla and Caramel in source extraction — verify against menu PDF"
     },
     {
       "slug": "add-ons-caramel",
-      "category": "add-ons",
+      "category": "add-ons-dips",
       "name": "Caramel",
       "description": null,
       "dietary_classification": "VEG",
@@ -2120,19 +2133,21 @@
     {
       "slug": "milkshakes-pinacolada",
       "category": "milkshakes",
-      "name": "Pinacolada",
+      "name": "Pina Colada",
       "description": null,
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
         {
-          "name": "Regular",
-          "price_paise": 18900
+          "name": "Price to be verified",
+          "price_paise": 0
         }
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "is_price_unclear": true,
+      "verification_flag": "PRICE NOT CLEAR in source extraction — verify against menu PDF"
     },
     {
       "slug": "milkshakes-red-velvet",
@@ -2341,7 +2356,7 @@
     {
       "slug": "mojito-water-melon",
       "category": "mojito",
-      "name": "Water Melon",
+      "name": "Watermelon Mojito",
       "description": null,
       "dietary_classification": "VEG",
       "is_must_try": false,
@@ -2370,7 +2385,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": "Verify whether Hazelnut is a mojito variant or belongs to another section"
     },
     {
       "slug": "mojito-passion-fruit",
@@ -3122,7 +3138,7 @@
     },
     {
       "slug": "special-green-tea-pot-rose-relaxing",
-      "category": "special-green-tea-pot",
+      "category": "special-green-tea",
       "name": "Rose Relaxing",
       "description": null,
       "dietary_classification": "VEG",
@@ -3139,9 +3155,9 @@
     },
     {
       "slug": "special-green-tea-pot-chamomile-detox-stress-relief",
-      "category": "special-green-tea-pot",
-      "name": "Chamomile - Detox & Stress Relief",
-      "description": null,
+      "category": "special-green-tea",
+      "name": "Chamomile",
+      "description": "Herbal infusion • Source note: Traditional relaxation tea",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -3156,9 +3172,9 @@
     },
     {
       "slug": "special-green-tea-pot-turmeric-immunity-booster",
-      "category": "special-green-tea-pot",
-      "name": "Turmeric - Immunity Booster",
-      "description": null,
+      "category": "special-green-tea",
+      "name": "Turmeric",
+      "description": "Herbal infusion • Source note: Traditional golden spice blend",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -3173,9 +3189,9 @@
     },
     {
       "slug": "special-green-tea-pot-slimming-weight-loss",
-      "category": "special-green-tea-pot",
-      "name": "Slimming - Weight Loss",
-      "description": null,
+      "category": "special-green-tea",
+      "name": "Slimming",
+      "description": "Herbal green tea blend",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -3190,9 +3206,9 @@
     },
     {
       "slug": "special-green-tea-pot-hibiscus-liver-booster",
-      "category": "special-green-tea-pot",
-      "name": "Hibiscus - Liver Booster",
-      "description": null,
+      "category": "special-green-tea",
+      "name": "Hibiscus",
+      "description": "Herbal floral infusion",
       "dietary_classification": "VEG",
       "is_must_try": true,
       "variants": [
@@ -3207,9 +3223,9 @@
     },
     {
       "slug": "special-green-tea-pot-blue-tea-hair-skin-booster",
-      "category": "special-green-tea-pot",
-      "name": "Blue Tea - Hair & Skin Booster",
-      "description": null,
+      "category": "special-green-tea",
+      "name": "Blue Tea",
+      "description": "Butterfly pea flower herbal tea",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -3224,7 +3240,7 @@
     },
     {
       "slug": "special-green-tea-pot-royal-kashmiri-kahwa",
-      "category": "special-green-tea-pot",
+      "category": "special-green-tea",
       "name": "Royal Kashmiri Kahwa",
       "description": null,
       "dietary_classification": "VEG",

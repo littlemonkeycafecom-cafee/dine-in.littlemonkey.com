@@ -15,13 +15,13 @@ export const CATEGORY_GROUPS: MenuCategoryGroup[] = [
       'iced-coffee',
       'iced-tea',
       'green-tea',
-      'special-green-tea-pot',
+      'special-green-tea',
     ],
   },
   {
-    id: 'fries-sides',
-    label: 'Fries & Quick Bites',
-    categories: ['fries', 'garlic-bread', 'sides-quick-bites', 'extra-dips'],
+    id: 'starters-fries',
+    label: 'Starters & Fries',
+    categories: ['fries', 'starters-sides', 'non-veg-starters'],
   },
   {
     id: 'pasta-shawarma',
@@ -29,14 +29,9 @@ export const CATEGORY_GROUPS: MenuCategoryGroup[] = [
     categories: ['pasta', 'shawarma', 'sandwiches'],
   },
   {
-    id: 'crispy-grills',
-    label: 'Crispy Wings & Grills',
-    categories: ['crispy-chicken', 'crispy-fish', 'grills'],
-  },
-  {
     id: 'combos-bowls',
     label: 'Combos & Healthy Bowls',
-    categories: ['combos', 'healthy-bowls', 'salads'],
+    categories: ['combos', 'healthy-bowls', 'salads', 'grills'],
   },
   {
     id: 'shakes-boba',
@@ -53,11 +48,21 @@ export const CATEGORY_GROUPS: MenuCategoryGroup[] = [
     label: 'Momos',
     categories: ['momos'],
   },
+  {
+    id: 'add-ons-dips',
+    label: 'Add-Ons & Dips',
+    categories: ['add-ons-dips'],
+  },
 ];
 
 export const ALL_PRODUCTS: Product[] = (menuData.products as Product[]).map((p) => ({
   ...p,
-  variants: p.variants && p.variants.length > 0 ? p.variants : [{ name: 'Regular', price_paise: 19900 }],
+  variants:
+    p.variants && p.variants.length > 0
+      ? p.variants
+      : p.is_price_unclear
+      ? [{ name: 'Price to be verified', price_paise: 0 }]
+      : [{ name: 'Regular', price_paise: 19900 }],
 }));
 
 export function getMustTryProducts(): Product[] {
@@ -97,7 +102,10 @@ export function filterProducts(
   });
 }
 
-export function getBasePrice(product: Product): number {
-  if (!product.variants || product.variants.length === 0) return 0;
-  return Math.round(product.variants[0].price_paise / 100);
+export function getBasePrice(product: Product): number | null {
+  if (product.is_price_unclear) return null;
+  if (!product.variants || product.variants.length === 0) return null;
+  const price = product.variants[0].price_paise;
+  if (typeof price !== 'number' || isNaN(price) || price <= 0) return null;
+  return Math.round(price / 100);
 }

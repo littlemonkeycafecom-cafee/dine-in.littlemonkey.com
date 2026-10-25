@@ -363,13 +363,44 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                     >
                       {product.description}
                     </p>
+                    {product.verification_flag && (
+                      <div
+                        style={{
+                          fontSize: '10px',
+                          color: '#F59E0B',
+                          fontStyle: 'italic',
+                          marginBottom: '8px',
+                          lineHeight: 1.3,
+                        }}
+                      >
+                        ℹ️ {product.verification_flag}
+                      </div>
+                    )}
                   </div>
 
                   {/* Price & Action */}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: '16px', fontWeight: 800, color: '#FBC324' }}>
-                      ₹{price}
-                    </span>
+                    {price !== null ? (
+                      <span style={{ fontSize: '16px', fontWeight: 800, color: '#FBC324' }}>
+                        ₹{price}
+                      </span>
+                    ) : (
+                      <span
+                        style={{
+                          fontSize: '10.5px',
+                          fontWeight: 700,
+                          color: '#F59E0B',
+                          backgroundColor: 'rgba(245, 158, 11, 0.12)',
+                          border: '1px solid rgba(245, 158, 11, 0.3)',
+                          borderRadius: '4px',
+                          padding: '2px 6px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.03em',
+                        }}
+                      >
+                        Price Unclear
+                      </span>
+                    )}
 
                     {inCartItem ? (
                       <div
