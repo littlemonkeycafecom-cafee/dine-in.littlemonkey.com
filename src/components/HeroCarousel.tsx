@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Product } from '../types';
-import { Search, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, LayoutGrid, Check } from 'lucide-react';
+import { CATEGORY_GROUPS } from '../services/catalog';
 
 export interface HeroItem {
   id: string;
@@ -171,17 +172,22 @@ interface HeroCarouselProps {
   products: Product[];
   onProductClick: (product: Product) => void;
   onExploreClick: () => void;
-  onSearchClick: () => void;
+  selectedCategoryId?: string;
+  onSelectCategory?: (categoryId: string) => void;
 }
 
 export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   products,
   onProductClick,
   onExploreClick,
-  onSearchClick,
+  selectedCategoryId = 'all',
+  onSelectCategory,
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const [isTabHidden, setIsTabHidden] = useState(false);
   const [windowWidth, setWindowWidth] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth : 1200
   );
@@ -192,6 +198,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   }, []);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const transitionLockRef = useRef(false);
   const pauseTimerRef = useRef<NodeJS.Timeout | null>(null);
   const autoRotateTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -206,53 +213,110 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Listen for tab visibility changes
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsTabHidden(document.hidden);
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, []);
+
+  // Outside-click and Escape key handler for Category Popover
+  useEffect(() => {
+    if (!isCategoryOpen) return;
+
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsCategoryOpen(false);
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsCategoryOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside, { passive: true });
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isCategoryOpen]);
+
   const pauseAutoRotateTemporarily = useCallback(() => {
-    setIsPaused(true);
+    setIsInteracting(true);
     if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
     pauseTimerRef.current = setTimeout(() => {
-      setIsPaused(false);
+      setIsInteracting(false);
     }, RESUME_DELAY);
   }, []);
 
   const goTo = useCallback(
-    (newIndex: number) => {
+    (target: number | ((prev: number) => number)) => {
       if (transitionLockRef.current) return;
-      if (newIndex === activeIndex) return;
 
-      transitionLockRef.current = true;
-      setActiveIndex(newIndex);
-
-      setTimeout(() => {
-        transitionLockRef.current = false;
-      }, reducedMotion ? 50 : 450);
+      setActiveIndex((current) => {
+        const next = typeof target === 'function' ? target(current) : target;
+        if (next === current) return current;
+        transitionLockRef.current = true;
+        setTimeout(() => {
+          transitionLockRef.current = false;
+        }, reducedMotion ? 50 : 450);
+        return next;
+      });
     },
-    [activeIndex, reducedMotion]
+    [reducedMotion]
   );
 
   const handlePrev = useCallback(() => {
     pauseAutoRotateTemporarily();
-    goTo(mod(activeIndex - 1, TOTAL));
-  }, [activeIndex, goTo, pauseAutoRotateTemporarily]);
+    goTo((prev) => mod(prev - 1, TOTAL));
+  }, [goTo, pauseAutoRotateTemporarily]);
 
   const handleNext = useCallback(() => {
     pauseAutoRotateTemporarily();
-    goTo(mod(activeIndex + 1, TOTAL));
-  }, [activeIndex, goTo, pauseAutoRotateTemporarily]);
+    goTo((prev) => mod(prev + 1, TOTAL));
+  }, [goTo, pauseAutoRotateTemporarily]);
 
-  // Autonomous rotation
+  const handleSelectCategory = (catId: string) => {
+    setIsCategoryOpen(false);
+    if (onSelectCategory) {
+      onSelectCategory(catId);
+    } else {
+      onExploreClick();
+    }
+  };
+
+  const activeCategoryGroup = useMemo(() => {
+    return CATEGORY_GROUPS.find((g) => g.id === selectedCategoryId) || CATEGORY_GROUPS[0];
+  }, [selectedCategoryId]);
+
+  // Autonomous rotation with pause guards (reduced motion, hover, user interaction, dropdown open, hidden tab)
+  const isAutoRotateAllowed =
+    !reducedMotion && !isHovered && !isInteracting && !isCategoryOpen && !isTabHidden;
+
   useEffect(() => {
-    if (reducedMotion || isPaused) return;
+    if (!isAutoRotateAllowed) {
+      if (autoRotateTimerRef.current) clearInterval(autoRotateTimerRef.current);
+      return;
+    }
 
     autoRotateTimerRef.current = setInterval(() => {
       if (!transitionLockRef.current) {
-        goTo(mod(activeIndex + 1, TOTAL));
+        goTo((prev) => mod(prev + 1, TOTAL));
       }
     }, ROTATION_INTERVAL);
 
     return () => {
       if (autoRotateTimerRef.current) clearInterval(autoRotateTimerRef.current);
     };
-  }, [activeIndex, isPaused, reducedMotion, goTo]);
+  }, [isAutoRotateAllowed, goTo]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -443,7 +507,11 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   return (
     <section
       ref={containerRef}
-      onMouseEnter={pauseAutoRotateTemporarily}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        pauseAutoRotateTemporarily();
+      }}
       style={{
         position: 'relative',
         width: '100%',
@@ -474,8 +542,43 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
         }}
       />
 
-      {/* Brand Tagline */}
-      <div style={{ position: 'relative', zIndex: 2, marginBottom: '14px' }}>
+      {/* Brand Header: Authentic Little Monkey Logo & Tagline */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 10,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          marginBottom: '16px',
+        }}
+      >
+        {/* Authentic Little Monkey Café Logo with Ambient Aura */}
+        <div
+          className="lm-logo-ambient-wrap"
+          style={{
+            marginBottom: '12px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <img
+            src="/branding/little-monkey-logo-transparent.png"
+            alt="Little Monkey Café"
+            style={{
+              height: 'clamp(52px, 7vw, 72px)',
+              width: 'auto',
+              maxWidth: '240px',
+              objectFit: 'contain',
+              display: 'block',
+              filter: 'drop-shadow(0 6px 20px rgba(251, 195, 36, 0.28))',
+              userSelect: 'none',
+            }}
+          />
+        </div>
+
+        {/* Coffee and More. */}
         <p
           style={{
             fontFamily: '"Playfair Display", Georgia, serif',
@@ -484,14 +587,23 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
             fontStyle: 'italic',
             color: '#C8C1B2',
             letterSpacing: '0.02em',
-            margin: '0 0 14px 0',
+            margin: '0 0 16px 0',
           }}
         >
           Coffee and More.
         </p>
 
-        {/* Action Controls Row */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', flexWrap: 'wrap' }}>
+        {/* Action Controls Row: Explore Menu Button + Category Popover Button (Search removed) */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            flexWrap: 'wrap',
+          }}
+        >
+          {/* Explore Full Menu Button */}
           <button
             type="button"
             onClick={onExploreClick}
@@ -500,8 +612,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
               display: 'inline-flex',
               alignItems: 'center',
               gap: '6px',
-              height: '40px',
-              padding: '0 22px',
+              height: '42px',
+              padding: '0 24px',
               borderRadius: '999px',
               backgroundColor: '#FBC324',
               color: '#080808',
@@ -510,38 +622,160 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
               letterSpacing: '0.02em',
               border: 'none',
               cursor: 'pointer',
-              boxShadow: '0 4px 12px rgba(251, 195, 36, 0.25)',
+              boxShadow: '0 4px 16px rgba(251, 195, 36, 0.28)',
               transition: 'all 0.15s ease',
             }}
           >
-            <span>Menu</span>
+            <span>Explore Menu</span>
             <ChevronDown size={15} />
           </button>
 
-          <button
-            type="button"
-            onClick={onSearchClick}
-            className="lm-interactive-btn"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              height: '40px',
-              padding: '0 18px',
-              borderRadius: '999px',
-              backgroundColor: '#191816',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
-              color: '#9C8C7E',
-              fontSize: '13px',
-              fontWeight: 500,
-              cursor: 'pointer',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
-              transition: 'border-color 0.15s ease',
-            }}
-          >
-            <Search size={14} style={{ color: '#FBC324' }} />
-            <span>Search pizza, burger, frappe...</span>
-          </button>
+          {/* Clean Category Dropdown Button (Replacing Search Input) */}
+          <div style={{ position: 'relative' }} ref={dropdownRef}>
+            <button
+              type="button"
+              onClick={() => {
+                pauseAutoRotateTemporarily();
+                setIsCategoryOpen((prev) => !prev);
+              }}
+              aria-expanded={isCategoryOpen}
+              aria-haspopup="listbox"
+              aria-label="Browse Menu Categories"
+              className="lm-interactive-btn"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                height: '42px',
+                padding: '0 20px',
+                borderRadius: '999px',
+                backgroundColor: isCategoryOpen ? 'rgba(251, 195, 36, 0.15)' : '#191816',
+                border: '1px solid ' + (isCategoryOpen ? '#FBC324' : 'rgba(251, 195, 36, 0.35)'),
+                color: isCategoryOpen ? '#FBC324' : '#FAF7F2',
+                fontSize: '13px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                boxShadow: isCategoryOpen
+                  ? '0 0 16px rgba(251, 195, 36, 0.25)'
+                  : '0 4px 14px rgba(0, 0, 0, 0.45)',
+                transition: 'all 0.18s ease',
+              }}
+            >
+              <LayoutGrid size={15} style={{ color: '#FBC324' }} />
+              <span>{activeCategoryGroup ? activeCategoryGroup.label : 'Categories'}</span>
+              <ChevronDown
+                size={15}
+                style={{
+                  color: '#FBC324',
+                  transform: isCategoryOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s ease',
+                }}
+              />
+            </button>
+
+            {/* Category Dropdown Popover Panel */}
+            {isCategoryOpen && (
+              <div
+                role="listbox"
+                aria-label="Menu Categories"
+                style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 8px)',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: 'clamp(280px, 92vw, 360px)',
+                  maxHeight: '380px',
+                  overflowY: 'auto',
+                  backgroundColor: 'rgba(18, 16, 14, 0.97)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(251, 195, 36, 0.35)',
+                  borderRadius: '16px',
+                  boxShadow: '0 20px 48px rgba(0, 0, 0, 0.88), 0 0 24px rgba(251, 195, 36, 0.15)',
+                  padding: '8px',
+                  zIndex: 100,
+                  boxSizing: 'border-box',
+                  scrollbarWidth: 'thin',
+                }}
+              >
+                <div
+                  style={{
+                    padding: '8px 12px 6px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                    marginBottom: '6px',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: '11px',
+                      fontWeight: 800,
+                      letterSpacing: '0.08em',
+                      color: '#9C8C7E',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    Select Menu Category
+                  </span>
+                  <span style={{ fontSize: '10px', color: '#FBC324', fontWeight: 700 }}>
+                    {CATEGORY_GROUPS.length} Categories
+                  </span>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                  {CATEGORY_GROUPS.map((group) => {
+                    const isSelected = selectedCategoryId === group.id;
+                    return (
+                      <button
+                        key={group.id}
+                        role="option"
+                        aria-selected={isSelected}
+                        onClick={() => handleSelectCategory(group.id)}
+                        className="lm-interactive-btn"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '9px 12px',
+                          borderRadius: '10px',
+                          backgroundColor: isSelected ? 'rgba(251, 195, 36, 0.16)' : 'transparent',
+                          border: isSelected ? '1px solid rgba(251, 195, 36, 0.45)' : '1px solid transparent',
+                          color: isSelected ? '#FBC324' : '#FAF7F2',
+                          fontSize: '13px',
+                          fontWeight: isSelected ? 700 : 500,
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <div
+                            style={{
+                              width: '6px',
+                              height: '6px',
+                              borderRadius: '50%',
+                              backgroundColor: isSelected ? '#FBC324' : 'rgba(255, 255, 255, 0.25)',
+                              transition: 'background-color 0.15s ease',
+                            }}
+                          />
+                          <span>{group.label}</span>
+                        </div>
+                        {isSelected && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#FBC324' }}>
+                            <Check size={14} />
+                            <span style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase' }}>
+                              Active
+                            </span>
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -726,13 +960,13 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
         </div>
       </div>
 
-      {/* Manual Prev / Next Controls for Accessibility */}
+      {/* Manual Prev / Next Controls + Slide Indicator Dots */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '12px',
-          marginTop: '12px',
+          gap: '14px',
+          marginTop: '16px',
           zIndex: 3,
         }}
       >
@@ -741,40 +975,65 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           aria-label="Previous Slide"
           className="lm-interactive-btn"
           style={{
-            width: '32px',
-            height: '32px',
+            width: '34px',
+            height: '34px',
             borderRadius: '50%',
             backgroundColor: '#191816',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(251, 195, 36, 0.25)',
             color: '#FAF7F2',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
+            transition: 'all 0.15s ease',
           }}
         >
           <ChevronLeft size={16} />
         </button>
 
-        <span style={{ fontSize: '11px', color: '#9C8C7E', fontWeight: 600 }}>
-          <span style={{ color: '#FBC324' }}>{activeIndex + 1}</span> / {TOTAL}
-        </span>
+        {/* Slide Indicator Dots */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {HERO_ITEMS.map((item, idx) => {
+            const isCurrent = idx === activeIndex;
+            return (
+              <button
+                key={item.id}
+                onClick={() => {
+                  pauseAutoRotateTemporarily();
+                  goTo(idx);
+                }}
+                aria-label={`Go to ${item.label}`}
+                style={{
+                  width: isCurrent ? '22px' : '7px',
+                  height: '7px',
+                  borderRadius: '3.5px',
+                  backgroundColor: isCurrent ? '#FBC324' : 'rgba(255, 255, 255, 0.22)',
+                  border: 'none',
+                  padding: 0,
+                  cursor: 'pointer',
+                  transition: 'all 0.25s cubic-bezier(0.2, 0.8, 0.25, 1)',
+                }}
+              />
+            );
+          })}
+        </div>
 
         <button
           onClick={handleNext}
           aria-label="Next Slide"
           className="lm-interactive-btn"
           style={{
-            width: '32px',
-            height: '32px',
+            width: '34px',
+            height: '34px',
             borderRadius: '50%',
             backgroundColor: '#191816',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(251, 195, 36, 0.25)',
             color: '#FAF7F2',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
+            transition: 'all 0.15s ease',
           }}
         >
           <ChevronRight size={16} />

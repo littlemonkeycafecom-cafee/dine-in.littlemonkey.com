@@ -25,21 +25,30 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
         backdropFilter: 'blur(12px)',
       }}
     >
-      {/* Left: Authentic Little Monkey Logo + Dining Badge */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-        <div className="lm-logo-ambient-wrap">
-          <a href="/" style={{ display: 'flex', alignItems: 'center', position: 'relative', zIndex: 1 }}>
-            <img
-              src="/branding/little-monkey-logo-transparent.png"
-              alt="Little Monkey Café"
-              style={{
-                height: '38px',
-                width: 'auto',
-                objectFit: 'contain',
-              }}
-            />
-          </a>
-        </div>
+      {/* Left: Brand Wordmark + Dining Badge (Logo relocated to Hero section) */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <a
+          href="/"
+          style={{
+            textDecoration: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          <span
+            style={{
+              fontFamily: '"Playfair Display", Georgia, serif',
+              fontSize: '16px',
+              fontWeight: 700,
+              color: '#FAF7F2',
+              letterSpacing: '0.01em',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Little Monkey Café
+          </span>
+        </a>
 
         {/* DINING Badge */}
         <div
@@ -56,6 +65,7 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
             fontWeight: 800,
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
+            whiteSpace: 'nowrap',
           }}
         >
           <Utensils size={11} />

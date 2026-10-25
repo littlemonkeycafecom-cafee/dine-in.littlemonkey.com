@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Product, MenuCategoryGroup } from '../types';
 import { CATEGORY_GROUPS, filterProducts, getBasePrice } from '../services/catalog';
 import { useDineIn } from '../contexts/DineInContext';
@@ -8,16 +8,31 @@ interface MenuSectionProps {
   onProductClick: (product: Product) => void;
   searchQuery: string;
   onClearSearch: () => void;
+  selectedCategoryId?: string;
+  onSelectCategory?: (id: string) => void;
 }
 
 export const MenuSection: React.FC<MenuSectionProps> = ({
   onProductClick,
   searchQuery,
   onClearSearch,
+  selectedCategoryId,
+  onSelectCategory,
 }) => {
   const { cart, addToCart, updateQuantity } = useDineIn();
-  const [activeGroupId, setActiveGroupId] = useState('all');
+  const [activeGroupId, setActiveGroupId] = useState(selectedCategoryId || 'all');
   const [dietFilter, setDietFilter] = useState<'ALL' | 'VEG' | 'NON_VEG'>('ALL');
+
+  useEffect(() => {
+    if (selectedCategoryId && selectedCategoryId !== activeGroupId) {
+      setActiveGroupId(selectedCategoryId);
+    }
+  }, [selectedCategoryId]);
+
+  const handleCategorySelect = (id: string) => {
+    setActiveGroupId(id);
+    onSelectCategory?.(id);
+  };
 
   const products = filterProducts(activeGroupId, dietFilter, searchQuery);
   const activeGroup = CATEGORY_GROUPS.find((g) => g.id === activeGroupId) || CATEGORY_GROUPS[0];
@@ -50,7 +65,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
           return (
             <button
               key={group.id}
-              onClick={() => setActiveGroupId(group.id)}
+              onClick={() => handleCategorySelect(group.id)}
               className="lm-interactive-btn"
               style={{
                 padding: '8px 16px',

@@ -25,10 +25,19 @@ const DiningAppContent: React.FC = () => {
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategoryId, setSelectedCategoryId] = useState('all');
 
   const mustTryProducts = getMustTryProducts();
 
   const handleExploreClick = () => {
+    const el = document.getElementById('main-menu-catalog');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleSelectCategory = (categoryId: string) => {
+    setSelectedCategoryId(categoryId);
     const el = document.getElementById('main-menu-catalog');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
@@ -73,7 +82,8 @@ const DiningAppContent: React.FC = () => {
           products={ALL_PRODUCTS}
           onProductClick={handleProductSelect}
           onExploreClick={handleExploreClick}
-          onSearchClick={() => setIsSearchOpen(true)}
+          selectedCategoryId={selectedCategoryId}
+          onSelectCategory={handleSelectCategory}
         />
 
         {/* 3B. Must Try Product Rail (Section 9) */}
@@ -87,6 +97,8 @@ const DiningAppContent: React.FC = () => {
           onProductClick={handleProductSelect}
           searchQuery={searchQuery}
           onClearSearch={() => setSearchQuery('')}
+          selectedCategoryId={selectedCategoryId}
+          onSelectCategory={setSelectedCategoryId}
         />
       </main>
 
