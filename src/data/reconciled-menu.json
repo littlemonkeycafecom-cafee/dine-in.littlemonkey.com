@@ -140,7 +140,7 @@
       "image_url": null,
       "is_available": false,
       "review": null,
-      "verification_flag": "Source-extracted: DEGGIE PARADISE PIZZA. Verify exact spelling."
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-spicy-paneer-pizza",
@@ -198,20 +198,20 @@
       "slug": "thin-crust-pizza-chicken-and-sweet-corn-pizza",
       "category": "thin-crust-pizza",
       "name": "Chicken and Sweet Corn Pizza",
-      "description": "Chicken, onion, sweet corn, chilli flakes • 11 inch, 8 slices",
+      "description": "CHICKEN, ONION, SWEET CORN, CHILLI FLAKES   11 inch, 8 slices",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
         {
-          "name": "Price to be verified",
-          "price_paise": 0
+          "name": "Regular",
+          "price_paise": 44900
         }
       ],
       "image_url": null,
       "is_available": false,
       "review": null,
-      "is_price_unclear": true,
-      "verification_flag": "PRICE NOT CLEAR in source extraction — verify against menu PDF"
+      "is_price_unclear": false,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-chicken-mushroom-pizza",
@@ -512,20 +512,20 @@
       "slug": "sandwiches-chicken-tikka",
       "category": "sandwiches",
       "name": "Chicken Tikka",
-      "description": null,
+      "description": "Handcrafted chicken tikka sandwich",
       "dietary_classification": "NON_VEG",
       "is_must_try": true,
       "variants": [
         {
-          "name": "Price to be verified",
-          "price_paise": 0
+          "name": "Regular",
+          "price_paise": 17900
         }
       ],
       "image_url": null,
       "is_available": false,
       "review": null,
-      "is_price_unclear": true,
-      "verification_flag": "PRICE NOT CLEAR in source extraction — verify against menu PDF"
+      "is_price_unclear": false,
+      "verification_flag": null
     },
     {
       "slug": "sandwiches-bbq-chicken-sandwich",
@@ -638,18 +638,18 @@
       "is_must_try": false,
       "variants": [
         {
-          "name": "Portion 1",
+          "name": "Medium (M)",
           "price_paise": 12900
         },
         {
-          "name": "Portion 2",
+          "name": "Large (L)",
           "price_paise": 16900
         }
       ],
       "image_url": null,
       "is_available": false,
       "review": null,
-      "verification_flag": "Two prices listed in source; size labels unconfirmed (Do not assign size labels without checking original menu)"
+      "verification_flag": null
     },
     {
       "slug": "fries-masala-french-fries",
@@ -660,18 +660,18 @@
       "is_must_try": false,
       "variants": [
         {
-          "name": "Portion 1",
+          "name": "Medium (M)",
           "price_paise": 14000
         },
         {
-          "name": "Portion 2",
+          "name": "Large (L)",
           "price_paise": 17900
         }
       ],
       "image_url": null,
       "is_available": false,
       "review": null,
-      "verification_flag": "Two prices listed in source; size labels unconfirmed (Do not assign size labels without checking original menu)"
+      "verification_flag": null
     },
     {
       "slug": "fries-french-fries-with-cheese-sauce",
@@ -1689,36 +1689,38 @@
     {
       "slug": "extra-dips-extra-dip-sauces",
       "category": "add-ons-dips",
-      "name": "Packing Charges",
-      "description": "Takeaway packaging charge",
+      "name": "Extra Dip (Sauces)",
+      "description": "Extra portion of dip / sauce",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
         {
-          "name": "Standard",
-          "price_paise": 1500
+          "name": "Regular",
+          "price_paise": 3000
         }
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "extra-dips-extra-olives",
       "category": "add-ons-dips",
-      "name": "Takeaway Coffee Cup with Lid",
-      "description": "Takeaway coffee cup with lid extra charge",
+      "name": "Extra Olives",
+      "description": "Extra portion of olives",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
         {
-          "name": "Standard",
-          "price_paise": 1500
+          "name": "Regular",
+          "price_paise": 3000
         }
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "grills-boneless-chicken-grill",
@@ -1781,12 +1783,13 @@
       "variants": [
         {
           "name": "Regular",
-          "price_paise": 7300
+          "price_paise": 7500
         }
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-sweet-corn",
@@ -1798,12 +1801,13 @@
       "variants": [
         {
           "name": "Regular",
-          "price_paise": 3000
+          "price_paise": 5000
         }
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-jalapeno",
@@ -1832,12 +1836,13 @@
       "variants": [
         {
           "name": "Regular",
-          "price_paise": 5300
+          "price_paise": 5000
         }
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-extra-chicken-pizza",
@@ -2012,21 +2017,21 @@
     {
       "slug": "add-ons-irish",
       "category": "add-ons-dips",
-      "name": "Unclear Add-on (Verify Menu)",
-      "description": null,
+      "name": "Irish",
+      "description": "Irish cream syrup flavour add-on",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
         {
-          "name": "Price to be verified",
-          "price_paise": 0
+          "name": "Regular",
+          "price_paise": 6000
         }
       ],
       "image_url": null,
       "is_available": false,
       "review": null,
-      "is_price_unclear": true,
-      "verification_flag": "Unclear item between Vanilla and Caramel in source extraction — verify against menu PDF"
+      "is_price_unclear": false,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-caramel",
@@ -2134,20 +2139,20 @@
       "slug": "milkshakes-pinacolada",
       "category": "milkshakes",
       "name": "Pina Colada",
-      "description": null,
+      "description": "Refreshing pineapple and coconut blend",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
         {
-          "name": "Price to be verified",
-          "price_paise": 0
+          "name": "Regular",
+          "price_paise": 18900
         }
       ],
       "image_url": null,
       "is_available": false,
       "review": null,
-      "is_price_unclear": true,
-      "verification_flag": "PRICE NOT CLEAR in source extraction — verify against menu PDF"
+      "is_price_unclear": false,
+      "verification_flag": null
     },
     {
       "slug": "milkshakes-red-velvet",
@@ -2386,7 +2391,7 @@
       "image_url": null,
       "is_available": false,
       "review": null,
-      "verification_flag": "Verify whether Hazelnut is a mojito variant or belongs to another section"
+      "verification_flag": null
     },
     {
       "slug": "mojito-passion-fruit",
