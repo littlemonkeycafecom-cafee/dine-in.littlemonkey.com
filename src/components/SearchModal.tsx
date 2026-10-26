@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Product } from '../types';
 import { ALL_PRODUCTS, getBasePrice } from '../services/catalog';
+import { useDineIn } from '../contexts/DineInContext';
 import { Search, X } from 'lucide-react';
 
 interface SearchModalProps {
@@ -14,6 +15,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   onClose,
   onSelectProduct,
 }) => {
+  const { isVegOnly, toggleVegOnly } = useDineIn();
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -28,12 +30,14 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   if (!isOpen) return null;
 
   const filtered = query.trim()
-    ? ALL_PRODUCTS.filter(
-        (p) =>
-          p.name.toLowerCase().includes(query.toLowerCase()) ||
-          p.description.toLowerCase().includes(query.toLowerCase()) ||
-          p.category.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 16)
+    ? ALL_PRODUCTS.filter((p) => {
+        if (isVegOnly && p.dietary_classification !== 'VEG') return false;
+        const q = query.toLowerCase();
+        const matchName = (p.name || '').toLowerCase().includes(q);
+        const matchDesc = (p.description || '').toLowerCase().includes(q);
+        const matchCat = (p.category || '').toLowerCase().includes(q);
+        return matchName || matchDesc || matchCat;
+      }).slice(0, 16)
     : [];
 
   return (
@@ -69,19 +73,19 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         {/* Search Input Bar */}
         <div
           style={{
-            padding: '16px 18px',
+            padding: '14px 18px',
             backgroundColor: '#191816',
             borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
+            gap: '10px',
           }}
         >
           <Search size={18} style={{ color: '#FBC324', flexShrink: 0 }} />
           <input
             ref={inputRef}
             type="text"
-            placeholder="Search pizza, burger, frappe, coffee..."
+            placeholder={isVegOnly ? "Search veg dishes (pizza, pasta, coffee...)" : "Search pizza, burger, frappe, coffee..."}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             style={{
@@ -93,6 +97,31 @@ export const SearchModal: React.FC<SearchModalProps> = ({
               outline: 'none',
             }}
           />
+
+          {/* Veg Only Quick Filter Pill inside Search */}
+          <button
+            type="button"
+            onClick={toggleVegOnly}
+            className="lm-interactive-btn"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '5px',
+              padding: '4px 10px',
+              borderRadius: '999px',
+              backgroundColor: isVegOnly ? 'rgba(34, 197, 94, 0.18)' : 'rgba(255, 255, 255, 0.06)',
+              border: isVegOnly ? '1px solid #22C55E' : '1px solid rgba(255, 255, 255, 0.1)',
+              color: isVegOnly ? '#22C55E' : '#9C8C7E',
+              fontSize: '11px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              flexShrink: 0,
+            }}
+          >
+            <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: isVegOnly ? '#22C55E' : '#6B6258' }} />
+            <span>Veg</span>
+          </button>
+
           {query ? (
             <button
               onClick={() => setQuery('')}
@@ -126,11 +155,32 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         <div style={{ padding: '12px', overflowY: 'auto', flex: 1 }}>
           {query.trim() === '' ? (
             <div style={{ padding: '24px 16px', textAlign: 'center', color: '#9C8C7E', fontSize: '13px' }}>
-              Type a dish or ingredient name to search 184 authentic Little Monkey dishes.
+              Type a dish or ingredient name to search {isVegOnly ? 'vegetarian ' : ''}dishes.
             </div>
           ) : filtered.length === 0 ? (
-            <div style={{ padding: '24px 16px', textAlign: 'center', color: '#9C8C7E', fontSize: '13px' }}>
-              No dishes found matching "{query}".
+            <div style={{ padding: '28px 16px', textAlign: 'center', color: '#9C8C7E', fontSize: '13px' }}>
+              <p style={{ margin: '0 0 10px 0' }}>
+                No {isVegOnly ? 'vegetarian ' : ''}dishes found matching "{query}".
+              </p>
+              {isVegOnly && (
+                <button
+                  type="button"
+                  onClick={toggleVegOnly}
+                  className="lm-interactive-btn"
+                  style={{
+                    backgroundColor: '#191816',
+                    border: '1px solid #FBC324',
+                    borderRadius: '8px',
+                    padding: '6px 14px',
+                    color: '#FBC324',
+                    fontSize: '11.5px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Include Non-Veg Results
+                </button>
+              )}
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

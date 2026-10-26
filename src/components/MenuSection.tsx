@@ -19,7 +19,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
   selectedCategoryId,
   onSelectCategory,
 }) => {
-  const { cart, addToCart, updateQuantity } = useDineIn();
+  const { cart, addToCart, updateQuantity, isVegOnly, setIsVegOnly } = useDineIn();
   const [activeGroupId, setActiveGroupId] = useState(selectedCategoryId || 'all');
   const [dietFilter, setDietFilter] = useState<'ALL' | 'VEG' | 'NON_VEG'>('ALL');
 
@@ -29,12 +29,30 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
     }
   }, [selectedCategoryId]);
 
+  useEffect(() => {
+    if (isVegOnly) {
+      setDietFilter('VEG');
+    } else if (dietFilter === 'VEG') {
+      setDietFilter('ALL');
+    }
+  }, [isVegOnly]);
+
   const handleCategorySelect = (id: string) => {
     setActiveGroupId(id);
     onSelectCategory?.(id);
   };
 
-  const products = filterProducts(activeGroupId, dietFilter, searchQuery);
+  const handleDietFilterChange = (filter: 'ALL' | 'VEG' | 'NON_VEG') => {
+    setDietFilter(filter);
+    if (filter === 'VEG') {
+      setIsVegOnly(true);
+    } else if (filter === 'ALL') {
+      setIsVegOnly(false);
+    }
+  };
+
+  const effectiveDietFilter = isVegOnly ? 'VEG' : dietFilter;
+  const products = filterProducts(activeGroupId, effectiveDietFilter, searchQuery);
   const activeGroup = CATEGORY_GROUPS.find((g) => g.id === activeGroupId) || CATEGORY_GROUPS[0];
 
   return (
@@ -125,35 +143,40 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
         {/* Veg / Non-Veg Filters */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <button
-            onClick={() => setDietFilter('ALL')}
+            onClick={() => handleDietFilterChange('ALL')}
+            className="lm-interactive-btn"
             style={{
-              padding: '4px 10px',
+              padding: '5px 12px',
               borderRadius: '6px',
               fontSize: '11px',
               fontWeight: 700,
               border: 'none',
-              backgroundColor: dietFilter === 'ALL' ? 'rgba(255, 255, 255, 0.14)' : 'transparent',
-              color: dietFilter === 'ALL' ? '#FAF7F2' : '#9C8C7E',
+              backgroundColor: effectiveDietFilter === 'ALL' ? 'rgba(255, 255, 255, 0.14)' : 'transparent',
+              color: effectiveDietFilter === 'ALL' ? '#FAF7F2' : '#9C8C7E',
               cursor: 'pointer',
+              transition: 'all 0.15s ease',
             }}
           >
             All
           </button>
 
           <button
-            onClick={() => setDietFilter('VEG')}
+            onClick={() => handleDietFilterChange('VEG')}
+            className="lm-interactive-btn"
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '5px',
-              padding: '4px 10px',
+              padding: '5px 12px',
               borderRadius: '6px',
               fontSize: '11px',
               fontWeight: 700,
-              border: 'none',
-              backgroundColor: dietFilter === 'VEG' ? 'rgba(34, 197, 94, 0.2)' : 'transparent',
-              color: dietFilter === 'VEG' ? '#22C55E' : '#9C8C7E',
+              border: effectiveDietFilter === 'VEG' ? '1px solid rgba(34, 197, 94, 0.5)' : 'none',
+              backgroundColor: effectiveDietFilter === 'VEG' ? 'rgba(34, 197, 94, 0.2)' : 'transparent',
+              color: effectiveDietFilter === 'VEG' ? '#22C55E' : '#9C8C7E',
+              boxShadow: effectiveDietFilter === 'VEG' ? '0 0 10px rgba(34, 197, 94, 0.25)' : 'none',
               cursor: 'pointer',
+              transition: 'all 0.15s ease',
             }}
           >
             <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#22C55E' }} />
@@ -161,19 +184,21 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
           </button>
 
           <button
-            onClick={() => setDietFilter('NON_VEG')}
+            onClick={() => handleDietFilterChange('NON_VEG')}
+            className="lm-interactive-btn"
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '5px',
-              padding: '4px 10px',
+              padding: '5px 12px',
               borderRadius: '6px',
               fontSize: '11px',
               fontWeight: 700,
-              border: 'none',
-              backgroundColor: dietFilter === 'NON_VEG' ? 'rgba(239, 68, 68, 0.2)' : 'transparent',
-              color: dietFilter === 'NON_VEG' ? '#EF4444' : '#9C8C7E',
+              border: effectiveDietFilter === 'NON_VEG' ? '1px solid rgba(239, 68, 68, 0.5)' : 'none',
+              backgroundColor: effectiveDietFilter === 'NON_VEG' ? 'rgba(239, 68, 68, 0.2)' : 'transparent',
+              color: effectiveDietFilter === 'NON_VEG' ? '#EF4444' : '#9C8C7E',
               cursor: 'pointer',
+              transition: 'all 0.15s ease',
             }}
           >
             <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#EF4444' }} />
@@ -184,42 +209,126 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
 
       {/* Empty State */}
       {products.length === 0 ? (
-        <div
-          style={{
-            padding: '48px 20px',
-            textAlign: 'center',
-            backgroundColor: '#12100E',
-            borderRadius: '14px',
-            border: '1px solid rgba(255, 255, 255, 0.06)',
-            color: '#9C8C7E',
-          }}
-        >
-          <p style={{ fontSize: '15px', color: '#FAF7F2', margin: '0 0 8px 0', fontWeight: 600 }}>
-            No menu items found
-          </p>
-          <p style={{ fontSize: '12px', margin: '0 0 16px 0' }}>
-            Try adjusting your search or category filter.
-          </p>
-          <button
-            onClick={() => {
-              setActiveGroupId('all');
-              setDietFilter('ALL');
-              onClearSearch();
-            }}
+        effectiveDietFilter === 'VEG' ? (
+          <div
             style={{
-              padding: '8px 18px',
-              borderRadius: '8px',
-              backgroundColor: '#191816',
-              border: '1px solid #FBC324',
-              color: '#FBC324',
-              fontSize: '12px',
-              fontWeight: 700,
-              cursor: 'pointer',
+              padding: '52px 24px',
+              textAlign: 'center',
+              backgroundColor: '#12100E',
+              borderRadius: '16px',
+              border: '1px solid rgba(251, 195, 36, 0.25)',
+              color: '#9C8C7E',
+              maxWidth: '520px',
+              margin: '24px auto',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.65)',
             }}
           >
-            Reset Filters
-          </button>
-        </div>
+            <div
+              style={{
+                width: '44px',
+                height: '44px',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(34, 197, 94, 0.15)',
+                border: '1px solid rgba(34, 197, 94, 0.35)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 14px auto',
+              }}
+            >
+              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#22C55E' }} />
+            </div>
+            <h3
+              style={{
+                fontSize: '17px',
+                color: '#FAF7F2',
+                margin: '0 0 8px 0',
+                fontFamily: '"Playfair Display", Georgia, serif',
+                fontWeight: 700,
+              }}
+            >
+              No Vegetarian Items in {activeGroup.label}
+            </h3>
+            <p style={{ fontSize: '12.5px', margin: '0 0 20px 0', lineHeight: 1.5 }}>
+              This section is dedicated to non-vegetarian selections. You can browse all vegetarian dishes or clear the filter.
+            </p>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => setActiveGroupId('all')}
+                className="lm-interactive-btn"
+                style={{
+                  padding: '9px 18px',
+                  borderRadius: '8px',
+                  backgroundColor: '#FBC324',
+                  color: '#080808',
+                  border: 'none',
+                  fontSize: '12px',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                }}
+              >
+                Browse All Veg Items
+              </button>
+              <button
+                onClick={() => {
+                  setIsVegOnly(false);
+                  setDietFilter('ALL');
+                }}
+                className="lm-interactive-btn"
+                style={{
+                  padding: '9px 18px',
+                  borderRadius: '8px',
+                  backgroundColor: '#191816',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  color: '#FAF7F2',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                Show All in {activeGroup.label}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              padding: '48px 20px',
+              textAlign: 'center',
+              backgroundColor: '#12100E',
+              borderRadius: '14px',
+              border: '1px solid rgba(255, 255, 255, 0.06)',
+              color: '#9C8C7E',
+            }}
+          >
+            <p style={{ fontSize: '15px', color: '#FAF7F2', margin: '0 0 8px 0', fontWeight: 600 }}>
+              No menu items found
+            </p>
+            <p style={{ fontSize: '12px', margin: '0 0 16px 0' }}>
+              Try adjusting your search or category filter.
+            </p>
+            <button
+              onClick={() => {
+                setActiveGroupId('all');
+                setDietFilter('ALL');
+                setIsVegOnly(false);
+                onClearSearch();
+              }}
+              style={{
+                padding: '8px 18px',
+                borderRadius: '8px',
+                backgroundColor: '#191816',
+                border: '1px solid #FBC324',
+                color: '#FBC324',
+                fontSize: '12px',
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              Reset Filters
+            </button>
+          </div>
+        )
       ) : (
         /* Product Grid (Mobile: 2 cols, Desktop: 3-4 cols) */
         <div
@@ -303,13 +412,25 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                   >
                     <div
                       style={{
-                        width: '9px',
-                        height: '9px',
-                        borderRadius: '50%',
-                        backgroundColor: product.dietary_classification === 'VEG' ? '#22C55E' : '#EF4444',
-                        boxShadow: '0 0 6px rgba(0,0,0,0.6)',
+                        width: '13px',
+                        height: '13px',
+                        border: `1.5px solid ${product.dietary_classification === 'VEG' ? '#22C55E' : '#EF4444'}`,
+                        borderRadius: '2.5px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'rgba(8, 8, 8, 0.65)',
                       }}
-                    />
+                    >
+                      <div
+                        style={{
+                          width: '5px',
+                          height: '5px',
+                          borderRadius: '50%',
+                          backgroundColor: product.dietary_classification === 'VEG' ? '#22C55E' : '#EF4444',
+                        }}
+                      />
+                    </div>
                     {product.is_must_try && (
                       <span
                         style={{
@@ -329,23 +450,29 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                     )}
                   </div>
 
-                  {/* Dark Silhouette Box */}
+                  {/* Dish Plate Silhouette Artwork */}
                   <div
                     style={{
-                      width: '64px',
-                      height: '64px',
+                      width: '68px',
+                      height: '68px',
                       borderRadius: '50%',
-                      backgroundColor: '#161514',
-                      border: '1px dashed rgba(251, 195, 36, 0.2)',
+                      backgroundColor: '#141312',
+                      backgroundImage:
+                        'radial-gradient(circle at 45% 40%, rgba(251, 195, 36, 0.16) 0%, transparent 70%), linear-gradient(180deg, #181715 0%, #0D0C0B 100%)',
+                      border: '1px solid rgba(251, 195, 36, 0.32)',
+                      boxShadow: 'inset 0 1px 6px rgba(0, 0, 0, 0.8), 0 0 12px rgba(251, 195, 36, 0.12)',
                       display: 'flex',
+                      flexDirection: 'column',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: '#9C8C7E',
-                      fontSize: '11px',
-                      fontWeight: 700,
+                      gap: '2px',
+                      color: '#FBC324',
                     }}
                   >
-                    LM
+                    <span style={{ fontSize: '14px', lineHeight: 1 }}>✨</span>
+                    <span style={{ fontSize: '7px', fontWeight: 800, color: '#FAF7F2', letterSpacing: '0.06em' }}>
+                      LM
+                    </span>
                   </div>
                 </div>
 
@@ -378,19 +505,6 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                     >
                       {product.description}
                     </p>
-                    {product.verification_flag && (
-                      <div
-                        style={{
-                          fontSize: '10px',
-                          color: '#F59E0B',
-                          fontStyle: 'italic',
-                          marginBottom: '8px',
-                          lineHeight: 1.3,
-                        }}
-                      >
-                        ℹ️ {product.verification_flag}
-                      </div>
-                    )}
                   </div>
 
                   {/* Price & Action */}

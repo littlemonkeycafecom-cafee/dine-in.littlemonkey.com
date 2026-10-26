@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Product } from '../types';
-import { ChevronDown, ChevronLeft, ChevronRight, LayoutGrid, Check } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, LayoutGrid, Check, Search, Sparkles } from 'lucide-react';
 import { CATEGORY_GROUPS } from '../services/catalog';
+import { useDineIn } from '../contexts/DineInContext';
 
 export interface HeroItem {
   id: string;
@@ -11,6 +12,7 @@ export interface HeroItem {
   accent: string;
   slug: string;
   price: number;
+  dietary: 'VEG' | 'NON_VEG';
 }
 
 export const HERO_ITEMS: HeroItem[] = [
@@ -22,6 +24,7 @@ export const HERO_ITEMS: HeroItem[] = [
     accent: '#FFC21A',
     slug: 'desserts-sizzling-brownie',
     price: 275,
+    dietary: 'VEG',
   },
   {
     id: 'pizza',
@@ -31,6 +34,7 @@ export const HERO_ITEMS: HeroItem[] = [
     accent: '#FFC21A',
     slug: 'thin-crust-pizza-farmhouse',
     price: 399,
+    dietary: 'VEG',
   },
   {
     id: 'burger',
@@ -40,6 +44,7 @@ export const HERO_ITEMS: HeroItem[] = [
     accent: '#FFC21A',
     slug: 'burgers-crispy-chicken-burger',
     price: 185,
+    dietary: 'NON_VEG',
   },
   {
     id: 'pasta',
@@ -49,6 +54,7 @@ export const HERO_ITEMS: HeroItem[] = [
     accent: '#D4AF37',
     slug: 'pasta-pasta-veg',
     price: 249,
+    dietary: 'VEG',
   },
   {
     id: 'chicken',
@@ -58,6 +64,7 @@ export const HERO_ITEMS: HeroItem[] = [
     accent: '#FFC21A',
     slug: 'crispy-chicken-chicken-wings',
     price: 179,
+    dietary: 'NON_VEG',
   },
   {
     id: 'fries',
@@ -67,6 +74,7 @@ export const HERO_ITEMS: HeroItem[] = [
     accent: '#FFC21A',
     slug: 'fries-masala-french-fries',
     price: 140,
+    dietary: 'VEG',
   },
   {
     id: 'coffee',
@@ -76,6 +84,7 @@ export const HERO_ITEMS: HeroItem[] = [
     accent: '#D4AF37',
     slug: 'hot-coffee-cappuccino',
     price: 169,
+    dietary: 'VEG',
   },
   {
     id: 'shakes',
@@ -85,12 +94,12 @@ export const HERO_ITEMS: HeroItem[] = [
     accent: '#FFC21A',
     slug: 'thick-shakes-oreo',
     price: 259,
+    dietary: 'VEG',
   },
 ];
 
-const TOTAL = HERO_ITEMS.length; // 8
-const ROTATION_INTERVAL = 5500; // 5.5s comfortable dwell time
-const RESUME_DELAY = 7000; // 7s pause after customer interaction
+const ROTATION_INTERVAL = 3200; // ~3.0s - 3.2s smooth dwell time per requirement
+const RESUME_DELAY = 6000; // 6s pause after customer interaction
 
 function mod(n: number, m: number) {
   return ((n % m) + m) % m;
@@ -174,6 +183,7 @@ interface HeroCarouselProps {
   onExploreClick: () => void;
   selectedCategoryId?: string;
   onSelectCategory?: (categoryId: string) => void;
+  onSearchClick?: () => void;
 }
 
 export const HeroCarousel: React.FC<HeroCarouselProps> = ({
@@ -182,7 +192,9 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   onExploreClick,
   selectedCategoryId = 'all',
   onSelectCategory,
+  onSearchClick,
 }) => {
+  const { isVegOnly, toggleVegOnly } = useDineIn();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -191,6 +203,20 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   const [windowWidth, setWindowWidth] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth : 1200
   );
+
+  const heroItems = useMemo(() => {
+    if (!isVegOnly) return HERO_ITEMS;
+    return HERO_ITEMS.filter((item) => item.dietary === 'VEG');
+  }, [isVegOnly]);
+
+  const total = heroItems.length;
+  const safeActiveIndex = activeIndex >= total ? 0 : activeIndex;
+
+  useEffect(() => {
+    if (activeIndex >= total) {
+      setActiveIndex(0);
+    }
+  }, [total, activeIndex]);
 
   const reducedMotion = useMemo(() => {
     if (typeof window === 'undefined') return false;
@@ -276,13 +302,13 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
   const handlePrev = useCallback(() => {
     pauseAutoRotateTemporarily();
-    goTo((prev) => mod(prev - 1, TOTAL));
-  }, [goTo, pauseAutoRotateTemporarily]);
+    goTo((prev) => mod(prev - 1, total));
+  }, [goTo, pauseAutoRotateTemporarily, total]);
 
   const handleNext = useCallback(() => {
     pauseAutoRotateTemporarily();
-    goTo((prev) => mod(prev + 1, TOTAL));
-  }, [goTo, pauseAutoRotateTemporarily]);
+    goTo((prev) => mod(prev + 1, total));
+  }, [goTo, pauseAutoRotateTemporarily, total]);
 
   const handleSelectCategory = (catId: string) => {
     setIsCategoryOpen(false);
@@ -302,21 +328,21 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
     !reducedMotion && !isHovered && !isInteracting && !isCategoryOpen && !isTabHidden;
 
   useEffect(() => {
-    if (!isAutoRotateAllowed) {
+    if (!isAutoRotateAllowed || total === 0) {
       if (autoRotateTimerRef.current) clearInterval(autoRotateTimerRef.current);
       return;
     }
 
     autoRotateTimerRef.current = setInterval(() => {
       if (!transitionLockRef.current) {
-        goTo((prev) => mod(prev + 1, TOTAL));
+        goTo((prev) => mod(prev + 1, total));
       }
     }, ROTATION_INTERVAL);
 
     return () => {
       if (autoRotateTimerRef.current) clearInterval(autoRotateTimerRef.current);
     };
-  }, [isAutoRotateAllowed, goTo]);
+  }, [isAutoRotateAllowed, goTo, total]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -354,9 +380,9 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
     if (Math.abs(deltaX) > 35 || (Math.abs(deltaX) > 20 && duration < 250)) {
       if (deltaX < 0) {
-        goTo(mod(activeIndex + 1, TOTAL));
+        goTo(mod(safeActiveIndex + 1, total));
       } else {
-        goTo(mod(activeIndex - 1, TOTAL));
+        goTo(mod(safeActiveIndex - 1, total));
       }
     }
 
@@ -369,9 +395,11 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
     if (hasDraggedRef.current) return;
     pauseAutoRotateTemporarily();
 
-    if (index === activeIndex) {
-      const heroItem = HERO_ITEMS[activeIndex];
-      const matched = products.find((p) => p.name.toLowerCase().includes(heroItem.label.toLowerCase())) ||
+    if (index === safeActiveIndex) {
+      const heroItem = heroItems[safeActiveIndex];
+      if (!heroItem) return;
+      const matched = products.find((p) => p.slug === heroItem.slug) ||
+        products.find((p) => p.name.toLowerCase().includes(heroItem.label.toLowerCase())) ||
         products.find((p) => p.category.toLowerCase().includes(heroItem.category.toLowerCase())) ||
         products[0];
       if (matched) {
@@ -382,11 +410,11 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
     }
   };
 
-  const activeItem = HERO_ITEMS[activeIndex];
+  const activeItem = heroItems[safeActiveIndex] || heroItems[0] || HERO_ITEMS[0];
 
   // Responsive 3D transform computation
   const getCardStyle = (index: number) => {
-    const offset = mod(index - activeIndex + Math.floor(TOTAL / 2), TOTAL) - Math.floor(TOTAL / 2);
+    const offset = mod(index - safeActiveIndex + Math.floor(total / 2), total) - Math.floor(total / 2);
     const absOff = Math.abs(offset);
 
     if (reducedMotion) {
@@ -776,6 +804,111 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
               </div>
             )}
           </div>
+
+          {/* Search Control Button */}
+          {onSearchClick && (
+            <button
+              type="button"
+              onClick={onSearchClick}
+              aria-label="Search Menu"
+              className="lm-interactive-btn"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '7px',
+                height: '42px',
+                padding: '0 18px',
+                borderRadius: '999px',
+                backgroundColor: '#191816',
+                border: '1px solid rgba(251, 195, 36, 0.35)',
+                color: '#FAF7F2',
+                fontSize: '13px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.45)',
+                transition: 'all 0.18s ease',
+              }}
+            >
+              <Search size={15} style={{ color: '#FBC324' }} />
+              <span>Search</span>
+            </button>
+          )}
+
+          {/* Veg Only Toggle Switch */}
+          <button
+            type="button"
+            onClick={toggleVegOnly}
+            aria-pressed={isVegOnly}
+            aria-label={isVegOnly ? 'Show all items' : 'Filter vegetarian items only'}
+            className="lm-interactive-btn"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              height: '42px',
+              padding: '0 16px',
+              borderRadius: '999px',
+              backgroundColor: isVegOnly ? 'rgba(34, 197, 94, 0.16)' : '#191816',
+              border: isVegOnly ? '1.5px solid #22C55E' : '1px solid rgba(255, 255, 255, 0.14)',
+              boxShadow: isVegOnly
+                ? '0 0 16px rgba(34, 197, 94, 0.32), 0 0 8px rgba(251, 195, 36, 0.2)'
+                : '0 4px 14px rgba(0, 0, 0, 0.45)',
+              color: isVegOnly ? '#22C55E' : '#9C8C7E',
+              fontSize: '12.5px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              transition: 'all 0.2s cubic-bezier(0.22, 1, 0.36, 1)',
+              userSelect: 'none',
+            }}
+          >
+            <span
+              style={{
+                width: '13px',
+                height: '13px',
+                border: `1.5px solid ${isVegOnly ? '#22C55E' : '#6B6258'}`,
+                borderRadius: '2.5px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <span
+                style={{
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '50%',
+                  backgroundColor: isVegOnly ? '#22C55E' : '#6B6258',
+                  transition: 'background-color 0.2s ease',
+                }}
+              />
+            </span>
+            <span style={{ letterSpacing: '0.04em', textTransform: 'uppercase' }}>Veg Only</span>
+            <span
+              style={{
+                width: '26px',
+                height: '14px',
+                borderRadius: '999px',
+                backgroundColor: isVegOnly ? '#22C55E' : 'rgba(255, 255, 255, 0.16)',
+                position: 'relative',
+                display: 'inline-block',
+                transition: 'background-color 0.2s ease',
+              }}
+            >
+              <span
+                style={{
+                  position: 'absolute',
+                  top: '1.5px',
+                  left: isVegOnly ? '13px' : '1.5px',
+                  width: '11px',
+                  height: '11px',
+                  borderRadius: '50%',
+                  backgroundColor: isVegOnly ? '#080808' : '#FAF7F2',
+                  transition: 'left 0.2s cubic-bezier(0.22, 1, 0.36, 1)',
+                }}
+              />
+            </span>
+          </button>
         </div>
       </div>
 
@@ -831,8 +964,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
             justifyContent: 'center',
           }}
         >
-          {HERO_ITEMS.map((item, index) => {
-            const isActive = index === activeIndex;
+          {heroItems.map((item, index) => {
+            const isActive = index === safeActiveIndex;
             const style3D = getCardStyle(index);
 
             return (
@@ -850,19 +983,38 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                   ...style3D,
                 }}
               >
-                {/* Outer Glow for Active Card */}
+                {/* Outer Glow & Under-Glow Shelf for Active Card */}
                 {isActive && (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: '-6px',
-                      borderRadius: '26px',
-                      background: 'radial-gradient(ellipse at center, rgba(251, 195, 36, 0.4) 0%, rgba(251, 195, 36, 0.1) 50%, transparent 75%)',
-                      filter: 'blur(12px)',
-                      pointerEvents: 'none',
-                      zIndex: 0,
-                    }}
-                  />
+                  <>
+                    <div
+                      style={{
+                        position: 'absolute',
+                        inset: '-12px',
+                        borderRadius: '32px',
+                        background:
+                          'radial-gradient(ellipse at center, rgba(251, 195, 36, 0.48) 0%, rgba(251, 195, 36, 0.16) 45%, transparent 72%)',
+                        filter: 'blur(16px)',
+                        pointerEvents: 'none',
+                        zIndex: 0,
+                        animation: 'lmActivePulse 2.8s ease-in-out infinite',
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: '-14px',
+                        left: '10%',
+                        right: '10%',
+                        height: '24px',
+                        borderRadius: '50%',
+                        background:
+                          'radial-gradient(ellipse at center, rgba(251, 195, 36, 0.6) 0%, rgba(245, 158, 11, 0.25) 50%, transparent 80%)',
+                        filter: 'blur(10px)',
+                        pointerEvents: 'none',
+                        zIndex: 0,
+                      }}
+                    />
+                  </>
                 )}
 
                 {/* Card Surface */}
@@ -875,54 +1027,132 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                     borderRadius: '20px',
                     overflow: 'hidden',
                     backgroundColor: '#191816',
-                    border: isActive ? '1px solid rgba(251, 195, 36, 0.35)' : '1px solid rgba(255, 255, 255, 0.1)',
+                    border: isActive ? '1px solid rgba(251, 195, 36, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)',
                     boxShadow: isActive
-                      ? '0 16px 36px rgba(0, 0, 0, 0.85), 0 0 20px rgba(251, 195, 36, 0.20)'
+                      ? '0 18px 40px rgba(0, 0, 0, 0.9), 0 0 24px rgba(251, 195, 36, 0.28)'
                       : '0 8px 20px rgba(0, 0, 0, 0.6)',
                     boxSizing: 'border-box',
                     zIndex: 1,
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'flex-end',
+                    justifyContent: 'space-between',
                   }}
                 >
-                  {/* Image Container Structure (Configurable placeholder ready for photographs) */}
+                  {/* Top Badges: Veg/Non-Veg & Price */}
                   <div
                     style={{
-                      position: 'absolute',
-                      inset: 0,
-                      backgroundColor: '#141312',
-                      backgroundImage: `radial-gradient(circle at 50% 40%, rgba(251, 195, 36, 0.08) 0%, transparent 70%), linear-gradient(180deg, rgba(25, 24, 22, 0.4) 0%, rgba(8, 8, 8, 0.85) 100%)`,
+                      position: 'relative',
+                      zIndex: 10,
+                      padding: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: '14px',
+                        height: '14px',
+                        border: `1.5px solid ${item.dietary === 'VEG' ? '#22C55E' : '#EF4444'}`,
+                        borderRadius: '3px',
+                        backgroundColor: 'rgba(8, 8, 8, 0.75)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: '6px',
+                          height: '6px',
+                          borderRadius: '50%',
+                          backgroundColor: item.dietary === 'VEG' ? '#22C55E' : '#EF4444',
+                        }}
+                      />
+                    </span>
+
+                    <span
+                      style={{
+                        backgroundColor: 'rgba(8, 8, 8, 0.85)',
+                        border: '1px solid rgba(251, 195, 36, 0.45)',
+                        borderRadius: '999px',
+                        padding: '2px 8px',
+                        fontSize: '11px',
+                        fontWeight: 800,
+                        color: '#FBC324',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
+                      }}
+                    >
+                      ₹{item.price}
+                    </span>
+                  </div>
+
+                  {/* Center Dish Presentation with Ambient Gold Aura */}
+                  <div
+                    style={{
+                      position: 'relative',
+                      zIndex: 8,
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      padding: '20px',
+                      padding: '0 12px',
                     }}
                   >
-                    {/* Dark Proportioned Plate Silhouette Placeholder */}
                     <div
                       style={{
-                        width: '75%',
-                        height: '55%',
-                        borderRadius: '16px',
-                        backgroundColor: '#100F0E',
-                        border: '1px dashed rgba(251, 195, 36, 0.25)',
+                        width: '94px',
+                        height: '94px',
+                        borderRadius: '50%',
+                        backgroundColor: '#121110',
+                        backgroundImage:
+                          'radial-gradient(circle at 45% 40%, rgba(251, 195, 36, 0.16) 0%, transparent 70%), linear-gradient(180deg, #181715 0%, #0D0C0B 100%)',
+                        border: '1.5px solid rgba(251, 195, 36, 0.35)',
+                        boxShadow: 'inset 0 2px 10px rgba(0, 0, 0, 0.8), 0 0 22px rgba(251, 195, 36, 0.18)',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        gap: '6px',
-                        color: '#9C8C7E',
-                        marginBottom: '32px',
+                        gap: '4px',
+                        marginBottom: '8px',
                       }}
                     >
-                      <span style={{ fontSize: '11px', fontWeight: 700, color: '#FAF7F2' }}>
-                        {item.label}
+                      <Sparkles size={18} style={{ color: '#FBC324' }} />
+                      <span
+                        style={{
+                          fontSize: '8px',
+                          fontWeight: 800,
+                          letterSpacing: '0.1em',
+                          color: '#FAF7F2',
+                          textTransform: 'uppercase',
+                        }}
+                      >
+                        LM SPECIAL
                       </span>
-                      <span style={{ fontSize: '9px', color: '#FBC324', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                        ₹{item.price} • {item.category}
-                      </span>
+                    </div>
+
+                    <div
+                      style={{
+                        fontFamily: '"Playfair Display", Georgia, serif',
+                        fontSize: '15px',
+                        fontWeight: 700,
+                        color: '#FAF7F2',
+                        textAlign: 'center',
+                        lineHeight: 1.2,
+                        marginBottom: '2px',
+                      }}
+                    >
+                      {item.label}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: '10px',
+                        color: '#9C8C7E',
+                        textAlign: 'center',
+                        letterSpacing: '0.02em',
+                      }}
+                    >
+                      {item.tagline}
                     </div>
                   </div>
 
@@ -930,7 +1160,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                   <div
                     style={{
                       position: 'relative',
-                      zIndex: 2,
+                      zIndex: 10,
                       padding: '12px',
                       display: 'flex',
                       justifyContent: 'center',
@@ -938,7 +1168,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                   >
                     <span
                       style={{
-                        backgroundColor: isActive ? 'rgba(251, 195, 36, 0.95)' : 'rgba(25, 24, 22, 0.85)',
+                        backgroundColor: isActive ? '#FBC324' : 'rgba(25, 24, 22, 0.85)',
                         color: isActive ? '#080808' : '#FAF7F2',
                         border: '1px solid ' + (isActive ? '#FBC324' : 'rgba(255, 255, 255, 0.1)'),
                         fontSize: '10px',
@@ -947,7 +1177,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                         textTransform: 'uppercase',
                         padding: '4px 12px',
                         borderRadius: '999px',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+                        boxShadow: isActive ? '0 2px 12px rgba(251, 195, 36, 0.35)' : '0 2px 8px rgba(0, 0, 0, 0.4)',
+                        transition: 'all 0.2s ease',
                       }}
                     >
                       {item.category}
@@ -993,8 +1224,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
         {/* Slide Indicator Dots */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          {HERO_ITEMS.map((item, idx) => {
-            const isCurrent = idx === activeIndex;
+          {heroItems.map((item, idx) => {
+            const isCurrent = idx === safeActiveIndex;
             return (
               <button
                 key={item.id}

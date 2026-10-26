@@ -7,7 +7,7 @@ interface CompactHeaderProps {
 }
 
 export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) => {
-  const { customer, tableNumber, cartCount, openAuthModal, signOut, openCart } = useDineIn();
+  const { customer, tableNumber, cartCount, openAuthModal, signOut, openCart, isVegOnly, toggleVegOnly } = useDineIn();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   return (
@@ -75,8 +75,82 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
         </div>
       </div>
 
-      {/* Right Controls: Search, Account Pill, Cart Icon */}
+      {/* Right Controls: Veg Only Toggle, Search, Account Pill, Cart Icon */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* Veg Only Toggle */}
+        <button
+          onClick={toggleVegOnly}
+          aria-pressed={isVegOnly}
+          aria-label={isVegOnly ? 'Show all items' : 'Filter vegetarian only'}
+          className="lm-interactive-btn"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '5px 10px',
+            borderRadius: '999px',
+            backgroundColor: isVegOnly ? 'rgba(34, 197, 94, 0.16)' : '#191816',
+            border: isVegOnly ? '1px solid #22C55E' : '1px solid rgba(255, 255, 255, 0.12)',
+            boxShadow: isVegOnly ? '0 0 10px rgba(34, 197, 94, 0.28)' : 'none',
+            color: isVegOnly ? '#22C55E' : '#9C8C7E',
+            fontSize: '11px',
+            fontWeight: 700,
+            cursor: 'pointer',
+            transition: 'all 0.2s cubic-bezier(0.22, 1, 0.36, 1)',
+            userSelect: 'none',
+          }}
+        >
+          <span
+            style={{
+              width: '12px',
+              height: '12px',
+              border: `1.5px solid ${isVegOnly ? '#22C55E' : '#6B6258'}`,
+              borderRadius: '2px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            <span
+              style={{
+                width: '5px',
+                height: '5px',
+                borderRadius: '50%',
+                backgroundColor: isVegOnly ? '#22C55E' : '#6B6258',
+                transition: 'background-color 0.2s ease',
+              }}
+            />
+          </span>
+          <span style={{ letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+            Veg
+          </span>
+          <span
+            style={{
+              width: '24px',
+              height: '13px',
+              borderRadius: '999px',
+              backgroundColor: isVegOnly ? '#22C55E' : 'rgba(255, 255, 255, 0.15)',
+              position: 'relative',
+              display: 'inline-block',
+              transition: 'background-color 0.2s ease',
+            }}
+          >
+            <span
+              style={{
+                position: 'absolute',
+                top: '1.5px',
+                left: isVegOnly ? '12px' : '1.5px',
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                backgroundColor: isVegOnly ? '#080808' : '#FAF7F2',
+                transition: 'left 0.2s cubic-bezier(0.22, 1, 0.36, 1)',
+              }}
+            />
+          </span>
+        </button>
+
         {/* Search Icon */}
         <button
           onClick={onSearchClick}

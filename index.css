@@ -13518,54 +13518,51 @@ html, body {
 .lm-surface-reflection {
   position: relative;
   overflow: hidden;
-  isolation: isolate;
 }
 
 .lm-surface-reflection::before {
   content: '';
   position: absolute;
-  top: -25%;
-  left: -25%;
-  width: 150%;
-  height: 150%;
+  top: -30%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
   background: linear-gradient(
-    118deg,
+    115deg,
     transparent 0%,
-    transparent 32%,
-    rgba(251, 195, 36, 0.04) 38%,
-    rgba(245, 158, 11, 0.18) 44%,
-    rgba(251, 195, 36, 0.55) 48%,
-    rgba(255, 248, 220, 0.78) 50%,   /* Soft, incandescent warm golden core */
-    rgba(251, 195, 36, 0.55) 52%,
-    rgba(245, 158, 11, 0.18) 56%,
-    rgba(251, 195, 36, 0.04) 62%,
-    transparent 68%,
+    transparent 30%,
+    rgba(251, 195, 36, 0.12) 36%,
+    rgba(251, 195, 36, 0.55) 44%,
+    rgba(255, 252, 235, 0.90) 49%,   /* Radiant warm golden core */
+    rgba(251, 195, 36, 0.55) 54%,
+    rgba(251, 195, 36, 0.12) 62%,
+    transparent 70%,
     transparent 100%
   );
-  transform: translateX(-160%) skewX(-24deg);
+  transform: translateX(-160%) skewX(-22deg);
   pointer-events: none;
   border-radius: inherit;
-  z-index: 2;
+  z-index: 4;
   mix-blend-mode: screen;
-  filter: blur(7px);
-  animation: lmReflectionSweep 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  filter: blur(5px);
+  animation: lmReflectionSweep 4.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   will-change: transform, opacity;
 }
 
 @keyframes lmReflectionSweep {
   0% {
-    transform: translateX(-160%) skewX(-24deg);
+    transform: translateX(-160%) skewX(-22deg);
     opacity: 0;
   }
-  3% {
+  4% {
     opacity: 1;
   }
-  42% {
-    transform: translateX(160%) skewX(-24deg);
+  44% {
+    transform: translateX(160%) skewX(-22deg);
     opacity: 1;
   }
-  48%, 100% {
-    transform: translateX(160%) skewX(-24deg);
+  50%, 100% {
+    transform: translateX(160%) skewX(-22deg);
     opacity: 0;
   }
 }
@@ -13583,6 +13580,18 @@ html, body {
   animation-delay: 4.2s;
 }
 
+/* Pulse animation for active card lighting */
+@keyframes lmActivePulse {
+  0%, 100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
 /* 2. Premium Traveling Border Beam */
 .lm-border-beam {
   position: relative;
@@ -13595,14 +13604,15 @@ html, body {
   inset: -1.5px;
   border-radius: inherit;
   padding: 1.5px;
+  box-sizing: border-box;
   background: conic-gradient(
     from var(--lm-beam-angle, 0deg) at 50% 50%,
     transparent 0deg,
-    transparent 200deg,
-    rgba(245, 158, 11, 0.20) 240deg,
-    rgba(251, 195, 36, 0.70) 290deg,
+    transparent 190deg,
+    rgba(245, 158, 11, 0.25) 230deg,
+    rgba(251, 195, 36, 0.85) 290deg,
     #FFC21A 330deg,
-    #FFF9E6 350deg,                   /* Crisp warm-white-gold beam head */
+    #FFFFFF 350deg,
     #FBC324 358deg,
     transparent 360deg
   );
@@ -13611,7 +13621,7 @@ html, body {
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
-  animation: lmBorderSpin 6.5s linear infinite;
+  animation: lmBorderSpin 5.5s linear infinite;
   z-index: 3;
   will-change: --lm-beam-angle;
 }

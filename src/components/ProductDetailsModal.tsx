@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Product, ProductVariant, ProductAddon } from '../types';
 import { useDineIn } from '../contexts/DineInContext';
-import { X, Plus, Minus, Check } from 'lucide-react';
+import { X, Plus, Minus, Check, Sparkles } from 'lucide-react';
 
 interface ProductDetailsModalProps {
   product: Product | null;
@@ -19,22 +19,64 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   onClose,
 }) => {
   const { addToCart } = useDineIn();
+
+  // Dual state for exit animation: keeps component mounted while playing exit transition
+  const [activeProduct, setActiveProduct] = useState<Product | null>(product);
+  const [isClosing, setIsClosing] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
   const [selectedAddons, setSelectedAddons] = useState<ProductAddon[]>([]);
   const [instructions, setInstructions] = useState('');
   const [quantity, setQuantity] = useState(1);
 
+  // Trigger smooth closing animation
+  const triggerClose = useCallback(() => {
+    if (isClosing) return;
+    setIsClosing(true);
+    setIsVisible(false);
+    const timer = setTimeout(() => {
+      setIsClosing(false);
+      setActiveProduct(null);
+      onClose();
+    }, 280);
+    return () => clearTimeout(timer);
+  }, [isClosing, onClose]);
+
+  // Handle incoming product changes
   useEffect(() => {
     if (product) {
+      setActiveProduct(product);
+      setIsClosing(false);
       setSelectedVariant(product.variants[0] || { name: 'Regular', price_paise: 19900 });
       setSelectedAddons([]);
       setInstructions('');
       setQuantity(1);
+
+      // Trigger entrance transition on next animation frame
+      const frame = requestAnimationFrame(() => {
+        setIsVisible(true);
+      });
+      return () => cancelAnimationFrame(frame);
+    } else if (activeProduct && !isClosing) {
+      triggerClose();
     }
   }, [product]);
 
-  if (!product) return null;
+  // Escape key listener for accessible dismissal with animation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && activeProduct && !isClosing) {
+        triggerClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeProduct, isClosing, triggerClose]);
 
+  if (!activeProduct) return null;
+
+  const currentProduct = activeProduct;
   const basePrice = selectedVariant ? Math.round(selectedVariant.price_paise / 100) : 0;
   const addonsTotal = selectedAddons.reduce((sum, a) => sum + a.price, 0);
   const unitPrice = basePrice + addonsTotal;
@@ -49,23 +91,30 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   };
 
   const handleAdd = () => {
-    addToCart(product, selectedVariant || undefined, selectedAddons, instructions, quantity);
-    onClose();
+    if (isClosing) return;
+    addToCart(currentProduct, selectedVariant || undefined, selectedAddons, instructions, quantity);
+    triggerClose();
   };
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-product-title"
       style={{
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        backgroundColor: 'rgba(0, 0, 0, 0.82)',
-        backdropFilter: 'blur(8px)',
+        backgroundColor: isVisible ? 'rgba(0, 0, 0, 0.82)' : 'rgba(0, 0, 0, 0)',
+        backdropFilter: isVisible ? 'blur(8px)' : 'blur(0px)',
+        WebkitBackdropFilter: isVisible ? 'blur(8px)' : 'blur(0px)',
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent: 'center',
+        transition: 'background-color 0.28s ease, backdrop-filter 0.28s ease, -webkit-backdrop-filter 0.28s ease',
+        opacity: isVisible ? 1 : 0,
       }}
-      onClick={onClose}
+      onClick={triggerClose}
     >
       <div
         style={{
@@ -73,22 +122,30 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           maxWidth: '520px',
           maxHeight: '88vh',
           backgroundColor: '#12100E',
-          borderTopLeftRadius: '22px',
-          borderTopRightRadius: '22px',
-          border: '1px solid rgba(251, 195, 36, 0.25)',
+          borderTopLeftRadius: '24px',
+          borderTopRightRadius: '24px',
+          border: '1px solid ' + (isVisible ? 'rgba(251, 195, 36, 0.45)' : 'rgba(251, 195, 36, 0.1)'),
           borderBottom: 'none',
-          boxShadow: '0 -10px 40px rgba(0, 0, 0, 0.9)',
+          boxShadow: isVisible
+            ? '0 -12px 48px rgba(0, 0, 0, 0.95), 0 -2px 28px rgba(251, 195, 36, 0.24)'
+            : '0 0 0 rgba(0, 0, 0, 0)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
+          transform: isVisible ? 'translateY(0%) scale(1)' : 'translateY(100%) scale(0.97)',
+          transition:
+            'transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.24s ease, border-color 0.28s ease, box-shadow 0.28s ease',
+          willChange: 'transform, opacity',
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Top Header / Image Placeholder */}
+        {/* Top Header Surface with Yellow Accent Glow */}
         <div
           style={{
-            height: '160px',
+            height: '150px',
             backgroundColor: '#191816',
+            backgroundImage:
+              'radial-gradient(circle at 50% 30%, rgba(251, 195, 36, 0.12) 0%, transparent 70%), linear-gradient(180deg, rgba(25, 24, 22, 0.6) 0%, rgba(18, 16, 14, 0.95) 100%)',
             position: 'relative',
             display: 'flex',
             alignItems: 'center',
@@ -96,48 +153,54 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
           }}
         >
-          {/* Close button */}
+          {/* Close button with yellow hover feedback */}
           <button
-            onClick={onClose}
-            aria-label="Close"
+            onClick={triggerClose}
+            aria-label="Close details"
+            className="lm-interactive-btn"
             style={{
               position: 'absolute',
               top: '14px',
               right: '14px',
-              width: '32px',
-              height: '32px',
+              width: '34px',
+              height: '34px',
               borderRadius: '50%',
-              backgroundColor: 'rgba(0, 0, 0, 0.6)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              backgroundColor: 'rgba(0, 0, 0, 0.65)',
+              border: '1px solid rgba(255, 255, 255, 0.14)',
               color: '#FAF7F2',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
               zIndex: 10,
+              transition: 'border-color 0.15s ease, transform 0.15s ease',
             }}
           >
             <X size={16} />
           </button>
 
-          {/* Plate Silhouette placeholder */}
+          {/* Plate Silhouette Header Brand Ornament */}
           <div
             style={{
-              width: '80px',
-              height: '80px',
+              width: '84px',
+              height: '84px',
               borderRadius: '50%',
-              backgroundColor: '#12100E',
-              border: '1.5px dashed rgba(251, 195, 36, 0.3)',
+              backgroundColor: '#100F0E',
+              border: '1.5px solid rgba(251, 195, 36, 0.35)',
+              boxShadow: '0 0 20px rgba(251, 195, 36, 0.15)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
+              gap: '2px',
               color: '#FBC324',
-              fontWeight: 800,
-              fontSize: '12px',
+              userSelect: 'none',
             }}
           >
-            <span>LM CAFÉ</span>
+            <Sparkles size={16} style={{ color: '#FBC324' }} />
+            <span style={{ fontSize: '9px', fontWeight: 800, letterSpacing: '0.08em', color: '#FAF7F2' }}>
+              LM CAFÉ
+            </span>
           </div>
         </div>
 
@@ -147,14 +210,27 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
             <div
               style={{
-                width: '10px',
-                height: '10px',
-                borderRadius: '50%',
-                backgroundColor: product.dietary_classification === 'VEG' ? '#22C55E' : '#EF4444',
-                boxShadow: '0 0 6px rgba(0,0,0,0.6)',
+                width: '14px',
+                height: '14px',
+                border: `1.5px solid ${currentProduct.dietary_classification === 'VEG' ? '#22C55E' : '#EF4444'}`,
+                borderRadius: '3px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
               }}
-            />
+            >
+              <div
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  backgroundColor: currentProduct.dietary_classification === 'VEG' ? '#22C55E' : '#EF4444',
+                }}
+              />
+            </div>
             <h2
+              id="modal-product-title"
               style={{
                 fontFamily: '"Playfair Display", Georgia, serif',
                 fontSize: '22px',
@@ -163,45 +239,29 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 margin: 0,
               }}
             >
-              {product.name}
+              {currentProduct.name}
             </h2>
           </div>
 
           <p style={{ fontSize: '13px', color: '#9C8C7E', lineHeight: 1.5, margin: '0 0 18px 0' }}>
-            {product.description}
+            {currentProduct.description}
           </p>
 
-          {product.verification_flag && (
-            <div
-              style={{
-                backgroundColor: 'rgba(245, 158, 11, 0.12)',
-                border: '1px solid rgba(245, 158, 11, 0.35)',
-                borderRadius: '8px',
-                padding: '10px 14px',
-                fontSize: '12px',
-                color: '#FDE68A',
-                marginBottom: '16px',
-                lineHeight: 1.4,
-              }}
-            >
-              ℹ️ <strong>Menu Source Note:</strong> {product.verification_flag}
-            </div>
-          )}
-
           {/* Variants Selector if more than 1 */}
-          {product.variants.length > 1 && (
+          {currentProduct.variants.length > 1 && (
             <div style={{ marginBottom: '18px' }}>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#FAF7F2', marginBottom: '8px' }}>
                 Select Size / Portion:
               </label>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {product.variants.map((v) => {
+                {currentProduct.variants.map((v) => {
                   const isSelected = selectedVariant?.name === v.name;
                   const vPrice = Math.round(v.price_paise / 100);
                   return (
                     <button
                       key={v.name}
                       onClick={() => setSelectedVariant(v)}
+                      className="lm-interactive-btn"
                       style={{
                         padding: '8px 14px',
                         borderRadius: '8px',
@@ -211,6 +271,8 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                         fontSize: '12px',
                         fontWeight: isSelected ? 800 : 500,
                         cursor: 'pointer',
+                        boxShadow: isSelected ? '0 0 12px rgba(251, 195, 36, 0.2)' : 'none',
+                        transition: 'all 0.15s ease',
                       }}
                     >
                       {v.name} (₹{vPrice})
@@ -233,15 +295,18 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                   <div
                     key={addon.id}
                     onClick={() => toggleAddon(addon)}
+                    className="lm-interactive-btn"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       backgroundColor: '#191816',
-                      border: '1px solid ' + (isChecked ? 'rgba(251, 195, 36, 0.4)' : 'rgba(255, 255, 255, 0.06)'),
+                      border: '1px solid ' + (isChecked ? 'rgba(251, 195, 36, 0.45)' : 'rgba(255, 255, 255, 0.06)'),
                       borderRadius: '8px',
                       padding: '10px 12px',
                       cursor: 'pointer',
+                      boxShadow: isChecked ? '0 0 10px rgba(251, 195, 36, 0.12)' : 'none',
+                      transition: 'all 0.15s ease',
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -370,7 +435,8 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              boxShadow: '0 4px 16px rgba(251, 195, 36, 0.25)',
+              boxShadow: '0 4px 16px rgba(251, 195, 36, 0.28)',
+              transition: 'all 0.15s ease',
             }}
           >
             <span>ADD TO ORDER</span>

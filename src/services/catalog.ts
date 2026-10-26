@@ -92,9 +92,9 @@ export function filterProducts(
 
     // 3. Search query
     if (query) {
-      const matchName = p.name.toLowerCase().includes(query);
-      const matchDesc = p.description.toLowerCase().includes(query);
-      const matchCat = p.category.toLowerCase().includes(query);
+      const matchName = (p.name || '').toLowerCase().includes(query);
+      const matchDesc = (p.description || '').toLowerCase().includes(query);
+      const matchCat = (p.category || '').toLowerCase().includes(query);
       if (!matchName && !matchDesc && !matchCat) return false;
     }
 

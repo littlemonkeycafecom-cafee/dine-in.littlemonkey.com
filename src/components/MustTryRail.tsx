@@ -10,7 +10,7 @@ interface MustTryRailProps {
 }
 
 export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductClick }) => {
-  const { cart, addToCart, updateQuantity } = useDineIn();
+  const { cart, addToCart, updateQuantity, isVegOnly } = useDineIn();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
@@ -25,15 +25,24 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
     }
   };
 
-  if (!products || products.length === 0) return null;
+  const displayProducts = isVegOnly
+    ? products.filter((p) => p.dietary_classification === 'VEG')
+    : products;
+
+  if (!displayProducts || displayProducts.length === 0) return null;
 
   return (
     <section className="must-try-section">
       {/* Header */}
-      <div className="must-try-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Sparkles size={18} style={{ color: '#FBC324' }} />
-          <h2 className="must-try-editorial-heading">Must Try Specialities</h2>
+      <div className="must-try-header" style={{ marginBottom: '14px' }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Sparkles size={18} style={{ color: '#FBC324' }} />
+            <h2 className="must-try-editorial-heading">Must Try Specialities</h2>
+          </div>
+          <p style={{ margin: '3px 0 0 26px', fontSize: '12px', color: '#9C8C7E' }}>
+            Chef's signature handcrafted recommendations
+          </p>
         </div>
 
         {/* Scroll Arrows */}
@@ -68,7 +77,7 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
           WebkitOverflowScrolling: 'touch',
         }}
       >
-        {products.map((product, index) => {
+        {displayProducts.map((product, index) => {
           const inCartItem = cart.find((item) => item.product.slug === product.slug);
           const price = getBasePrice(product);
           const delayClass = index % 3 === 0 ? '' : index % 3 === 1 ? 'lm-reflection-delay-1' : 'lm-reflection-delay-2';
@@ -79,42 +88,61 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
               className={`must-try-editorial-card lm-surface-reflection ${delayClass} ${inCartItem ? 'in-cart' : ''}`}
               onClick={() => onProductClick(product)}
             >
-              {/* Image Container Placeholder */}
+              {/* Image Container */}
               <div className="must-try-photo-container" style={{ position: 'relative', zIndex: 3 }}>
                 <div
                   style={{
                     width: '100%',
                     height: '100%',
                     backgroundColor: '#12100E',
+                    backgroundImage:
+                      'radial-gradient(circle at 50% 40%, rgba(251, 195, 36, 0.12) 0%, transparent 70%), linear-gradient(180deg, #181715 0%, #0D0C0B 100%)',
                     border: '1px solid rgba(255, 255, 255, 0.08)',
-                    borderRadius: '8px',
+                    borderRadius: '10px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
                     padding: '8px',
                     textAlign: 'center',
+                    position: 'relative',
                   }}
                 >
                   <div
                     style={{
-                      width: '8px',
-                      height: '8px',
-                      borderRadius: '50%',
-                      backgroundColor: product.dietary_classification === 'VEG' ? '#22C55E' : '#EF4444',
-                      marginBottom: '6px',
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: '10px',
-                      fontWeight: 700,
-                      color: '#FBC324',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
+                      position: 'absolute',
+                      top: '6px',
+                      left: '6px',
+                      width: '12px',
+                      height: '12px',
+                      border: `1.5px solid ${product.dietary_classification === 'VEG' ? '#22C55E' : '#EF4444'}`,
+                      borderRadius: '2.5px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'rgba(0, 0, 0, 0.65)',
                     }}
                   >
-                    Must Try
+                    <div
+                      style={{
+                        width: '5px',
+                        height: '5px',
+                        borderRadius: '50%',
+                        backgroundColor: product.dietary_classification === 'VEG' ? '#22C55E' : '#EF4444',
+                      }}
+                    />
+                  </div>
+                  <Sparkles size={20} style={{ color: '#FBC324', opacity: 0.9, marginBottom: '4px' }} />
+                  <span
+                    style={{
+                      fontSize: '9px',
+                      fontWeight: 800,
+                      color: '#FBC324',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.06em',
+                    }}
+                  >
+                    MUST TRY
                   </span>
                 </div>
               </div>

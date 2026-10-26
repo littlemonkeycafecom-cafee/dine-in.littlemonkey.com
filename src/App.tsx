@@ -84,6 +84,7 @@ const DiningAppContent: React.FC = () => {
           onExploreClick={handleExploreClick}
           selectedCategoryId={selectedCategoryId}
           onSelectCategory={handleSelectCategory}
+          onSearchClick={() => setIsSearchOpen(true)}
         />
 
         {/* 3B. Must Try Product Rail (Section 9) */}

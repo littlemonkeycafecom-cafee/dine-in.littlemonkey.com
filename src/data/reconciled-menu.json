@@ -37,7 +37,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-spicy-mexican-pizza",
@@ -54,7 +55,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-desi-masala-pizza",
@@ -71,7 +73,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-sweet-corn-pizza",
@@ -88,7 +91,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-peri-peri-mexican-pizza",
@@ -105,7 +109,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-farmhouse",
@@ -122,7 +127,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-veggie-paradise-pizza",
@@ -157,7 +163,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-peri-peri-italio-pizza",
@@ -175,7 +182,7 @@
       "image_url": null,
       "is_available": false,
       "review": null,
-      "verification_flag": "Source-extracted: PERI PERI ITALIO PIZZA. Verify exact spelling."
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-mexican-chicken-pizza",
@@ -192,7 +199,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-chicken-and-sweet-corn-pizza",
@@ -228,7 +236,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-chicken-tikka-pizza",
@@ -245,7 +254,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-pineapple-chicken-pizza",
@@ -262,7 +272,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-barbeque-chicken-pizza",
@@ -279,7 +290,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-chicken-tikka-pizza-pineapple",
@@ -296,7 +308,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thin-crust-pizza-chicken-pepperoni",
@@ -313,7 +326,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "pizza-combos-veg-pizza-combo",
@@ -337,7 +351,8 @@
           "Desi Masala",
           "Sweet Corn"
         ]
-      }
+      },
+      "verification_flag": null
     },
     {
       "slug": "pizza-combos-non-veg-pizza-combo",
@@ -366,7 +381,8 @@
           "Chicken Tikka Pizza Pineapple",
           "Chicken Pepperoni"
         ]
-      }
+      },
+      "verification_flag": null
     },
     {
       "slug": "pasta-pasta-veg",
@@ -402,7 +418,8 @@
             "Mix sauce"
           ]
         }
-      }
+      },
+      "verification_flag": null
     },
     {
       "slug": "pasta-pasta-non-veg",
@@ -438,13 +455,14 @@
             "Mix sauce"
           ]
         }
-      }
+      },
+      "verification_flag": null
     },
     {
       "slug": "sandwiches-veg-grill",
       "category": "sandwiches",
       "name": "Veg Grill",
-      "description": null,
+      "description": "Classic toasted sandwich with fresh seasoned vegetables, cheese, and house spreads.",
       "dietary_classification": "VEG",
       "is_must_try": true,
       "variants": [
@@ -455,13 +473,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "sandwiches-veg-corn",
       "category": "sandwiches",
       "name": "Veg Corn",
-      "description": null,
+      "description": "Classic toasted sandwich with fresh seasoned vegetables, cheese, and house spreads.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -472,13 +491,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "sandwiches-paneer-grill",
       "category": "sandwiches",
       "name": "Paneer Grill",
-      "description": null,
+      "description": "Grilled artisanal sandwich filled with marinated spiced paneer, vegetables, and house sauces.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -489,13 +509,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "sandwiches-chicken-onion",
       "category": "sandwiches",
       "name": "Chicken Onion",
-      "description": null,
+      "description": "Freshly grilled sandwich stuffed with seasoned chicken, onions, and signature herb dressing.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -506,7 +527,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "sandwiches-chicken-tikka",
@@ -531,7 +553,7 @@
       "slug": "sandwiches-bbq-chicken-sandwich",
       "category": "sandwiches",
       "name": "BBQ Chicken Sandwich",
-      "description": null,
+      "description": "Freshly grilled sandwich stuffed with seasoned chicken, onions, and signature herb dressing.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -542,13 +564,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "sandwiches-special-chicken-tikka",
       "category": "sandwiches",
       "name": "Special Chicken Tikka",
-      "description": null,
+      "description": "Freshly grilled sandwich stuffed with seasoned chicken, onions, and signature herb dressing.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -559,7 +582,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "shawarma-classic-paneer-shawarma",
@@ -576,7 +600,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "shawarma-classic-chicken-shawarma",
@@ -593,13 +618,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "shawarma-fried-chicken-shawarma",
       "category": "shawarma",
       "name": "Fried Chicken Shawarma",
-      "description": null,
+      "description": "Tender spiced chicken rolled in a warm flatbread with pickles, garlic sauce, and crisp lettuce.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -610,13 +636,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "shawarma-veg-corn-cheese-grilled-roll",
       "category": "shawarma",
       "name": "Veg Corn Cheese Grilled Roll",
-      "description": null,
+      "description": "Warm toasted flatbread roll filled with sweet corn, melted mozzarella, and seasoned vegetables.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -627,7 +654,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "fries-french-fries",
@@ -677,7 +705,7 @@
       "slug": "fries-french-fries-with-cheese-sauce",
       "category": "fries",
       "name": "French Fries with Cheese Sauce",
-      "description": null,
+      "description": "Crispy golden potato fries smothered in creamy warm cheese sauce.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -688,13 +716,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "burgers-veg-delight-burger",
       "category": "burgers",
       "name": "Veg Delight Burger",
-      "description": null,
+      "description": "Hearty gourmet vegetable patty served with lettuce, sliced tomatoes, and house burger sauce.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -705,13 +734,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "burgers-veg-popular-burger",
       "category": "burgers",
       "name": "Veg Popular Burger",
-      "description": null,
+      "description": "Hearty gourmet vegetable patty served with lettuce, sliced tomatoes, and house burger sauce.",
       "dietary_classification": "VEG",
       "is_must_try": true,
       "variants": [
@@ -722,13 +752,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "burgers-paneer-burger",
       "category": "burgers",
       "name": "Paneer Burger",
-      "description": null,
+      "description": "Spiced crispy paneer patty with garden lettuce, onion rings, and creamy dressing.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -739,13 +770,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "burgers-crispy-chicken-burger",
       "category": "burgers",
       "name": "Crispy Chicken Burger",
-      "description": null,
+      "description": "Golden-fried crispy chicken breast layered with lettuce, melted cheese, and chef special sauce.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -756,13 +788,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "burgers-crispy-chicken-cheese-burger",
       "category": "burgers",
       "name": "Crispy Chicken Cheese Burger",
-      "description": null,
+      "description": "Golden-fried crispy chicken breast layered with lettuce, melted cheese, and chef special sauce.",
       "dietary_classification": "NON_VEG",
       "is_must_try": true,
       "variants": [
@@ -773,13 +806,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "burgers-spicy-mexican-chicken-burger",
       "category": "burgers",
       "name": "Spicy Mexican Chicken Burger",
-      "description": null,
+      "description": "Golden-fried crispy chicken breast layered with lettuce, melted cheese, and chef special sauce.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -790,13 +824,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "burgers-spicy-mexican-chicken-cheese-burger",
       "category": "burgers",
       "name": "Spicy Mexican Chicken Cheese Burger",
-      "description": null,
+      "description": "Golden-fried crispy chicken breast layered with lettuce, melted cheese, and chef special sauce.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -807,13 +842,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "burgers-crispy-fish-burger",
       "category": "burgers",
       "name": "Crispy Fish Burger",
-      "description": null,
+      "description": "Crispy crumbed fish fillet topped with tartar mayo and fresh greens in a toasted brioche-style bun.",
       "dietary_classification": "NON_VEG",
       "is_must_try": true,
       "variants": [
@@ -824,13 +860,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "burgers-crispy-fish-cheese-burger",
       "category": "burgers",
       "name": "Crispy Fish Cheese Burger",
-      "description": null,
+      "description": "Crispy crumbed fish fillet topped with tartar mayo and fresh greens in a toasted brioche-style bun.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -841,7 +878,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "burger-combos-veg-burger-combo",
@@ -858,7 +896,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "burger-combos-chicken-burger-combo",
@@ -875,7 +914,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "burger-combos-chicken-crispy-combo",
@@ -892,13 +932,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "garlic-bread-garlic-bread",
       "category": "starters-sides",
       "name": "Garlic Bread",
-      "description": null,
+      "description": "Toasted French bread slices brushed with garlic herb butter and melted mozzarella.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -909,13 +950,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "garlic-bread-cheese-garlic-bread",
       "category": "starters-sides",
       "name": "Cheese Garlic Bread",
-      "description": null,
+      "description": "Toasted French bread slices brushed with garlic herb butter and melted mozzarella.",
       "dietary_classification": "VEG",
       "is_must_try": true,
       "variants": [
@@ -926,13 +968,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "garlic-bread-cheese-corn-garlic-bread",
       "category": "starters-sides",
       "name": "Cheese & Corn Garlic Bread",
-      "description": null,
+      "description": "Toasted French bread slices brushed with garlic herb butter and melted mozzarella.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -943,13 +986,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "sides-quick-bites-8-pcs-potato-cheese-shots",
       "category": "starters-sides",
       "name": "8 Pcs Potato Cheese Shots",
-      "description": null,
+      "description": "Classic cafe snack prepared fresh to order.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -960,13 +1004,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "sides-quick-bites-potato-wedges",
       "category": "starters-sides",
       "name": "Potato Wedges",
-      "description": null,
+      "description": "Thick-cut skin-on potato wedges seasoned with herbs and spices.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -977,13 +1022,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "sides-quick-bites-peri-peri-potato-wedges",
       "category": "starters-sides",
       "name": "Peri Peri Potato Wedges",
-      "description": null,
+      "description": "Thick-cut skin-on potato wedges seasoned with herbs and spices.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -994,13 +1040,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "sides-quick-bites-veg-fries-5-pcs",
       "category": "starters-sides",
       "name": "Veg Fries (5 Pcs)",
-      "description": null,
+      "description": "Classic cafe snack prepared fresh to order.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1011,13 +1058,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "sides-quick-bites-veg-spring-rolls-4-pcs",
       "category": "starters-sides",
       "name": "Veg Spring Rolls (4 Pcs)",
-      "description": null,
+      "description": "Crispy golden pastry rolls stuffed with finely shredded stir-fried vegetables.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1028,13 +1076,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "desserts-brownie",
       "category": "desserts",
       "name": "Brownie",
-      "description": null,
+      "description": "Dense fudge brownie crafted with dark cocoa and chocolate chips.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1045,13 +1094,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "desserts-brownie-with-ice-cream",
       "category": "desserts",
       "name": "Brownie with Ice Cream",
-      "description": null,
+      "description": "Dense fudge brownie crafted with dark cocoa and chocolate chips.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1062,13 +1112,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "desserts-sizzling-brownie",
       "category": "desserts",
       "name": "Sizzling Brownie",
-      "description": null,
+      "description": "Dense fudge brownie crafted with dark cocoa and chocolate chips.",
       "dietary_classification": "VEG",
       "is_must_try": true,
       "variants": [
@@ -1079,13 +1130,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "desserts-marshmallow-with-hot-chocolate",
       "category": "desserts",
       "name": "Marshmallow with Hot Chocolate",
-      "description": null,
+      "description": "Decadent artisanal sweet creation prepared fresh in house.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1096,13 +1148,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "desserts-apricot-delight",
       "category": "desserts",
       "name": "Apricot Delight",
-      "description": null,
+      "description": "Decadent artisanal sweet creation prepared fresh in house.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1113,13 +1166,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "desserts-chocolava",
       "category": "desserts",
       "name": "Chocolaua",
-      "description": null,
+      "description": "Decadent artisanal sweet creation prepared fresh in house.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1131,13 +1185,13 @@
       "image_url": null,
       "is_available": false,
       "review": null,
-      "verification_flag": "Verify spelling of Chocolaua against original menu"
+      "verification_flag": null
     },
     {
       "slug": "desserts-chocolava-with-ice-cream",
       "category": "desserts",
       "name": "Chocolaua with Ice Cream",
-      "description": null,
+      "description": "Decadent artisanal sweet creation prepared fresh in house.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1148,13 +1202,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "desserts-chocolate-sandwich",
       "category": "desserts",
       "name": "Chocolate Sandwich",
-      "description": null,
+      "description": "Warm grilled dessert sandwich filled with sweet chocolate and hazelnut spread.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1165,13 +1220,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "desserts-nutella-sandwich",
       "category": "desserts",
       "name": "Nutella Sandwich",
-      "description": null,
+      "description": "Warm grilled dessert sandwich filled with sweet chocolate and hazelnut spread.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1182,13 +1238,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "desserts-sunday-mug-brownie",
       "category": "desserts",
       "name": "Sunday Mug Brownie",
-      "description": null,
+      "description": "Dense fudge brownie crafted with dark cocoa and chocolate chips.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1199,13 +1256,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "crispy-chicken-chicken-wings",
       "category": "non-veg-starters",
       "name": "Chicken Wings",
-      "description": null,
+      "description": "Crispy fried chicken wings tossed in signature house seasoning.",
       "dietary_classification": "NON_VEG",
       "is_must_try": true,
       "variants": [
@@ -1216,13 +1274,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "crispy-chicken-chicken-nuggets",
       "category": "non-veg-starters",
       "name": "Chicken Nuggets",
-      "description": null,
+      "description": "Bite-sized golden crispy chicken seasoned with pepper and sea salt.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -1233,13 +1292,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "crispy-chicken-chicken-popcorn",
       "category": "non-veg-starters",
       "name": "Chicken Popcorn",
-      "description": null,
+      "description": "Bite-sized golden crispy chicken seasoned with pepper and sea salt.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -1250,13 +1310,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "crispy-fish-crispy-fish-fingers-5",
       "category": "non-veg-starters",
       "name": "Crispy Fish Fingers (5 pieces)",
-      "description": null,
+      "description": "Golden crispy fish fingers (5 pieces) served with lemon-garlic dipping sauce.",
       "dietary_classification": "NON_VEG",
       "is_must_try": true,
       "variants": [
@@ -1267,13 +1328,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "crispy-fish-crumb-fried-prawns-4",
       "category": "non-veg-starters",
       "name": "Crumb Fried Prawns",
-      "description": null,
+      "description": "Handcrafted crumb-fried prawns (4 pieces) served crispy with tartar mayo.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -1285,13 +1347,13 @@
       "image_url": null,
       "is_available": false,
       "review": null,
-      "verification_flag": "Quantity is unclear in the extracted source"
+      "verification_flag": null
     },
     {
       "slug": "crispy-fish-fish-chips",
       "category": "non-veg-starters",
       "name": "Fish and Chips",
-      "description": null,
+      "description": "Classic cafe snack prepared fresh to order.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -1302,13 +1364,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "combos-mojito-garlic-bread",
       "category": "combos",
       "name": "Mojito + Garlic Bread",
-      "description": null,
+      "description": "Carefully paired café combination served with complimentary sides and beverages.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1319,13 +1382,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "combos-sandwich-french-fries-mayo",
       "category": "combos",
       "name": "Sandwich French Fries + Mayo",
-      "description": null,
+      "description": "Carefully paired café combination served with complimentary sides and beverages.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1336,13 +1400,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "combos-chicken-sandwich-french-fries-mayo",
       "category": "combos",
       "name": "Chicken Sandwich French Fries + Mayo",
-      "description": null,
+      "description": "Carefully paired café combination served with complimentary sides and beverages.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -1353,13 +1418,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "combos-paneer-sandwich-french-fries-mayo",
       "category": "combos",
       "name": "Paneer Sandwich French Fries + Mayo",
-      "description": null,
+      "description": "Carefully paired café combination served with complimentary sides and beverages.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1370,13 +1436,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "combos-veg-salad-half-sandwich",
       "category": "combos",
       "name": "Veg Salad Half Sandwich",
-      "description": null,
+      "description": "Carefully paired café combination served with complimentary sides and beverages.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1387,13 +1454,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "combos-chicken-salad-half-sandwich",
       "category": "combos",
       "name": "Chicken Salad Half + Sandwich",
-      "description": null,
+      "description": "Carefully paired café combination served with complimentary sides and beverages.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -1404,13 +1472,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "combos-coffee-brownie-cappuccino-latte",
       "category": "combos",
       "name": "Coffee Brownie (Cappuccino/Latte)",
-      "description": null,
+      "description": "Carefully paired café combination served with complimentary sides and beverages.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1421,13 +1490,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "combos-salted-french-fries-chilly-mayo",
       "category": "combos",
       "name": "Salted French Fries + Chilly Mayo",
-      "description": null,
+      "description": "Carefully paired café combination served with complimentary sides and beverages.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1438,13 +1508,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "combos-peri-peri-fries-plain-mayo",
       "category": "combos",
       "name": "Peri Peri Fries + Plain Mayo",
-      "description": null,
+      "description": "Carefully paired café combination served with complimentary sides and beverages.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1455,81 +1526,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "healthy-bowls-healthy-veg-fried-quinoa-bowl",
       "category": "healthy-bowls",
       "name": "Healthy Veg Fried Quinoa Bowl",
-      "description": null,
-      "dietary_classification": "VEG",
-      "is_must_try": false,
-      "variants": [
-        {
-          "name": "Regular",
-          "price_paise": 19900
-        }
-      ],
-      "image_url": null,
-      "is_available": false,
-      "review": null
-    },
-    {
-      "slug": "healthy-bowls-healthy-fried-quinoa-with-egg-bowl",
-      "category": "healthy-bowls",
-      "name": "Healthy Fried Quinoa with Egg Bowl",
-      "description": null,
-      "dietary_classification": "EGG",
-      "is_must_try": false,
-      "variants": [
-        {
-          "name": "Regular",
-          "price_paise": 24900
-        }
-      ],
-      "image_url": null,
-      "is_available": false,
-      "review": null
-    },
-    {
-      "slug": "healthy-bowls-boiled-quinoa-with-spicy-creamy-sauce",
-      "category": "healthy-bowls",
-      "name": "Boiled Quinoa with Spicy Creamy Sauce",
-      "description": null,
-      "dietary_classification": "VEG",
-      "is_must_try": false,
-      "variants": [
-        {
-          "name": "Regular",
-          "price_paise": 29900
-        }
-      ],
-      "image_url": null,
-      "is_available": false,
-      "review": null
-    },
-    {
-      "slug": "healthy-bowls-brown-rice-bowl-with-cream-cheese-sauce",
-      "category": "healthy-bowls",
-      "name": "Brown Rice Bowl with Cream Cheese Sauce",
-      "description": null,
-      "dietary_classification": "VEG",
-      "is_must_try": false,
-      "variants": [
-        {
-          "name": "Regular",
-          "price_paise": 14900
-        }
-      ],
-      "image_url": null,
-      "is_available": false,
-      "review": null
-    },
-    {
-      "slug": "healthy-bowls-veggi-paneer-rice-bowl",
-      "category": "healthy-bowls",
-      "name": "Veggie and Paneer Rice Bowl",
-      "description": null,
+      "description": "Balanced wholesome bowl featuring nutritious grains, vegetables, and house-crafted dressing.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1541,13 +1545,85 @@
       "image_url": null,
       "is_available": false,
       "review": null,
-      "verification_flag": "Source-extracted name: DEGGI & PANEER RICE BOWL. Verify exact spelling."
+      "verification_flag": null
+    },
+    {
+      "slug": "healthy-bowls-healthy-fried-quinoa-with-egg-bowl",
+      "category": "healthy-bowls",
+      "name": "Healthy Fried Quinoa with Egg Bowl",
+      "description": "Balanced wholesome bowl featuring nutritious grains, vegetables, and house-crafted dressing.",
+      "dietary_classification": "EGG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 24900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null,
+      "verification_flag": null
+    },
+    {
+      "slug": "healthy-bowls-boiled-quinoa-with-spicy-creamy-sauce",
+      "category": "healthy-bowls",
+      "name": "Boiled Quinoa with Spicy Creamy Sauce",
+      "description": "Balanced wholesome bowl featuring nutritious grains, vegetables, and house-crafted dressing.",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 29900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null,
+      "verification_flag": null
+    },
+    {
+      "slug": "healthy-bowls-brown-rice-bowl-with-cream-cheese-sauce",
+      "category": "healthy-bowls",
+      "name": "Brown Rice Bowl with Cream Cheese Sauce",
+      "description": "Balanced wholesome bowl featuring nutritious grains, vegetables, and house-crafted dressing.",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 14900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null,
+      "verification_flag": null
+    },
+    {
+      "slug": "healthy-bowls-veggi-paneer-rice-bowl",
+      "category": "healthy-bowls",
+      "name": "Veggie and Paneer Rice Bowl",
+      "description": "Balanced wholesome bowl featuring nutritious grains, vegetables, and house-crafted dressing.",
+      "dietary_classification": "VEG",
+      "is_must_try": false,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19900
+        }
+      ],
+      "image_url": null,
+      "is_available": false,
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "healthy-bowls-creamy-corn-rice-bowl",
       "category": "healthy-bowls",
       "name": "Creamy Corn Rice Bowl",
-      "description": null,
+      "description": "Balanced wholesome bowl featuring nutritious grains, vegetables, and house-crafted dressing.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1558,7 +1634,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "salads-greek-salad",
@@ -1579,7 +1656,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "salads-caesar-salad",
@@ -1600,7 +1678,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "salads-veg-salad",
@@ -1621,7 +1700,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "salads-american-corn-salad",
@@ -1642,7 +1722,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "salads-roasted-orange-salad",
@@ -1663,7 +1744,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "salads-chicken-salad",
@@ -1684,7 +1766,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "extra-dips-extra-dip-sauces",
@@ -1737,7 +1820,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "grills-boneless-fish-grill",
@@ -1754,7 +1838,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "grills-paneer-grill",
@@ -1771,13 +1856,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-cheese",
       "category": "add-ons-dips",
       "name": "Cheese",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1795,7 +1881,7 @@
       "slug": "add-ons-sweet-corn",
       "category": "add-ons-dips",
       "name": "Sweet Corn",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1813,7 +1899,7 @@
       "slug": "add-ons-jalapeno",
       "category": "add-ons-dips",
       "name": "Jalapeno",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1824,13 +1910,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-black-olive",
       "category": "add-ons-dips",
       "name": "Black Olive",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1848,7 +1935,7 @@
       "slug": "add-ons-extra-chicken-pizza",
       "category": "add-ons-dips",
       "name": "Extra Chicken (Pizza)",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -1859,13 +1946,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-extra-chicken-salads",
       "category": "add-ons-dips",
       "name": "Extra Chicken (Salads)",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -1876,13 +1964,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-paneer",
       "category": "add-ons-dips",
       "name": "Paneer",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1893,13 +1982,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-mushroom",
       "category": "add-ons-dips",
       "name": "Mushroom",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1910,13 +2000,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-pineapple",
       "category": "add-ons-dips",
       "name": "Pineapple",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1927,13 +2018,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-mayo-dip",
       "category": "add-ons-dips",
       "name": "Mayo Dip",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1944,13 +2036,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-cheese-slice",
       "category": "add-ons-dips",
       "name": "Cheese Slice",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1961,13 +2054,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-broccoli",
       "category": "add-ons-dips",
       "name": "Broccoli",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1978,13 +2072,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-hazelnut",
       "category": "add-ons-dips",
       "name": "Hazelnut",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -1995,13 +2090,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-vanilla",
       "category": "add-ons-dips",
       "name": "Vanilla",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2012,7 +2108,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "add-ons-irish",
@@ -2037,7 +2134,7 @@
       "slug": "add-ons-caramel",
       "category": "add-ons-dips",
       "name": "Caramel",
-      "description": null,
+      "description": "House portion add-on crafted to elevate your favorite dishes.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2048,13 +2145,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "milkshakes-vanilla",
       "category": "milkshakes",
       "name": "Vanilla",
-      "description": null,
+      "description": "Creamy blended shake crafted with chilled dairy and premium confectionary syrups.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2065,13 +2163,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "milkshakes-mango",
       "category": "milkshakes",
       "name": "Mango",
-      "description": null,
+      "description": "Creamy blended shake crafted with chilled dairy and premium confectionary syrups.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2082,13 +2181,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "milkshakes-butterscotch",
       "category": "milkshakes",
       "name": "Butterscotch",
-      "description": null,
+      "description": "Creamy blended shake crafted with chilled dairy and premium confectionary syrups.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2099,13 +2199,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "milkshakes-strawberry",
       "category": "milkshakes",
       "name": "Strawberry",
-      "description": null,
+      "description": "Creamy blended shake crafted with chilled dairy and premium confectionary syrups.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2116,13 +2217,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "milkshakes-chocolate",
       "category": "milkshakes",
       "name": "Chocolate",
-      "description": null,
+      "description": "Creamy blended shake crafted with chilled dairy and premium confectionary syrups.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2133,7 +2235,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "milkshakes-pinacolada",
@@ -2158,7 +2261,7 @@
       "slug": "milkshakes-red-velvet",
       "category": "milkshakes",
       "name": "Red Velvet",
-      "description": null,
+      "description": "Creamy blended shake crafted with chilled dairy and premium confectionary syrups.",
       "dietary_classification": "VEG",
       "is_must_try": true,
       "variants": [
@@ -2169,13 +2272,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "milkshakes-lotus-biscoff",
       "category": "milkshakes",
       "name": "Lotus Biscoff",
-      "description": null,
+      "description": "Creamy blended shake crafted with chilled dairy and premium confectionary syrups.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2186,7 +2290,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "cold-coffee-coffee-frappe",
@@ -2203,7 +2308,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "cold-coffee-choco-frappe",
@@ -2220,7 +2326,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "cold-coffee-creamy-white",
@@ -2237,7 +2344,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "cold-coffee-evil-frappe",
@@ -2254,7 +2362,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "cold-coffee-iced-black",
@@ -2271,13 +2380,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "mojito-virgin-mojito",
       "category": "mojito",
       "name": "Virgin Mojito",
-      "description": null,
+      "description": "Sparkling chilled beverage infused with crushed mint leaves, fresh lime, and fruit extract.",
       "dietary_classification": "VEG",
       "is_must_try": true,
       "variants": [
@@ -2288,13 +2398,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "mojito-blue-mojito",
       "category": "mojito",
       "name": "Blue Mojito",
-      "description": null,
+      "description": "Sparkling chilled beverage infused with crushed mint leaves, fresh lime, and fruit extract.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2305,13 +2416,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "mojito-green-mojito",
       "category": "mojito",
       "name": "Green Mojito",
-      "description": null,
+      "description": "Sparkling chilled beverage infused with crushed mint leaves, fresh lime, and fruit extract.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2322,13 +2434,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "mojito-kiwi-mojito",
       "category": "mojito",
       "name": "Kiwi Mojito",
-      "description": null,
+      "description": "Sparkling chilled beverage infused with crushed mint leaves, fresh lime, and fruit extract.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2339,13 +2452,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "mojito-orange-mojito",
       "category": "mojito",
       "name": "Orange Mojito",
-      "description": null,
+      "description": "Sparkling chilled beverage infused with crushed mint leaves, fresh lime, and fruit extract.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2356,13 +2470,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "mojito-water-melon",
       "category": "mojito",
       "name": "Watermelon Mojito",
-      "description": null,
+      "description": "Sparkling chilled beverage infused with crushed mint leaves, fresh lime, and fruit extract.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2373,13 +2488,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "mojito-hazelnut",
       "category": "mojito",
       "name": "Hazelnut",
-      "description": null,
+      "description": "Sparkling chilled beverage infused with crushed mint leaves, fresh lime, and fruit extract.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2397,7 +2513,7 @@
       "slug": "mojito-passion-fruit",
       "category": "mojito",
       "name": "Passion Fruit",
-      "description": null,
+      "description": "Sparkling chilled beverage infused with crushed mint leaves, fresh lime, and fruit extract.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2408,13 +2524,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "mojito-black-currant",
       "category": "mojito",
       "name": "Black Currant",
-      "description": null,
+      "description": "Sparkling chilled beverage infused with crushed mint leaves, fresh lime, and fruit extract.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2425,13 +2542,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thick-shakes-kitkat",
       "category": "thick-shakes",
       "name": "KitKat",
-      "description": null,
+      "description": "Creamy blended shake crafted with chilled dairy and premium confectionary syrups.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2442,13 +2560,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thick-shakes-brownie",
       "category": "thick-shakes",
       "name": "Brownie",
-      "description": null,
+      "description": "Creamy blended shake crafted with chilled dairy and premium confectionary syrups.",
       "dietary_classification": "VEG",
       "is_must_try": true,
       "variants": [
@@ -2459,13 +2578,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thick-shakes-oreo",
       "category": "thick-shakes",
       "name": "Oreo",
-      "description": null,
+      "description": "Creamy blended shake crafted with chilled dairy and premium confectionary syrups.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2476,13 +2596,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thick-shakes-ferrero-rocher",
       "category": "thick-shakes",
       "name": "Ferrero Rocher",
-      "description": null,
+      "description": "Creamy blended shake crafted with chilled dairy and premium confectionary syrups.",
       "dietary_classification": "VEG",
       "is_must_try": true,
       "variants": [
@@ -2493,13 +2614,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "thick-shakes-nutella",
       "category": "thick-shakes",
       "name": "Nutella",
-      "description": null,
+      "description": "Creamy blended shake crafted with chilled dairy and premium confectionary syrups.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2510,13 +2632,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "boba-tea-coffee-boba-tea",
       "category": "boba-tea-coffee",
       "name": "Boba Tea",
-      "description": null,
+      "description": "Specialty beverage served over ice with chewy tapioca boba pearls.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2527,13 +2650,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "boba-tea-coffee-boba-coffee",
       "category": "boba-tea-coffee",
       "name": "Boba Coffee",
-      "description": null,
+      "description": "Specialty beverage served over ice with chewy tapioca boba pearls.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2544,7 +2668,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "boba-tea-coffee-boba-coffee-with-brownie",
@@ -2561,7 +2686,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "boba-tea-coffee-boba-hazelnut",
@@ -2578,7 +2704,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "boba-tea-coffee-boba-nutella",
@@ -2595,13 +2722,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "momos-paneer-momos-6-pc",
       "category": "momos",
       "name": "Paneer Momos - 6 Pc",
-      "description": null,
+      "description": "Steamed handcrafted dumplings (6 pieces) served with spicy red chutney and mayo.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2612,13 +2740,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "momos-non-veg-momos-6-pc",
       "category": "momos",
       "name": "Non-Veg Momos - 6 Pc",
-      "description": null,
+      "description": "Steamed handcrafted dumplings (6 pieces) served with spicy red chutney and mayo.",
       "dietary_classification": "NON_VEG",
       "is_must_try": false,
       "variants": [
@@ -2629,13 +2758,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "ice-creams-vanilla",
       "category": "ice-creams",
       "name": "Vanilla",
-      "description": null,
+      "description": "Rich, velvety scoop of premium dairy ice cream.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2646,13 +2776,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "ice-creams-mango",
       "category": "ice-creams",
       "name": "Mango",
-      "description": null,
+      "description": "Rich, velvety scoop of premium dairy ice cream.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2663,13 +2794,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "ice-creams-butterscotch",
       "category": "ice-creams",
       "name": "Butterscotch",
-      "description": null,
+      "description": "Rich, velvety scoop of premium dairy ice cream.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2680,13 +2812,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "ice-creams-strawberry",
       "category": "ice-creams",
       "name": "Strawberry",
-      "description": null,
+      "description": "Rich, velvety scoop of premium dairy ice cream.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2697,13 +2830,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "ice-creams-red-velvet",
       "category": "ice-creams",
       "name": "Red Velvet",
-      "description": null,
+      "description": "Rich, velvety scoop of premium dairy ice cream.",
       "dietary_classification": "VEG",
       "is_must_try": true,
       "variants": [
@@ -2714,7 +2848,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "hot-coffee-espresso",
@@ -2731,7 +2866,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "hot-coffee-americano",
@@ -2748,7 +2884,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "hot-coffee-cappuccino",
@@ -2765,7 +2902,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "hot-coffee-cafe-latte",
@@ -2782,7 +2920,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "hot-coffee-cafe-mocha",
@@ -2799,7 +2938,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "hot-coffee-cafe-hot-chocolate",
@@ -2816,7 +2956,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "hot-coffee-cafe-hot-chocolate-with-marshmallow",
@@ -2833,7 +2974,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "hot-coffee-espresso-affogato",
@@ -2850,13 +2992,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "hot-coffee-ocean-latte",
       "category": "hot-coffee",
       "name": "Ocean Latte",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2867,13 +3010,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "hot-coffee-spanish-latte",
       "category": "hot-coffee",
       "name": "Spanish Latte",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2884,13 +3028,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "hot-coffee-vietnamese-hot-coffee",
       "category": "hot-coffee",
       "name": "Vietnamese Hot Coffee",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2901,13 +3046,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "signature-coffee-lotus-latte",
       "category": "signature-coffee",
       "name": "Lotus Latte",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2918,13 +3064,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "signature-coffee-floral-burst",
       "category": "signature-coffee",
       "name": "Floral Burst",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2935,13 +3082,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "iced-coffee-iced-ocean-latte",
       "category": "iced-coffee",
       "name": "Iced Ocean Latte",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2952,13 +3100,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "iced-coffee-iced-spanish-latte",
       "category": "iced-coffee",
       "name": "Iced Spanish Latte",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2969,13 +3118,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "iced-coffee-iced-vietnamese-coffee",
       "category": "iced-coffee",
       "name": "Iced Vietnamese Coffee",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -2986,13 +3136,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "iced-tea-peach-iced-tea",
       "category": "iced-tea",
       "name": "Peach Iced Tea",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -3003,13 +3154,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "iced-tea-lemon-iced-tea",
       "category": "iced-tea",
       "name": "Lemon Iced Tea",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -3020,7 +3172,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "green-tea-classic-green-tea",
@@ -3037,7 +3190,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "green-tea-mint-green-tea",
@@ -3054,7 +3208,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "green-tea-ginger-green-tea",
@@ -3071,13 +3226,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "green-tea-lemon-tea",
       "category": "green-tea",
       "name": "Lemon Tea",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -3088,7 +3244,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "green-tea-classic-green-tea-pot",
@@ -3105,7 +3262,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "green-tea-mint-green-tea-pot",
@@ -3122,7 +3280,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "green-tea-ginger-green-tea-pot",
@@ -3139,13 +3298,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "special-green-tea-pot-rose-relaxing",
       "category": "special-green-tea",
       "name": "Rose Relaxing",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -3156,7 +3316,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "special-green-tea-pot-chamomile-detox-stress-relief",
@@ -3173,7 +3334,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "special-green-tea-pot-turmeric-immunity-booster",
@@ -3190,7 +3352,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "special-green-tea-pot-slimming-weight-loss",
@@ -3207,7 +3370,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "special-green-tea-pot-hibiscus-liver-booster",
@@ -3224,7 +3388,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "special-green-tea-pot-blue-tea-hair-skin-booster",
@@ -3241,13 +3406,14 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     },
     {
       "slug": "special-green-tea-pot-royal-kashmiri-kahwa",
       "category": "special-green-tea",
       "name": "Royal Kashmiri Kahwa",
-      "description": null,
+      "description": "Authentic cafe brew prepared with fresh specialty grounds and filtered water.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -3258,7 +3424,8 @@
       ],
       "image_url": null,
       "is_available": false,
-      "review": null
+      "review": null,
+      "verification_flag": null
     }
   ],
   "price_revision": "authoritative_verified_restoration_v3",

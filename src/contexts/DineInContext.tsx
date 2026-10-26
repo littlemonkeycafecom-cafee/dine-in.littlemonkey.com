@@ -10,6 +10,9 @@ interface DineInContextType {
   isAuthModalOpen: boolean;
   isCartDrawerOpen: boolean;
   selectedProduct: Product | null;
+  isVegOnly: boolean;
+  setIsVegOnly: (value: boolean | ((prev: boolean) => boolean)) => void;
+  toggleVegOnly: () => void;
   addToCart: (
     product: Product,
     variant?: ProductVariant,
@@ -93,6 +96,11 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isVegOnly, setIsVegOnly] = useState<boolean>(false);
+
+  const toggleVegOnly = () => {
+    setIsVegOnly((prev) => !prev);
+  };
 
   // Sync cart to localStorage
   useEffect(() => {
@@ -210,6 +218,9 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         isAuthModalOpen,
         isCartDrawerOpen,
         selectedProduct,
+        isVegOnly,
+        setIsVegOnly,
+        toggleVegOnly,
         addToCart,
         updateQuantity,
         removeFromCart,
