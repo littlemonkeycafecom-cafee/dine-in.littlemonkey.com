@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DineInProvider, useDineIn } from './contexts/DineInContext';
+import { NotFoundPage } from './components/NotFoundPage';
 import { ALL_PRODUCTS, getMustTryProducts } from './services/catalog';
 import { CompactHeader } from './components/CompactHeader';
 import { HeroCarousel } from './components/HeroCarousel';
@@ -220,7 +221,49 @@ const DiningAppContent: React.FC = () => {
   );
 };
 
+const VALID_DINE_IN_PATHS = ['/', '/index.html', '/dinein.html', '/menu', '/dining', '/dine-in'];
+
 export const App: React.FC = () => {
+  const [currentPath, setCurrentPath] = useState(() => {
+    return typeof window !== 'undefined' ? window.location.pathname : '/';
+  });
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  const normalized = (currentPath || '/').toLowerCase().replace(/\/+$/, '') || '/';
+  const is404 = !VALID_DINE_IN_PATHS.includes(normalized);
+
+  if (is404) {
+    return (
+      <NotFoundPage
+        onBackToHome={() => {
+          if (typeof window !== 'undefined') {
+            window.history.pushState({}, '', '/');
+            setCurrentPath('/');
+          }
+        }}
+        onGoBack={() => {
+          if (typeof window !== 'undefined') {
+            if (window.history && window.history.length > 1) {
+              window.history.back();
+            } else {
+              window.history.pushState({}, '', '/');
+              setCurrentPath('/');
+            }
+          }
+        }}
+      />
+    );
+  }
+
   return (
     <DineInProvider>
       <DiningAppContent />
