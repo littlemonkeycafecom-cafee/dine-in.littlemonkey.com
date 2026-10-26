@@ -6,6 +6,7 @@ import { HeroCarousel } from './components/HeroCarousel';
 import { BrandMarquee } from './components/BrandMarquee';
 import { MustTryRail } from './components/MustTryRail';
 import { MenuSection } from './components/MenuSection';
+import { EditorialReviews } from './components/EditorialReviews';
 import { ProductDetailsModal } from './components/ProductDetailsModal';
 import { CartDrawer } from './components/CartDrawer';
 import { FloatingNavigation } from './components/FloatingNavigation';
@@ -105,6 +106,9 @@ const DiningAppContent: React.FC = () => {
           selectedCategoryId={selectedCategoryId}
           onSelectCategory={setSelectedCategoryId}
         />
+
+        {/* 3D. Verified Guest Feedback & Customer Reviews */}
+        <EditorialReviews />
       </main>
 
       {/* 4. Product Details Modal / Sheet (Section 11) */}

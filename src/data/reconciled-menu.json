@@ -661,7 +661,7 @@
       "slug": "fries-french-fries",
       "category": "fries",
       "name": "French Fries",
-      "description": "Mixed with salt • Note: Two sizes listed in menu (Verify size labels)",
+      "description": "Crispy golden potato fries lightly seasoned with sea salt.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -683,7 +683,7 @@
       "slug": "fries-masala-french-fries",
       "category": "fries",
       "name": "Masala French Fries",
-      "description": "Peri-peri mix, as extracted; verify description • Note: Two sizes listed in menu (Verify size labels)",
+      "description": "Crispy french fries tossed in an aromatic, zesty masala spice mix.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -3323,7 +3323,7 @@
       "slug": "special-green-tea-pot-chamomile-detox-stress-relief",
       "category": "special-green-tea",
       "name": "Chamomile",
-      "description": "Herbal infusion • Source note: Traditional relaxation tea",
+      "description": "Soothing herbal chamomile tea with delicate floral notes for a calming sip.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [
@@ -3341,7 +3341,7 @@
       "slug": "special-green-tea-pot-turmeric-immunity-booster",
       "category": "special-green-tea",
       "name": "Turmeric",
-      "description": "Herbal infusion • Source note: Traditional golden spice blend",
+      "description": "Revitalizing herbal infusion brewed with warm turmeric and aromatic spices.",
       "dietary_classification": "VEG",
       "is_must_try": false,
       "variants": [

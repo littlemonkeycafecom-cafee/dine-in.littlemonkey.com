@@ -87,16 +87,16 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
             display: 'inline-flex',
             alignItems: 'center',
             gap: '6px',
-            padding: '5px 10px',
+            padding: '5px clamp(6px, 1.5vw, 10px)',
             borderRadius: '999px',
-            backgroundColor: isVegOnly ? 'rgba(34, 197, 94, 0.16)' : '#191816',
-            border: isVegOnly ? '1px solid #22C55E' : '1px solid rgba(255, 255, 255, 0.12)',
-            boxShadow: isVegOnly ? '0 0 10px rgba(34, 197, 94, 0.28)' : 'none',
-            color: isVegOnly ? '#22C55E' : '#9C8C7E',
+            backgroundColor: isVegOnly ? 'rgba(251, 195, 36, 0.16)' : '#191816',
+            border: isVegOnly ? '1px solid #FBC324' : '1px solid rgba(255, 255, 255, 0.12)',
+            boxShadow: isVegOnly ? '0 0 12px rgba(251, 195, 36, 0.35)' : 'none',
+            color: isVegOnly ? '#FBC324' : '#9C8C7E',
             fontSize: '11px',
             fontWeight: 700,
             cursor: 'pointer',
-            transition: 'all 0.2s cubic-bezier(0.22, 1, 0.36, 1)',
+            transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
             userSelect: 'none',
           }}
         >
@@ -130,10 +130,10 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
               width: '24px',
               height: '13px',
               borderRadius: '999px',
-              backgroundColor: isVegOnly ? '#22C55E' : 'rgba(255, 255, 255, 0.15)',
+              backgroundColor: isVegOnly ? '#FBC324' : 'rgba(255, 255, 255, 0.15)',
               position: 'relative',
               display: 'inline-block',
-              transition: 'background-color 0.2s ease',
+              transition: 'background-color 0.25s ease',
             }}
           >
             <span
@@ -145,7 +145,7 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
                 height: '10px',
                 borderRadius: '50%',
                 backgroundColor: isVegOnly ? '#080808' : '#FAF7F2',
-                transition: 'left 0.2s cubic-bezier(0.22, 1, 0.36, 1)',
+                transition: 'left 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
               }}
             />
           </span>
@@ -174,29 +174,31 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
         </button>
 
         {/* User Account Pill */}
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', flexShrink: 0 }}>
           {customer ? (
             <button
               onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              aria-label={`Account of ${customer.name}`}
               className="lm-interactive-btn"
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
                 backgroundColor: '#191816',
-                border: '1px solid rgba(251, 195, 36, 0.3)',
+                border: '1px solid rgba(251, 195, 36, 0.35)',
                 borderRadius: '999px',
-                padding: '4px 12px',
+                padding: '4px clamp(6px, 1.5vw, 12px)',
                 color: '#FAF7F2',
                 fontSize: '12px',
                 fontWeight: 600,
                 cursor: 'pointer',
+                minHeight: '34px',
               }}
             >
               <div
                 style={{
-                  width: '20px',
-                  height: '20px',
+                  width: '22px',
+                  height: '22px',
                   borderRadius: '50%',
                   backgroundColor: '#FBC324',
                   color: '#080808',
@@ -209,29 +211,31 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
               >
                 {customer.name.charAt(0).toUpperCase()}
               </div>
-              <span style={{ maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span style={{ maxWidth: '75px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {customer.name}
               </span>
             </button>
           ) : (
             <button
               onClick={openAuthModal}
+              aria-label="Customer Sign In / Account"
               className="lm-interactive-btn"
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '5px',
                 backgroundColor: '#191816',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
+                border: '1px solid rgba(251, 195, 36, 0.3)',
                 borderRadius: '999px',
-                padding: '5px 12px',
+                padding: '5px clamp(8px, 1.8vw, 12px)',
                 color: '#FAF7F2',
                 fontSize: '12px',
                 fontWeight: 600,
                 cursor: 'pointer',
+                minHeight: '34px',
               }}
             >
-              <User size={13} style={{ color: '#FBC324' }} />
+              <User size={15} style={{ color: '#FBC324' }} />
               <span>Sign In</span>
             </button>
           )}

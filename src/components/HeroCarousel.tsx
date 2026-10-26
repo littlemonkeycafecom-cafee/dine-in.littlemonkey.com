@@ -848,16 +848,16 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
               height: '42px',
               padding: '0 16px',
               borderRadius: '999px',
-              backgroundColor: isVegOnly ? 'rgba(34, 197, 94, 0.16)' : '#191816',
-              border: isVegOnly ? '1.5px solid #22C55E' : '1px solid rgba(255, 255, 255, 0.14)',
+              backgroundColor: isVegOnly ? 'rgba(251, 195, 36, 0.16)' : '#191816',
+              border: isVegOnly ? '1.5px solid #FBC324' : '1px solid rgba(255, 255, 255, 0.14)',
               boxShadow: isVegOnly
-                ? '0 0 16px rgba(34, 197, 94, 0.32), 0 0 8px rgba(251, 195, 36, 0.2)'
+                ? '0 0 16px rgba(251, 195, 36, 0.35)'
                 : '0 4px 14px rgba(0, 0, 0, 0.45)',
-              color: isVegOnly ? '#22C55E' : '#9C8C7E',
+              color: isVegOnly ? '#FBC324' : '#9C8C7E',
               fontSize: '12.5px',
               fontWeight: 700,
               cursor: 'pointer',
-              transition: 'all 0.2s cubic-bezier(0.22, 1, 0.36, 1)',
+              transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
               userSelect: 'none',
             }}
           >
@@ -889,10 +889,10 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                 width: '26px',
                 height: '14px',
                 borderRadius: '999px',
-                backgroundColor: isVegOnly ? '#22C55E' : 'rgba(255, 255, 255, 0.16)',
+                backgroundColor: isVegOnly ? '#FBC324' : 'rgba(255, 255, 255, 0.16)',
                 position: 'relative',
                 display: 'inline-block',
-                transition: 'background-color 0.2s ease',
+                transition: 'background-color 0.25s ease',
               }}
             >
               <span
@@ -904,7 +904,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                   height: '11px',
                   borderRadius: '50%',
                   backgroundColor: isVegOnly ? '#080808' : '#FAF7F2',
-                  transition: 'left 0.2s cubic-bezier(0.22, 1, 0.36, 1)',
+                  transition: 'left 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
                 }}
               />
             </span>

@@ -55,8 +55,19 @@ export const CATEGORY_GROUPS: MenuCategoryGroup[] = [
   },
 ];
 
+export function cleanCustomerDescription(description: string | null | undefined): string {
+  if (!description) return '';
+  return description
+    .replace(/•?\s*Source note:.*$/i, '')
+    .replace(/•?\s*Note:.*$/i, '')
+    .replace(/as extracted;?\s*/i, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 export const ALL_PRODUCTS: Product[] = (menuData.products as Product[]).map((p) => ({
   ...p,
+  description: cleanCustomerDescription(p.description),
   variants:
     p.variants && p.variants.length > 0
       ? p.variants
