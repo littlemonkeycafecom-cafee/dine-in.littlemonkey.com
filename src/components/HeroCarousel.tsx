@@ -293,7 +293,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
         transitionLockRef.current = true;
         setTimeout(() => {
           transitionLockRef.current = false;
-        }, reducedMotion ? 50 : 450);
+        }, reducedMotion ? 50 : 650);
         return next;
       });
     },
@@ -594,13 +594,13 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           <img
             src="/branding/little-monkey-logo-transparent.png"
             alt="Little Monkey Café"
+            className="lm-logo-ambient-img"
             style={{
               height: 'clamp(52px, 7vw, 72px)',
               width: 'auto',
               maxWidth: '240px',
               objectFit: 'contain',
               display: 'block',
-              filter: 'drop-shadow(0 6px 20px rgba(251, 195, 36, 0.28))',
               userSelect: 'none',
             }}
           />
@@ -978,7 +978,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                   height: 'clamp(245px, 33vw, 335px)',
                   borderRadius: '20px',
                   cursor: 'pointer',
-                  transition: 'transform 0.45s cubic-bezier(0.2, 0.8, 0.25, 1), opacity 0.45s ease',
+                  transition: 'transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.55s ease',
                   transformOrigin: 'center center',
                   ...style3D,
                 }}
@@ -1242,7 +1242,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                   border: 'none',
                   padding: 0,
                   cursor: 'pointer',
-                  transition: 'all 0.25s cubic-bezier(0.2, 0.8, 0.25, 1)',
+                  transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
                 }}
               />
             );

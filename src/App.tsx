@@ -3,6 +3,7 @@ import { DineInProvider, useDineIn } from './contexts/DineInContext';
 import { ALL_PRODUCTS, getMustTryProducts } from './services/catalog';
 import { CompactHeader } from './components/CompactHeader';
 import { HeroCarousel } from './components/HeroCarousel';
+import { BrandMarquee } from './components/BrandMarquee';
 import { MustTryRail } from './components/MustTryRail';
 import { MenuSection } from './components/MenuSection';
 import { ProductDetailsModal } from './components/ProductDetailsModal';
@@ -87,7 +88,10 @@ const DiningAppContent: React.FC = () => {
           onSearchClick={() => setIsSearchOpen(true)}
         />
 
-        {/* 3B. Must Try Product Rail (Section 9) */}
+        {/* 3B. Scrolling Little Monkey Café Brand Marquee */}
+        <BrandMarquee />
+
+        {/* 3C. Must Try Product Rail (Section 9) */}
         <MustTryRail
           products={mustTryProducts}
           onProductClick={handleProductSelect}

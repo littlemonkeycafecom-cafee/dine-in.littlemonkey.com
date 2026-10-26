@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Product, MenuCategoryGroup } from '../types';
 import { CATEGORY_GROUPS, filterProducts, getBasePrice } from '../services/catalog';
 import { useDineIn } from '../contexts/DineInContext';
+import { SkeletonCard } from './SkeletonCard';
 import { Plus, Minus, Search } from 'lucide-react';
 
 interface MenuSectionProps {
@@ -10,6 +11,7 @@ interface MenuSectionProps {
   onClearSearch: () => void;
   selectedCategoryId?: string;
   onSelectCategory?: (id: string) => void;
+  isLoading?: boolean;
 }
 
 export const MenuSection: React.FC<MenuSectionProps> = ({
@@ -18,14 +20,21 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
   onClearSearch,
   selectedCategoryId,
   onSelectCategory,
+  isLoading = false,
 }) => {
   const { cart, addToCart, updateQuantity, isVegOnly, setIsVegOnly } = useDineIn();
   const [activeGroupId, setActiveGroupId] = useState(selectedCategoryId || 'all');
   const [dietFilter, setDietFilter] = useState<'ALL' | 'VEG' | 'NON_VEG'>('ALL');
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     if (selectedCategoryId && selectedCategoryId !== activeGroupId) {
+      setIsTransitioning(true);
       setActiveGroupId(selectedCategoryId);
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+      }, 220);
+      return () => clearTimeout(timer);
     }
   }, [selectedCategoryId]);
 
@@ -38,8 +47,13 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
   }, [isVegOnly]);
 
   const handleCategorySelect = (id: string) => {
+    if (id === activeGroupId) return;
+    setIsTransitioning(true);
     setActiveGroupId(id);
     onSelectCategory?.(id);
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 220);
   };
 
   const handleDietFilterChange = (filter: 'ALL' | 'VEG' | 'NON_VEG') => {
@@ -207,8 +221,21 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
         </div>
       </div>
 
-      {/* Empty State */}
-      {products.length === 0 ? (
+      {/* Skeletons on loading/transition OR empty state OR product grid */}
+      {isLoading || isTransitioning ? (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+            gap: '16px',
+          }}
+          aria-label="Loading menu items"
+        >
+          {Array.from({ length: 6 }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </div>
+      ) : products.length === 0 ? (
         effectiveDietFilter === 'VEG' ? (
           <div
             style={{

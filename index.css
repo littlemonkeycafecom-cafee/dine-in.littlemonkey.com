@@ -11477,21 +11477,41 @@ html, body {
   color: var(--charcoal-ink);
 }
 
-/* Loading skeleton shimmer */
-@keyframes lmShimmer {
-  0%   { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
+/* Loading skeleton shimmer — Luxury Dark Theme with Warm Gold Sheen */
+@keyframes lmShimmerSweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    #22201D 0%,
+    #22201D 20%,
+    rgba(251, 195, 36, 0.08) 40%,
+    rgba(251, 195, 36, 0.22) 50%,
+    rgba(251, 195, 36, 0.08) 60%,
+    #22201D 80%,
+    #22201D 100%
+  ) !important;
+  background-size: 200% 100% !important;
+  animation: lmShimmerSweep 1.8s ease-in-out infinite !important;
+  will-change: background-position;
 }
 
 .skeleton-shimmer {
   background: linear-gradient(
     90deg,
-    var(--butter) 25%,
-    var(--soft-yellow) 50%,
-    var(--butter) 75%
+    #22201D 25%,
+    rgba(251, 195, 36, 0.16) 50%,
+    #22201D 75%
   );
-  background-size: 800px 100%;
-  animation: lmShimmer 1.4s ease-in-out infinite;
+  background-size: 200% 100%;
+  animation: lmShimmerSweep 1.8s ease-in-out infinite;
   border-radius: 6px;
 }
 
