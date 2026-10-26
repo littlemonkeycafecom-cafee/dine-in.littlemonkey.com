@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDineIn } from '../contexts/DineInContext';
-import { Eye, EyeOff, ArrowRight, Utensils, Sparkles, ShieldCheck } from 'lucide-react';
+import { customerSignIn, customerSignUp, createGuestSession } from '../services/auth';
+import { Eye, EyeOff, ArrowRight, Utensils, Sparkles, ShieldCheck, Loader2 } from 'lucide-react';
 
 export const CustomerLoginGate: React.FC = () => {
   const { signIn, tableNumber } = useDineIn();
@@ -10,9 +11,11 @@ export const CustomerLoginGate: React.FC = () => {
   const [name, setName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     setError('');
 
     const cleanMobile = mobile.replace(/\D/g, '');
@@ -31,12 +34,53 @@ export const CustomerLoginGate: React.FC = () => {
       return;
     }
 
-    const customerName = tab === 'signup' && name.trim() ? name.trim() : 'Diner ' + cleanMobile.slice(-4);
-    signIn(cleanMobile, customerName);
+    setIsSubmitting(true);
+    try {
+      if (tab === 'signin') {
+        const result = await customerSignIn(cleanMobile, password);
+        if (!result.success) {
+          setError(result.error || 'Authentication failed. Please check your credentials.');
+          setIsSubmitting(false);
+          return;
+        }
+
+        const user = result.user || result.session?.user;
+        const customerName =
+          user?.user_metadata?.full_name ||
+          user?.user_metadata?.name ||
+          user?.name ||
+          'Diner ' + cleanMobile.slice(-4);
+
+        signIn(cleanMobile, customerName, result.token, user?.id);
+      } else {
+        const result = await customerSignUp(name.trim(), cleanMobile, password);
+        if (!result.success) {
+          setError(result.error || 'Failed to create account.');
+          setIsSubmitting(false);
+          return;
+        }
+
+        const user = result.user || result.session?.user;
+        signIn(cleanMobile, name.trim(), result.token, user?.id);
+      }
+    } catch (err: any) {
+      setError(err?.message || 'Authentication error. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleGuestEntry = () => {
-    signIn('9999999999', 'Table Guest');
+  const handleGuestEntry = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      const guest = await createGuestSession(tableNumber);
+      signIn('9999999999', guest.user.name || 'Table Guest', guest.token, guest.user.id);
+    } catch {
+      signIn('9999999999', 'Table Guest');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -385,10 +429,11 @@ export const CustomerLoginGate: React.FC = () => {
             {/* Submit Button */}
             <button
               type="submit"
+              disabled={isSubmitting}
               className="lm-interactive-btn"
               style={{
                 width: '100%',
-                backgroundColor: '#FBC324',
+                backgroundColor: isSubmitting ? '#d4a319' : '#FBC324',
                 color: '#080808',
                 border: 'none',
                 borderRadius: '8px',
@@ -396,16 +441,26 @@ export const CustomerLoginGate: React.FC = () => {
                 fontSize: '14px',
                 fontWeight: 800,
                 letterSpacing: '0.04em',
-                cursor: 'pointer',
+                cursor: isSubmitting ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
                 boxShadow: '0 4px 16px rgba(251, 195, 36, 0.3)',
+                opacity: isSubmitting ? 0.8 : 1,
               }}
             >
-              <span>{tab === 'signin' ? 'ENTER MENU' : 'CREATE ACCOUNT & ENTER'}</span>
-              <ArrowRight size={17} />
+              {isSubmitting ? (
+                <>
+                  <Loader2 size={17} className="lm-spin" />
+                  <span>VERIFYING ACCOUNT...</span>
+                </>
+              ) : (
+                <>
+                  <span>{tab === 'signin' ? 'ENTER MENU' : 'CREATE ACCOUNT & ENTER'}</span>
+                  <ArrowRight size={17} />
+                </>
+              )}
             </button>
           </form>
 

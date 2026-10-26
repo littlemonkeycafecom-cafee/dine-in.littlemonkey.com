@@ -1,8 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product, ProductVariant, ProductAddon, CartItem, CustomerSession } from '../types';
+import {
+  validateSessionToken,
+  detectCandidateToken,
+  cleanAuthUrlParams,
+  persistCustomerSession,
+  clearCustomerSession,
+} from '../services/auth';
 
 interface DineInContextType {
   customer: CustomerSession | null;
+  isValidatingAuth: boolean;
   tableNumber: string;
   cart: CartItem[];
   cartCount: number;
@@ -23,7 +31,7 @@ interface DineInContextType {
   updateQuantity: (cartItemId: string, newQty: number) => void;
   removeFromCart: (cartItemId: string) => void;
   clearCart: () => void;
-  signIn: (mobile: string, name?: string) => void;
+  signIn: (mobile: string, name?: string, token?: string, id?: string) => void;
   signOut: () => void;
   openAuthModal: () => void;
   closeAuthModal: () => void;
@@ -35,7 +43,6 @@ interface DineInContextType {
 const DineInContext = createContext<DineInContextType | undefined>(undefined);
 
 const CART_STORAGE_KEY = 'lm_dinein_cart_v2';
-const AUTH_STORAGE_KEY = 'lm_dinein_auth_v2';
 
 export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Table Number from URL query parameter or default
@@ -51,31 +58,68 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, []);
 
-  // Customer Session
-  const [customer, setCustomer] = useState<CustomerSession | null>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(AUTH_STORAGE_KEY);
-      if (saved) {
-        try {
-          return JSON.parse(saved);
-        } catch {
-          // ignore corrupted data
+  // Customer Session & Validation State
+  const [customer, setCustomer] = useState<CustomerSession | null>(null);
+  const [isValidatingAuth, setIsValidatingAuth] = useState<boolean>(true);
+
+  // Authenticate session on mount with server-side validation
+  useEffect(() => {
+    let isMounted = true;
+
+    async function checkAuth() {
+      const candidate = detectCandidateToken();
+
+      if (!candidate?.token) {
+        clearCustomerSession();
+        if (isMounted) {
+          setCustomer(null);
+          setIsValidatingAuth(false);
+        }
+        return;
+      }
+
+      try {
+        const verification = await validateSessionToken(candidate.token);
+
+        if (!isMounted) return;
+
+        if (verification.valid && verification.user) {
+          const cleanDigits = String(verification.user.phone || '').replace(/\D/g, '').slice(-10);
+          const validSession: CustomerSession = {
+            id: verification.user.id,
+            mobile: cleanDigits || '9876543210',
+            name: verification.user.name || 'Diner',
+            token: candidate.token,
+            isAuthenticated: true,
+            tableNumber,
+          };
+          setCustomer(validSession);
+          persistCustomerSession(validSession);
+          cleanAuthUrlParams();
+        } else {
+          // Token is expired, revoked, or invalid -> clear storage and enforce login gate
+          clearCustomerSession();
+          setCustomer(null);
+        }
+      } catch (err) {
+        console.warn('[DineInContext] Session validation error:', err);
+        clearCustomerSession();
+        if (isMounted) {
+          setCustomer(null);
+        }
+      } finally {
+        if (isMounted) {
+          setIsValidatingAuth(false);
         }
       }
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('demo') === '1' || params.get('guest') === '1') {
-        const guestSession: CustomerSession = {
-          mobile: '9876543210',
-          name: 'Diner Priya',
-          table: 'Table 4',
-          token: 'lm_session_demo_priya',
-        };
-        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(guestSession));
-        return guestSession;
-      }
     }
-    return null;
-  });
+
+    checkAuth();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [tableNumber]);
 
   // Cart State
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -108,17 +152,6 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
     }
   }, [cart]);
-
-  // Sync customer to localStorage
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (customer) {
-        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(customer));
-      } else {
-        localStorage.removeItem(AUTH_STORAGE_KEY);
-      }
-    }
-  }, [customer]);
 
   // Calculate totals
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -192,25 +225,37 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setCart([]);
   };
 
-  const signIn = (mobile: string, name: string = 'Guest Diner') => {
+  const signIn = (
+    mobile: string,
+    name: string = 'Guest Diner',
+    token?: string,
+    id?: string
+  ) => {
+    const cleanDigits = mobile.replace(/\D/g, '').slice(-10);
     const session: CustomerSession = {
-      mobile,
+      id: id || `user_${cleanDigits}`,
+      mobile: cleanDigits,
       name,
+      token,
       isAuthenticated: true,
       tableNumber,
     };
     setCustomer(session);
+    persistCustomerSession(session);
     setIsAuthModalOpen(false);
   };
 
   const signOut = () => {
+    clearCustomerSession();
     setCustomer(null);
+    setIsAuthModalOpen(false);
   };
 
   return (
     <DineInContext.Provider
       value={{
         customer,
+        isValidatingAuth,
         tableNumber,
         cart,
         cartCount,

@@ -18,6 +18,7 @@ import { Product } from './types';
 const DiningAppContent: React.FC = () => {
   const {
     customer,
+    isValidatingAuth,
     tableNumber,
     isAuthModalOpen,
     closeAuthModal,
@@ -50,7 +51,66 @@ const DiningAppContent: React.FC = () => {
     setSelectedProduct(product);
   };
 
-  // Login-First Gate: Customer MUST authenticate before accessing menu
+  // 1. Session Probing State: Validating credentials server-side
+  if (isValidatingAuth) {
+    return (
+      <div
+        style={{
+          minHeight: '100vh',
+          backgroundColor: '#080808',
+          backgroundImage: 'radial-gradient(circle at 50% 30%, rgba(251, 195, 36, 0.08) 0%, transparent 65%)',
+          color: '#FAF7F2',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '24px',
+          textAlign: 'center',
+        }}
+      >
+        <div className="lm-logo-ambient-wrap" style={{ marginBottom: '20px' }}>
+          <img
+            src="/branding/little-monkey-logo-transparent.png"
+            alt="Little Monkey Café"
+            style={{ height: '64px', width: 'auto', objectFit: 'contain' }}
+          />
+        </div>
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            backgroundColor: 'rgba(251, 195, 36, 0.1)',
+            border: '1px solid rgba(251, 195, 36, 0.3)',
+            borderRadius: '999px',
+            padding: '6px 16px',
+            color: '#FBC324',
+            fontSize: '12px',
+            fontWeight: 700,
+            letterSpacing: '0.04em',
+            marginBottom: '14px',
+          }}
+        >
+          <span
+            style={{
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              backgroundColor: '#FBC324',
+              display: 'inline-block',
+              animation: 'pulse 1.5s infinite ease-in-out',
+            }}
+          />
+          <span>VERIFYING CUSTOMER SESSION</span>
+        </div>
+        <p style={{ color: '#9C8C7E', fontSize: '13px', margin: 0, maxWidth: '280px' }}>
+          Connecting to Little Monkey Café authentication service...
+        </p>
+      </div>
+    );
+  }
+
+  // 2. Login-First Gate: Customer MUST authenticate before accessing menu
   if (!customer) {
     return <CustomerLoginGate />;
   }

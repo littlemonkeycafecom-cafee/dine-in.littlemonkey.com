@@ -35,8 +35,11 @@ export interface CartItem {
 }
 
 export interface CustomerSession {
+  id?: string;
   mobile: string;
   name: string;
+  token?: string;
+  expiresAt?: number;
   isAuthenticated: boolean;
   tableNumber?: string;
 }
