@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Product } from '../types';
-import { getBasePrice } from '../services/catalog';
+import { getBasePrice, getOriginalPrice, getDiscountPercentage } from '../services/catalog';
 import { useDineIn } from '../contexts/DineInContext';
 import { Plus, Minus, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 
@@ -80,6 +80,8 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
         {displayProducts.map((product, index) => {
           const inCartItem = cart.find((item) => item.product.slug === product.slug);
           const price = getBasePrice(product);
+          const originalPrice = getOriginalPrice(product);
+          const discountPercent = getDiscountPercentage(product);
           const delayClass = index % 3 === 0 ? '' : index % 3 === 1 ? 'lm-reflection-delay-1' : 'lm-reflection-delay-2';
 
           return (
@@ -89,23 +91,24 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
               onClick={() => onProductClick(product)}
             >
               {/* Image Container */}
-              <div className="must-try-photo-container" style={{ position: 'relative', zIndex: 3 }}>
+              <div className="must-try-photo-container" style={{ position: 'relative', zIndex: 3, overflow: 'hidden', borderRadius: '10px' }}>
                 <div
                   style={{
                     width: '100%',
                     height: '100%',
                     backgroundColor: '#12100E',
-                    backgroundImage:
-                      'radial-gradient(circle at 50% 40%, rgba(251, 195, 36, 0.12) 0%, transparent 70%), linear-gradient(180deg, #181715 0%, #0D0C0B 100%)',
+                    backgroundImage: product.image_url
+                      ? 'none'
+                      : 'radial-gradient(circle at 50% 40%, rgba(251, 195, 36, 0.12) 0%, transparent 70%), linear-gradient(180deg, #181715 0%, #0D0C0B 100%)',
                     border: '1px solid rgba(255, 255, 255, 0.08)',
                     borderRadius: '10px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '8px',
                     textAlign: 'center',
                     position: 'relative',
+                    overflow: 'hidden',
                   }}
                 >
                   <div
@@ -120,7 +123,8 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor: 'rgba(0, 0, 0, 0.65)',
+                      backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                      zIndex: 3,
                     }}
                   >
                     <div
@@ -132,18 +136,36 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
                       }}
                     />
                   </div>
-                  <Sparkles size={20} style={{ color: '#FBC324', opacity: 0.9, marginBottom: '4px' }} />
-                  <span
-                    style={{
-                      fontSize: '9px',
-                      fontWeight: 800,
-                      color: '#FBC324',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.06em',
-                    }}
-                  >
-                    MUST TRY
-                  </span>
+
+                  {product.image_url ? (
+                    <img
+                      src={product.image_url}
+                      alt={product.name}
+                      loading="lazy"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center',
+                        display: 'block',
+                      }}
+                    />
+                  ) : (
+                    <>
+                      <Sparkles size={20} style={{ color: '#FBC324', opacity: 0.9, marginBottom: '4px' }} />
+                      <span
+                        style={{
+                          fontSize: '9px',
+                          fontWeight: 800,
+                          color: '#FBC324',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.06em',
+                        }}
+                      >
+                        MUST TRY
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -190,11 +212,40 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
                 </div>
 
                 {/* Price & Add Action */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
                   {price !== null ? (
-                    <span style={{ fontSize: '15px', fontWeight: 800, color: '#FBC324' }}>
-                      ₹{price}
-                    </span>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '5px', flexWrap: 'wrap' }}>
+                      <span style={{ fontSize: '15px', fontWeight: 800, color: '#FBC324' }}>
+                        ₹{price}
+                      </span>
+                      {originalPrice && originalPrice > price && (
+                        <span
+                          style={{
+                            fontSize: '11px',
+                            color: '#8C827A',
+                            textDecoration: 'line-through',
+                            fontWeight: 500,
+                          }}
+                        >
+                          ₹{originalPrice}
+                        </span>
+                      )}
+                      {discountPercent && (
+                        <span
+                          style={{
+                            fontSize: '9px',
+                            fontWeight: 800,
+                            color: '#4ADE80',
+                            backgroundColor: 'rgba(34, 197, 94, 0.15)',
+                            border: '1px solid rgba(34, 197, 94, 0.35)',
+                            borderRadius: '4px',
+                            padding: '1px 4px',
+                          }}
+                        >
+                          {discountPercent}% OFF
+                        </span>
+                      )}
+                    </div>
                   ) : (
                     <span
                       style={{

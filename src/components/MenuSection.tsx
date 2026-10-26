@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Product, MenuCategoryGroup } from '../types';
-import { CATEGORY_GROUPS, filterProducts, getBasePrice } from '../services/catalog';
+import {
+  CATEGORY_GROUPS,
+  filterProducts,
+  getBasePrice,
+  getOriginalPrice,
+  getDiscountPercentage,
+} from '../services/catalog';
 import { useDineIn } from '../contexts/DineInContext';
 import { SkeletonCard } from './SkeletonCard';
 import { Plus, Minus, Search } from 'lucide-react';
@@ -368,6 +374,8 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
           {products.map((product) => {
             const inCartItem = cart.find((ci) => ci.product.slug === product.slug);
             const price = getBasePrice(product);
+            const originalPrice = getOriginalPrice(product);
+            const discountPercent = getDiscountPercentage(product);
 
             return (
               <div
@@ -409,10 +417,10 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                     : '0 4px 16px rgba(0, 0, 0, 0.4)';
                 }}
               >
-                {/* Image Placeholder Surface */}
+                {/* Image Placeholder Surface / Authentic Product Photography */}
                 <div
                   style={{
-                    height: '140px',
+                    height: '150px',
                     width: '100%',
                     backgroundColor: '#12100E',
                     borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
@@ -420,12 +428,12 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '12px',
                     position: 'relative',
+                    overflow: 'hidden',
                     zIndex: 3,
                   }}
                 >
-                  {/* Dietary & Bestseller Badges */}
+                  {/* Dietary & Bestseller / Campaign Badges */}
                   <div
                     style={{
                       position: 'absolute',
@@ -435,6 +443,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
+                      zIndex: 4,
                     }}
                   >
                     <div
@@ -446,7 +455,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        backgroundColor: 'rgba(8, 8, 8, 0.65)',
+                        backgroundColor: 'rgba(8, 8, 8, 0.75)',
                       }}
                     >
                       <div
@@ -458,7 +467,25 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                         }}
                       />
                     </div>
-                    {product.is_must_try && (
+                    {product.badge ? (
+                      <span
+                        style={{
+                          fontSize: '9px',
+                          fontWeight: 800,
+                          backgroundColor: 'rgba(251, 195, 36, 0.22)',
+                          backdropFilter: 'blur(4px)',
+                          WebkitBackdropFilter: 'blur(4px)',
+                          color: '#FBC324',
+                          border: '1px solid rgba(251, 195, 36, 0.5)',
+                          borderRadius: '4px',
+                          padding: '2px 6px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.04em',
+                        }}
+                      >
+                        {product.badge}
+                      </span>
+                    ) : product.is_must_try ? (
                       <span
                         style={{
                           fontSize: '9px',
@@ -474,33 +501,47 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                       >
                         Must Try
                       </span>
-                    )}
+                    ) : null}
                   </div>
 
-                  {/* Dish Plate Silhouette Artwork */}
-                  <div
-                    style={{
-                      width: '68px',
-                      height: '68px',
-                      borderRadius: '50%',
-                      backgroundColor: '#141312',
-                      backgroundImage:
-                        'radial-gradient(circle at 45% 40%, rgba(251, 195, 36, 0.16) 0%, transparent 70%), linear-gradient(180deg, #181715 0%, #0D0C0B 100%)',
-                      border: '1px solid rgba(251, 195, 36, 0.32)',
-                      boxShadow: 'inset 0 1px 6px rgba(0, 0, 0, 0.8), 0 0 12px rgba(251, 195, 36, 0.12)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '2px',
-                      color: '#FBC324',
-                    }}
-                  >
-                    <span style={{ fontSize: '14px', lineHeight: 1 }}>✨</span>
-                    <span style={{ fontSize: '7px', fontWeight: 800, color: '#FAF7F2', letterSpacing: '0.06em' }}>
-                      LM
-                    </span>
-                  </div>
+                  {product.image_url ? (
+                    <img
+                      src={product.image_url}
+                      alt={product.name}
+                      loading="lazy"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center',
+                        display: 'block',
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: '68px',
+                        height: '68px',
+                        borderRadius: '50%',
+                        backgroundColor: '#141312',
+                        backgroundImage:
+                          'radial-gradient(circle at 45% 40%, rgba(251, 195, 36, 0.16) 0%, transparent 70%), linear-gradient(180deg, #181715 0%, #0D0C0B 100%)',
+                        border: '1px solid rgba(251, 195, 36, 0.32)',
+                        boxShadow: 'inset 0 1px 6px rgba(0, 0, 0, 0.8), 0 0 12px rgba(251, 195, 36, 0.12)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '2px',
+                        color: '#FBC324',
+                      }}
+                    >
+                      <span style={{ fontSize: '14px', lineHeight: 1 }}>✨</span>
+                      <span style={{ fontSize: '7px', fontWeight: 800, color: '#FAF7F2', letterSpacing: '0.06em' }}>
+                        LM
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Product Info */}
@@ -535,11 +576,41 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                   </div>
 
                   {/* Price & Action */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
                     {price !== null ? (
-                      <span style={{ fontSize: '16px', fontWeight: 800, color: '#FBC324' }}>
-                        ₹{price}
-                      </span>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: '16px', fontWeight: 800, color: '#FBC324' }}>
+                          ₹{price}
+                        </span>
+                        {originalPrice && originalPrice > price && (
+                          <span
+                            style={{
+                              fontSize: '12px',
+                              color: '#8C827A',
+                              textDecoration: 'line-through',
+                              fontWeight: 500,
+                            }}
+                          >
+                            ₹{originalPrice}
+                          </span>
+                        )}
+                        {discountPercent && (
+                          <span
+                            style={{
+                              fontSize: '9px',
+                              fontWeight: 800,
+                              color: '#4ADE80',
+                              backgroundColor: 'rgba(34, 197, 94, 0.15)',
+                              border: '1px solid rgba(34, 197, 94, 0.35)',
+                              borderRadius: '4px',
+                              padding: '1px 5px',
+                              letterSpacing: '0.02em',
+                            }}
+                          >
+                            {discountPercent}% OFF
+                          </span>
+                        )}
+                      </div>
                     ) : (
                       <span
                         style={{

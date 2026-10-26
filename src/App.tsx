@@ -4,7 +4,7 @@ import { NotFoundPage } from './components/NotFoundPage';
 import { ALL_PRODUCTS, getMustTryProducts } from './services/catalog';
 import { CompactHeader } from './components/CompactHeader';
 import { HeroCarousel } from './components/HeroCarousel';
-import { BrandMarquee } from './components/BrandMarquee';
+import { ColdBrewHeroBanner } from './components/ColdBrewHeroBanner';
 import { MustTryRail } from './components/MustTryRail';
 import { MenuSection } from './components/MenuSection';
 import { EditorialReviews } from './components/EditorialReviews';
@@ -34,6 +34,14 @@ const DiningAppContent: React.FC = () => {
   const mustTryProducts = getMustTryProducts();
 
   const handleExploreClick = () => {
+    const el = document.getElementById('main-menu-catalog');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleExploreColdBrew = () => {
+    setSelectedCategoryId('cold-brew');
     const el = document.getElementById('main-menu-catalog');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
@@ -150,8 +158,8 @@ const DiningAppContent: React.FC = () => {
           onSearchClick={() => setIsSearchOpen(true)}
         />
 
-        {/* 3B. Scrolling Little Monkey Café Brand Marquee */}
-        <BrandMarquee />
+        {/* 3B. Signature Specialty Cold Brew Hero Banner */}
+        <ColdBrewHeroBanner onExploreColdBrew={handleExploreColdBrew} />
 
         {/* 3C. Must Try Product Rail (Section 9) */}
         <MustTryRail

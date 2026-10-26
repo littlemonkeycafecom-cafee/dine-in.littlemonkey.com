@@ -14,6 +14,12 @@ const DEFAULT_ADDONS: ProductAddon[] = [
   { id: 'peri-peri-seasoning', name: 'Extra Peri Peri Sprinkle', price: 20 },
 ];
 
+const COFFEE_ADDONS: ProductAddon[] = [
+  { id: 'extra-espresso-shot', name: 'Extra Shot Espresso', price: 40 },
+  { id: 'sweet-cream-float', name: 'Velvety Sweet Cream Float', price: 35 },
+  { id: 'vanilla-bean-syrup', name: 'Artisanal Vanilla Syrup', price: 25 },
+];
+
 export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   product,
   onClose,
@@ -78,6 +84,27 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
   const currentProduct = activeProduct;
   const basePrice = selectedVariant ? Math.round(selectedVariant.price_paise / 100) : 0;
+  const originalPrice = currentProduct.original_price
+    ? currentProduct.original_price
+    : selectedVariant?.original_price_paise
+    ? Math.round(selectedVariant.original_price_paise / 100)
+    : null;
+
+  const discountPercent = currentProduct.discount_percent
+    ? currentProduct.discount_percent
+    : originalPrice && originalPrice > basePrice
+    ? Math.round(((originalPrice - basePrice) / originalPrice) * 100)
+    : null;
+
+  const isBeverage =
+    currentProduct.category === 'cold-brew' ||
+    currentProduct.category.includes('coffee') ||
+    currentProduct.category.includes('tea') ||
+    currentProduct.category.includes('shake') ||
+    currentProduct.category.includes('mojito');
+
+  const availableAddons = isBeverage ? COFFEE_ADDONS : DEFAULT_ADDONS;
+
   const addonsTotal = selectedAddons.reduce((sum, a) => sum + a.price, 0);
   const unitPrice = basePrice + addonsTotal;
   const grandTotal = unitPrice * quantity;
@@ -105,7 +132,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        backgroundColor: isVisible ? 'rgba(0, 0, 0, 0.82)' : 'rgba(0, 0, 0, 0)',
+        backgroundColor: isVisible ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0)',
         backdropFilter: isVisible ? 'blur(8px)' : 'blur(0px)',
         WebkitBackdropFilter: isVisible ? 'blur(8px)' : 'blur(0px)',
         display: 'flex',
@@ -119,8 +146,8 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
       <div
         style={{
           width: '100%',
-          maxWidth: '520px',
-          maxHeight: '88vh',
+          maxWidth: '540px',
+          maxHeight: '90vh',
           backgroundColor: '#12100E',
           borderTopLeftRadius: '24px',
           borderTopRightRadius: '24px',
@@ -139,75 +166,186 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Top Header Surface with Yellow Accent Glow */}
-        <div
-          style={{
-            height: '150px',
-            backgroundColor: '#191816',
-            backgroundImage:
-              'radial-gradient(circle at 50% 30%, rgba(251, 195, 36, 0.12) 0%, transparent 70%), linear-gradient(180deg, rgba(25, 24, 22, 0.6) 0%, rgba(18, 16, 14, 0.95) 100%)',
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          }}
-        >
-          {/* Close button with yellow hover feedback */}
-          <button
-            onClick={triggerClose}
-            aria-label="Close details"
-            className="lm-interactive-btn"
-            style={{
-              position: 'absolute',
-              top: '14px',
-              right: '14px',
-              width: '34px',
-              height: '34px',
-              borderRadius: '50%',
-              backgroundColor: 'rgba(0, 0, 0, 0.65)',
-              border: '1px solid rgba(255, 255, 255, 0.14)',
-              color: '#FAF7F2',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              zIndex: 10,
-              transition: 'border-color 0.15s ease, transform 0.15s ease',
-            }}
-          >
-            <X size={16} />
-          </button>
-
-          {/* Plate Silhouette Header Brand Ornament */}
+        {/* Top Header: Authentic Image Hero or Plate Silhouette */}
+        {currentProduct.image_url ? (
           <div
             style={{
-              width: '84px',
-              height: '84px',
-              borderRadius: '50%',
-              backgroundColor: '#100F0E',
-              border: '1.5px solid rgba(251, 195, 36, 0.35)',
-              boxShadow: '0 0 20px rgba(251, 195, 36, 0.15)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '2px',
-              color: '#FBC324',
-              userSelect: 'none',
+              height: '240px',
+              backgroundColor: '#0F0E0D',
+              position: 'relative',
+              overflow: 'hidden',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
             }}
           >
-            <Sparkles size={16} style={{ color: '#FBC324' }} />
-            <span style={{ fontSize: '9px', fontWeight: 800, letterSpacing: '0.08em', color: '#FAF7F2' }}>
-              LM CAFÉ
-            </span>
+            <img
+              src={currentProduct.image_url}
+              alt={currentProduct.name}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center 40%',
+                display: 'block',
+              }}
+            />
+            {/* Vignette Overlay for smooth visual transition */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background:
+                  'linear-gradient(180deg, rgba(8, 8, 8, 0.6) 0%, rgba(8, 8, 8, 0.1) 40%, rgba(18, 16, 14, 0.98) 100%)',
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* Category / Badge Tag */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '14px',
+                left: '16px',
+                zIndex: 10,
+              }}
+            >
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  backgroundColor: 'rgba(8, 8, 8, 0.85)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(251, 195, 36, 0.5)',
+                  borderRadius: '999px',
+                  padding: '5px 12px',
+                  color: '#FBC324',
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.6)',
+                }}
+              >
+                <Sparkles size={13} style={{ color: '#FBC324' }} />
+                <span>{currentProduct.badge || currentProduct.category.replace(/-/g, ' ')}</span>
+              </span>
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={triggerClose}
+              aria-label="Close details"
+              className="lm-interactive-btn"
+              style={{
+                position: 'absolute',
+                top: '14px',
+                right: '14px',
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(8, 8, 8, 0.75)',
+                backdropFilter: 'blur(6px)',
+                WebkitBackdropFilter: 'blur(6px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                color: '#FAF7F2',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                zIndex: 10,
+                transition: 'border-color 0.15s ease, transform 0.15s ease',
+              }}
+            >
+              <X size={18} />
+            </button>
           </div>
-        </div>
+        ) : (
+          <div
+            style={{
+              height: '150px',
+              backgroundColor: '#191816',
+              backgroundImage:
+                'radial-gradient(circle at 50% 30%, rgba(251, 195, 36, 0.12) 0%, transparent 70%), linear-gradient(180deg, rgba(25, 24, 22, 0.6) 0%, rgba(18, 16, 14, 0.95) 100%)',
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+            }}
+          >
+            {/* Close button with yellow hover feedback */}
+            <button
+              onClick={triggerClose}
+              aria-label="Close details"
+              className="lm-interactive-btn"
+              style={{
+                position: 'absolute',
+                top: '14px',
+                right: '14px',
+                width: '34px',
+                height: '34px',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(0, 0, 0, 0.65)',
+                border: '1px solid rgba(255, 255, 255, 0.14)',
+                color: '#FAF7F2',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                zIndex: 10,
+                transition: 'border-color 0.15s ease, transform 0.15s ease',
+              }}
+            >
+              <X size={16} />
+            </button>
+
+            {/* Plate Silhouette Header Brand Ornament */}
+            <div
+              style={{
+                width: '84px',
+                height: '84px',
+                borderRadius: '50%',
+                backgroundColor: '#100F0E',
+                border: '1.5px solid rgba(251, 195, 36, 0.35)',
+                boxShadow: '0 0 20px rgba(251, 195, 36, 0.15)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '2px',
+                color: '#FBC324',
+                userSelect: 'none',
+              }}
+            >
+              <Sparkles size={16} style={{ color: '#FBC324' }} />
+              <span style={{ fontSize: '9px', fontWeight: 800, letterSpacing: '0.08em', color: '#FAF7F2' }}>
+                LM CAFÉ
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Scrollable Content */}
         <div style={{ padding: '20px', overflowY: 'auto', flex: 1 }}>
+          {/* Category Tag if no image was shown */}
+          {!currentProduct.image_url && (
+            <div
+              style={{
+                fontSize: '10.5px',
+                fontWeight: 800,
+                color: '#FBC324',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                marginBottom: '6px',
+              }}
+            >
+              {currentProduct.badge || currentProduct.category.replace(/-/g, ' ')}
+            </div>
+          )}
+
           {/* Title & Dietary Tag */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
             <div
               style={{
                 width: '14px',
@@ -237,15 +375,164 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 fontWeight: 700,
                 color: '#FAF7F2',
                 margin: 0,
+                lineHeight: 1.2,
               }}
             >
               {currentProduct.name}
             </h2>
           </div>
 
-          <p style={{ fontSize: '13px', color: '#9C8C7E', lineHeight: 1.5, margin: '0 0 18px 0' }}>
+          {/* Tagline */}
+          {currentProduct.tagline && (
+            <div
+              style={{
+                color: '#FBC324',
+                fontSize: '12px',
+                fontWeight: 700,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                marginBottom: '10px',
+              }}
+            >
+              {currentProduct.tagline}
+            </div>
+          )}
+
+          {/* Pricing Presentation */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'baseline',
+              gap: '10px',
+              marginBottom: '14px',
+              paddingBottom: '14px',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+            }}
+          >
+            <span style={{ fontSize: '24px', fontWeight: 800, color: '#FBC324' }}>
+              ₹{basePrice}
+            </span>
+            {originalPrice && originalPrice > basePrice && (
+              <span
+                style={{
+                  fontSize: '16px',
+                  color: '#8C827A',
+                  textDecoration: 'line-through',
+                  fontWeight: 500,
+                }}
+              >
+                ₹{originalPrice}
+              </span>
+            )}
+            {discountPercent && (
+              <span
+                style={{
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  color: '#4ADE80',
+                  backgroundColor: 'rgba(34, 197, 94, 0.18)',
+                  border: '1px solid rgba(34, 197, 94, 0.45)',
+                  borderRadius: '6px',
+                  padding: '2px 8px',
+                  letterSpacing: '0.02em',
+                }}
+              >
+                {discountPercent}% OFF
+              </span>
+            )}
+          </div>
+
+          {/* Description */}
+          <p style={{ fontSize: '13px', color: '#D4C9BC', lineHeight: 1.5, margin: '0 0 18px 0' }}>
             {currentProduct.description}
           </p>
+
+          {/* Verified Recipe Ingredients & Craft Layers */}
+          {currentProduct.ingredients && currentProduct.ingredients.length > 0 && (
+            <div style={{ marginBottom: '20px' }}>
+              <label
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  color: '#FBC324',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                  marginBottom: '10px',
+                }}
+              >
+                <Sparkles size={13} />
+                <span>Verified Recipe & Craft Layers</span>
+              </label>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+                  gap: '8px',
+                }}
+              >
+                {currentProduct.ingredients.map((ing, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      backgroundColor: '#191816',
+                      border: '1px solid rgba(251, 195, 36, 0.2)',
+                      borderRadius: '8px',
+                      padding: '10px 12px',
+                    }}
+                  >
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#FAF7F2', marginBottom: '2px' }}>
+                      {ing.name}
+                    </div>
+                    {ing.detail && (
+                      <div style={{ fontSize: '11px', color: '#9C8C7E', lineHeight: 1.35 }}>
+                        {ing.detail}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Craft Preparation Method */}
+          {currentProduct.process_steps && currentProduct.process_steps.length > 0 && (
+            <div style={{ marginBottom: '20px' }}>
+              <label
+                style={{
+                  display: 'block',
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  color: '#FAF7F2',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                  marginBottom: '8px',
+                }}
+              >
+                Craft Preparation Method
+              </label>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {currentProduct.process_steps.map((step, idx) => (
+                  <span
+                    key={idx}
+                    style={{
+                      fontSize: '11px',
+                      color: '#FAF7F2',
+                      backgroundColor: 'rgba(251, 195, 36, 0.1)',
+                      border: '1px solid rgba(251, 195, 36, 0.3)',
+                      borderRadius: '6px',
+                      padding: '5px 10px',
+                      fontWeight: 600,
+                    }}
+                  >
+                    {idx + 1}. {step}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Variants Selector if more than 1 */}
           {currentProduct.variants.length > 1 && (
@@ -289,7 +576,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
               Optional Add-Ons:
             </label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              {DEFAULT_ADDONS.map((addon) => {
+              {availableAddons.map((addon) => {
                 const isChecked = selectedAddons.some((a) => a.id === addon.id);
                 return (
                   <div
@@ -339,10 +626,10 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           {/* Kitchen Instructions */}
           <div style={{ marginBottom: '18px' }}>
             <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: '#FAF7F2', marginBottom: '6px' }}>
-              Kitchen Instructions (Optional):
+              Special Kitchen Instructions (Optional):
             </label>
             <textarea
-              placeholder="e.g. Less spicy, dressing on the side, extra hot..."
+              placeholder="e.g. Less sweet, extra ice, dairy on side..."
               value={instructions}
               onChange={(e) => setInstructions(e.target.value)}
               rows={2}
