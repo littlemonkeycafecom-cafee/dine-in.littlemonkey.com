@@ -25,17 +25,30 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
         backdropFilter: 'blur(12px)',
       }}
     >
-      {/* Left: Brand Wordmark + Dining Badge (Logo relocated to Hero section) */}
+      {/* Left: Brand Logo + Wordmark + Dining Badge */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
         <a
           href="/"
+          aria-label="Little Monkey Café Home"
           style={{
             textDecoration: 'none',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
+            gap: '9px',
           }}
         >
+          <img
+            src="/branding/little-monkey-logo-transparent.png"
+            alt="Little Monkey Café"
+            style={{
+              height: '28px',
+              width: 'auto',
+              maxWidth: '68px',
+              objectFit: 'contain',
+              display: 'block',
+              filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.5))',
+            }}
+          />
           <span
             style={{
               fontFamily: '"Playfair Display", Georgia, serif',
