@@ -638,6 +638,76 @@ input {
   font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
+/* ==========================================================================
+   LITTLE MONKEY CAFÉ — GLOBAL LUXURY CUSTOM SCROLLBAR
+   Eliminates default OS/white scrollbars; deep-black track with gold highlight
+   ========================================================================== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2D2D2D #080808;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2D2D2D;
+  border-radius: 4px;
+  border: 1px solid #141414;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active {
+  background: #FBC324;
+  border-color: #D6A524;
+  box-shadow: 0 0 6px rgba(251, 195, 36, 0.45);
+}
+
+::-webkit-scrollbar-corner {
+  background: #080808;
+}
+
+/* ==========================================================================
+   LITTLE MONKEY CAFÉ — TWO-TONE ORGANIC LIQUID WAVE REVEAL (1023.mp4)
+   ========================================================================== */
+@keyframes lmLiquidWaveSweep {
+  0% {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+  15% {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+  58% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  74% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 0;
+  }
+}
+
+@keyframes lmGlowFadeOut {
+  0% { opacity: 0; }
+  18% { opacity: 0; }
+  55% { opacity: 1; }
+  76% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+
 /* Utility */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -13761,3 +13831,74 @@ html, body {
     opacity: 1 !important;
   }
 }
+
+/* ==========================================================================
+   LITTLE MONKEY CAFÉ — FLOATING PROMOTIONAL BANNER
+   Gentle depth and vertical float motion
+   ========================================================================== */
+@keyframes lm-float-gentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.lm-floating-banner {
+  animation: lm-float-gentle 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lm-floating-banner:hover {
+    animation-play-state: paused;
+    transform: translateY(-6px) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lm-floating-banner {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   LITTLE MONKEY CAFÉ — RESPONSIVE COMPACT PRODUCT GRID
+   Mobile: 2 columns (< 640px)
+   Tablet: 3 columns (640px - 1024px)
+   Desktop: 4 columns (>= 1024px)
+   ========================================================================== */
+.lm-product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.lm-product-card:active {
+  transform: scale(0.98) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7), 0 0 12px rgba(251, 195, 36, 0.35) !important;
+  border-color: #FBC324 !important;
+}
+
+@media (min-width: 640px) {
+  .lm-product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lm-product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .lm-product-grid {
+    gap: 10px;
+  }
+}
+

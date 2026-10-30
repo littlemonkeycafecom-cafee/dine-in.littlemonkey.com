@@ -4,6 +4,7 @@ import { NotFoundPage } from './components/NotFoundPage';
 import { ALL_PRODUCTS, getMustTryProducts } from './services/catalog';
 import { CompactHeader } from './components/CompactHeader';
 import { HeroCarousel } from './components/HeroCarousel';
+import { BrandMarquee } from './components/BrandMarquee';
 import { ColdBrewHeroBanner } from './components/ColdBrewHeroBanner';
 import { MustTryRail } from './components/MustTryRail';
 import { MenuSection } from './components/MenuSection';
@@ -15,6 +16,7 @@ import { CustomerAuthModal } from './components/CustomerAuthModal';
 import { CustomerLoginGate } from './components/CustomerLoginGate';
 import { SearchModal } from './components/SearchModal';
 import { Product } from './types';
+import { AlertTriangle } from 'lucide-react';
 
 const DiningAppContent: React.FC = () => {
   const {
@@ -25,13 +27,16 @@ const DiningAppContent: React.FC = () => {
     closeAuthModal,
     selectedProduct,
     setSelectedProduct,
+    products,
+    isTableRevoked,
+    tableRevocationReason,
   } = useDineIn();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategoryId, setSelectedCategoryId] = useState('all');
 
-  const mustTryProducts = getMustTryProducts();
+  const mustTryProducts = products.filter((p) => p.is_must_try);
 
   const handleExploreClick = () => {
     const el = document.getElementById('main-menu-catalog');
@@ -139,6 +144,34 @@ const DiningAppContent: React.FC = () => {
       {/* 1. Compact Dining Header */}
       <CompactHeader onSearchClick={() => setIsSearchOpen(true)} />
 
+      {/* Revoked Table Alert Banner */}
+      {isTableRevoked && (
+        <div
+          style={{
+            background: 'linear-gradient(90deg, #7F1D1D 0%, #991B1B 100%)',
+            color: '#FEE2E2',
+            padding: '12px 16px',
+            textAlign: 'center',
+            fontSize: '13px',
+            fontWeight: 700,
+            position: 'sticky',
+            top: 0,
+            zIndex: 999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            borderBottom: '1px solid rgba(239, 68, 68, 0.4)',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
+          }}
+        >
+          <AlertTriangle size={17} style={{ color: '#FEE2E2', flexShrink: 0 }} />
+          <span>
+            {tableRevocationReason || `Table ${tableNumber} QR has been deactivated by café administration. Orders cannot be placed at this table.`}
+          </span>
+        </div>
+      )}
+
       {/* 2. Customer Authentication Gate (Section 5) */}
       <CustomerAuthModal
         isOpen={isAuthModalOpen || (!customer && false)} // open when requested or first visit if mandatory
@@ -150,7 +183,7 @@ const DiningAppContent: React.FC = () => {
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         {/* 3A. Hero Carousel — The Defining Visual Feature (Section 7) */}
         <HeroCarousel
-          products={ALL_PRODUCTS}
+          products={products}
           onProductClick={handleProductSelect}
           onExploreClick={handleExploreClick}
           selectedCategoryId={selectedCategoryId}
@@ -158,8 +191,11 @@ const DiningAppContent: React.FC = () => {
           onSearchClick={() => setIsSearchOpen(true)}
         />
 
-        {/* 3B. Signature Specialty Cold Brew Hero Banner */}
-        <ColdBrewHeroBanner onExploreColdBrew={handleExploreColdBrew} />
+        {/* 3B. Scrolling Little Monkey Café Brand Marquee */}
+        <BrandMarquee />
+
+        {/* 3C. Signature Specialty Cold Brew Hero Banner */}
+        <ColdBrewHeroBanner onProductClick={handleProductSelect} />
 
         {/* 3C. Must Try Product Rail (Section 9) */}
         <MustTryRail

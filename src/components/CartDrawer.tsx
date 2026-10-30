@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useDineIn } from '../contexts/DineInContext';
-import { X, Trash2, Plus, Minus, ShoppingBag, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { X, Trash2, Plus, Minus, ShoppingBag, ArrowRight, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { LiquidWaveTransition } from './LiquidWaveTransition';
+import { CustomScrollbarContainer } from './CustomScrollbarContainer';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -14,28 +16,46 @@ export const CartDrawer: React.FC = () => {
     removeFromCart,
     clearCart,
     tableNumber,
+    placeDineInOrder,
+    isTableRevoked,
+    tableRevocationReason,
   } = useDineIn();
 
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderError, setOrderError] = useState<string | null>(null);
+  const [placedOrderInfo, setPlacedOrderInfo] = useState<any>(null);
 
   if (!isCartDrawerOpen) return null;
 
   const gst = Math.round(cartSubtotal * 0.05);
   const grandTotal = cartSubtotal + gst;
 
-  const handlePlaceOrder = () => {
-    confetti({
-      particleCount: 60,
-      spread: 60,
-      origin: { y: 0.6 },
-      colors: ['#FBC324', '#FAF7F2', '#10B981'],
-    });
-    setOrderPlaced(true);
-    setTimeout(() => {
-      setOrderPlaced(false);
+  const handlePlaceOrder = async () => {
+    setIsSubmitting(true);
+    setOrderError(null);
+    try {
+      const result = await placeDineInOrder();
+      setPlacedOrderInfo(result);
+      confetti({
+        particleCount: 65,
+        spread: 60,
+        origin: { y: 0.6 },
+        colors: ['#FBC324', '#FAF7F2', '#10B981'],
+      });
+      setOrderPlaced(true);
       clearCart();
-      closeCart();
-    }, 2800);
+    } catch (err: any) {
+      setOrderError(err?.message || 'Failed to submit order. Please check availability and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCloseAfterSuccess = () => {
+    setOrderPlaced(false);
+    setPlacedOrderInfo(null);
+    closeCart();
   };
 
   return (
@@ -66,9 +86,13 @@ export const CartDrawer: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
+          position: 'relative',
         }}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Organic Liquid Wave Reveal Animation (1023.mp4) */}
+        <LiquidWaveTransition isActive={isCartDrawerOpen} />
+
         {/* Header */}
         <div
           style={{
@@ -106,15 +130,16 @@ export const CartDrawer: React.FC = () => {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {cart.length > 0 && (
+            {!orderPlaced && cart.length > 0 && (
               <button
                 onClick={clearCart}
+                disabled={isSubmitting}
                 style={{
                   background: 'none',
                   border: 'none',
                   color: '#9C8C7E',
                   fontSize: '11px',
-                  cursor: 'pointer',
+                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
                   padding: '4px 8px',
                 }}
               >
@@ -122,7 +147,7 @@ export const CartDrawer: React.FC = () => {
               </button>
             )}
             <button
-              onClick={closeCart}
+              onClick={orderPlaced ? handleCloseAfterSuccess : closeCart}
               style={{
                 background: 'rgba(255, 255, 255, 0.08)',
                 border: 'none',
@@ -145,7 +170,7 @@ export const CartDrawer: React.FC = () => {
         {orderPlaced ? (
           <div
             style={{
-              padding: '60px 20px',
+              padding: '48px 24px',
               textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
@@ -153,20 +178,69 @@ export const CartDrawer: React.FC = () => {
               justifyContent: 'center',
             }}
           >
-            <CheckCircle2 size={54} style={{ color: '#22C55E', marginBottom: '16px' }} />
+            <CheckCircle2 size={58} style={{ color: '#22C55E', marginBottom: '16px' }} />
+            <div
+              style={{
+                display: 'inline-block',
+                backgroundColor: 'rgba(34, 197, 94, 0.15)',
+                border: '1px solid rgba(34, 197, 94, 0.4)',
+                borderRadius: '999px',
+                padding: '4px 14px',
+                color: '#4ADE80',
+                fontSize: '11.5px',
+                fontWeight: 800,
+                letterSpacing: '0.04em',
+                marginBottom: '12px',
+              }}
+            >
+              ORDER #{placedOrderInfo?.orderNumber || 'CONFIRMED'} • {placedOrderInfo?.tableNumber || tableNumber}
+            </div>
             <h3
               style={{
                 fontFamily: '"Playfair Display", Georgia, serif',
                 fontSize: '24px',
                 color: '#FAF7F2',
-                margin: '0 0 8px 0',
+                margin: '0 0 10px 0',
               }}
             >
-              Order Placed for {tableNumber}!
+              Order Placed for {placedOrderInfo?.tableNumber || tableNumber}!
             </h3>
-            <p style={{ fontSize: '13px', color: '#9C8C7E', maxWidth: '320px', lineHeight: 1.5 }}>
-              Your order has been sent directly to the Little Monkey kitchen. Please relax while we prepare your fresh bites.
+            <p style={{ fontSize: '13px', color: '#9C8C7E', maxWidth: '340px', lineHeight: 1.5, margin: '0 0 24px 0' }}>
+              Your order has been sent directly to the Little Monkey kitchen. Please relax at your table while we prepare your fresh bites.
             </p>
+            {placedOrderInfo?.total && (
+              <div
+                style={{
+                  backgroundColor: '#191816',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '10px',
+                  padding: '10px 20px',
+                  color: '#FAF7F2',
+                  fontSize: '13px',
+                  marginBottom: '24px',
+                }}
+              >
+                <span style={{ color: '#9C8C7E' }}>Billed Amount: </span>
+                <span style={{ fontWeight: 800, color: '#FBC324' }}>₹{placedOrderInfo.total}</span>
+                <span style={{ color: '#9C8C7E', fontSize: '11px', marginLeft: '6px' }}>(Pay at Counter / Table)</span>
+              </div>
+            )}
+            <button
+              onClick={handleCloseAfterSuccess}
+              className="lm-interactive-btn"
+              style={{
+                padding: '12px 28px',
+                backgroundColor: '#FBC324',
+                color: '#080808',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '13px',
+                fontWeight: 800,
+                cursor: 'pointer',
+              }}
+            >
+              CONTINUE BROWSING MENU
+            </button>
           </div>
         ) : cart.length === 0 ? (
           <div
@@ -198,7 +272,7 @@ export const CartDrawer: React.FC = () => {
               Your tray is currently empty
             </h3>
             <p style={{ fontSize: '12.5px', color: '#9C8C7E', margin: '0 0 20px 0' }}>
-              Add handcrafted pizzas, burgers, or signature brews to get started.
+              Add handcrafted pizzas, signature cold brews, or burgers to get started.
             </p>
             <button
               onClick={closeCart}
@@ -218,8 +292,11 @@ export const CartDrawer: React.FC = () => {
           </div>
         ) : (
           <>
-            {/* Items List */}
-            <div style={{ padding: '16px 20px', overflowY: 'auto', flex: 1 }}>
+            {/* Items List with Synchronized Custom Scrollbar */}
+            <CustomScrollbarContainer
+              style={{ flex: 1, minHeight: 0 }}
+              contentStyle={{ padding: '16px 20px' }}
+            >
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {cart.map((item) => (
                   <div
@@ -285,11 +362,12 @@ export const CartDrawer: React.FC = () => {
                       >
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          disabled={isSubmitting}
                           style={{
                             background: 'none',
                             border: 'none',
                             color: '#FAF7F2',
-                            cursor: 'pointer',
+                            cursor: isSubmitting ? 'not-allowed' : 'pointer',
                             display: 'flex',
                             padding: 0,
                           }}
@@ -301,11 +379,12 @@ export const CartDrawer: React.FC = () => {
                         </span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          disabled={isSubmitting}
                           style={{
                             background: 'none',
                             border: 'none',
                             color: '#FAF7F2',
-                            cursor: 'pointer',
+                            cursor: isSubmitting ? 'not-allowed' : 'pointer',
                             display: 'flex',
                             padding: 0,
                           }}
@@ -316,11 +395,12 @@ export const CartDrawer: React.FC = () => {
 
                       <button
                         onClick={() => removeFromCart(item.id)}
+                        disabled={isSubmitting}
                         style={{
                           background: 'none',
                           border: 'none',
                           color: '#EF4444',
-                          cursor: 'pointer',
+                          cursor: isSubmitting ? 'not-allowed' : 'pointer',
                           display: 'flex',
                           padding: '4px',
                         }}
@@ -331,7 +411,7 @@ export const CartDrawer: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </CustomScrollbarContainer>
 
             {/* Bill Summary & Action */}
             <div
@@ -341,6 +421,49 @@ export const CartDrawer: React.FC = () => {
                 borderTop: '1px solid rgba(255, 255, 255, 0.08)',
               }}
             >
+              {/* Server-Side Error Alert */}
+              {orderError && (
+                <div
+                  style={{
+                    backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                    border: '1px solid rgba(239, 68, 68, 0.5)',
+                    borderRadius: '8px',
+                    padding: '10px 14px',
+                    marginBottom: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    color: '#FCA5A5',
+                    fontSize: '12.5px',
+                  }}
+                >
+                  <AlertCircle size={18} style={{ color: '#EF4444', flexShrink: 0 }} />
+                  <span style={{ lineHeight: 1.4 }}>{orderError}</span>
+                </div>
+              )}
+
+              {isTableRevoked && (
+                <div
+                  style={{
+                    marginBottom: '16px',
+                    padding: '12px 14px',
+                    borderRadius: '8px',
+                    backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                    border: '1px solid rgba(239, 68, 68, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    color: '#FCA5A5',
+                    fontSize: '12.5px',
+                  }}
+                >
+                  <AlertCircle size={18} style={{ color: '#EF4444', flexShrink: 0 }} />
+                  <span style={{ lineHeight: 1.4 }}>
+                    {tableRevocationReason || `Table ${tableNumber} QR has been deactivated by café staff. Ordering is disabled.`}
+                  </span>
+                </div>
+              )}
+
               {/* Summary Lines */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '14px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12.5px', color: '#9C8C7E' }}>
@@ -375,26 +498,39 @@ export const CartDrawer: React.FC = () => {
               {/* Confirm Order Button */}
               <button
                 onClick={handlePlaceOrder}
+                disabled={isSubmitting || isTableRevoked}
                 className="lm-interactive-btn"
                 style={{
                   width: '100%',
-                  backgroundColor: '#FBC324',
-                  color: '#080808',
-                  border: 'none',
+                  backgroundColor: isTableRevoked ? '#242424' : isSubmitting ? '#A37E15' : '#FBC324',
+                  color: isTableRevoked ? '#737373' : '#080808',
+                  border: isTableRevoked ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
                   borderRadius: '8px',
                   padding: '14px',
                   fontSize: '14px',
                   fontWeight: 800,
-                  cursor: 'pointer',
+                  cursor: isTableRevoked ? 'not-allowed' : isSubmitting ? 'wait' : 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
-                  boxShadow: '0 4px 16px rgba(251, 195, 36, 0.25)',
+                  boxShadow: isTableRevoked ? 'none' : '0 4px 16px rgba(251, 195, 36, 0.25)',
+                  opacity: isSubmitting ? 0.8 : 1,
                 }}
               >
-                <span>CONFIRM DINE-IN ORDER</span>
-                <ArrowRight size={16} />
+                {isTableRevoked ? (
+                  <span>TABLE QR DEACTIVATED</span>
+                ) : isSubmitting ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    <span>TRANSMITTING TO KITCHEN...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>CONFIRM DINE-IN ORDER</span>
+                    <ArrowRight size={16} />
+                  </>
+                )}
               </button>
             </div>
           </>

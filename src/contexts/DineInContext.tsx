@@ -1,5 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Product, ProductVariant, ProductAddon, CartItem, CustomerSession } from '../types';
+import {
+  ALL_PRODUCTS,
+  fetchCatalogStatus,
+  applyLiveUpdates,
+  CatalogStatus,
+} from '../services/catalog';
 import {
   validateSessionToken,
   detectCandidateToken,
@@ -19,6 +25,11 @@ interface DineInContextType {
   isCartDrawerOpen: boolean;
   selectedProduct: Product | null;
   isVegOnly: boolean;
+  products: Product[];
+  isStoreOpen: boolean;
+  isDineInOpen: boolean;
+  isTableRevoked: boolean;
+  tableRevocationReason: string | null;
   setIsVegOnly: (value: boolean | ((prev: boolean) => boolean)) => void;
   toggleVegOnly: () => void;
   addToCart: (
@@ -27,10 +38,12 @@ interface DineInContextType {
     addons?: ProductAddon[],
     instructions?: string,
     quantity?: number
-  ) => void;
+  ) => boolean;
   updateQuantity: (cartItemId: string, newQty: number) => void;
   removeFromCart: (cartItemId: string) => void;
   clearCart: () => void;
+  placeDineInOrder: (instructions?: string, paymentMethod?: string) => Promise<any>;
+  refreshCatalog: () => Promise<void>;
   signIn: (mobile: string, name?: string, token?: string, id?: string) => void;
   signOut: () => void;
   openAuthModal: () => void;
@@ -46,14 +59,20 @@ const CART_STORAGE_KEY = 'lm_dinein_cart_v2';
 
 export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Table Number from URL query parameter or default
-  const [tableNumber, setTableNumber] = useState<string>('Table 4');
+  const [tableNumber, setTableNumber] = useState<string>('Table 04');
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const tbl = params.get('table') || params.get('t');
       if (tbl) {
-        setTableNumber(`Table ${tbl.replace(/^table\s*/i, '')}`);
+        const numMatch = tbl.match(/\d+/);
+        if (numMatch) {
+          const num = parseInt(numMatch[0], 10);
+          setTableNumber(`Table ${String(num).padStart(2, '0')}`);
+        } else {
+          setTableNumber(tbl.trim());
+        }
       }
     }
   }, []);
@@ -121,6 +140,53 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     };
   }, [tableNumber]);
 
+  // Live Authoritative Products & Store Status
+  const [products, setProducts] = useState<Product[]>(ALL_PRODUCTS);
+  const [isStoreOpen, setIsStoreOpen] = useState<boolean>(true);
+  const [isDineInOpen, setIsDineInOpen] = useState<boolean>(true);
+  const [isTableRevoked, setIsTableRevoked] = useState<boolean>(false);
+  const [tableRevocationReason, setTableRevocationReason] = useState<string | null>(null);
+
+  const checkTableStatus = useCallback(async (tbl: string) => {
+    try {
+      const res = await fetch(`/api/dine-in/table-status?table=${encodeURIComponent(tbl)}`);
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 403 || data.error === 'REVOKED_TABLE' || data.isActive === false) {
+        setIsTableRevoked(true);
+        setTableRevocationReason(data.message || `Table ${tbl} QR credential has been revoked or deactivated by café administration.`);
+      } else {
+        setIsTableRevoked(false);
+        setTableRevocationReason(null);
+      }
+    } catch {
+      // keep previous state
+    }
+  }, []);
+
+  useEffect(() => {
+    if (tableNumber) {
+      checkTableStatus(tableNumber);
+    }
+  }, [tableNumber, checkTableStatus]);
+
+  const refreshCatalog = useCallback(async () => {
+    const status = await fetchCatalogStatus();
+    if (status) {
+      setIsStoreOpen(status.isStoreOpen);
+      setIsDineInOpen(status.isDineInOpen);
+      setProducts(applyLiveUpdates(ALL_PRODUCTS, status));
+      if (tableNumber) {
+        checkTableStatus(tableNumber);
+      }
+    }
+  }, [tableNumber, checkTableStatus]);
+
+  useEffect(() => {
+    refreshCatalog();
+    const interval = setInterval(refreshCatalog, 30000);
+    return () => clearInterval(interval);
+  }, [refreshCatalog]);
+
   // Cart State
   const [cart, setCart] = useState<CartItem[]>(() => {
     if (typeof window !== 'undefined') {
@@ -163,7 +229,13 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     addons: ProductAddon[] = [],
     instructions: string = '',
     quantity: number = 1
-  ) => {
+  ): boolean => {
+    // Inventory Safeguard: Prevent adding out-of-stock items
+    if (product.is_available === false) {
+      alert(`"${product.name}" is currently sold out and unavailable for ordering.`);
+      return false;
+    }
+
     const chosenVariant = variant || product.variants[0] || { name: 'Regular', price_paise: 19900 };
     const addonsCost = addons.reduce((sum, a) => sum + a.price, 0);
     const unitPrice = Math.round(chosenVariant.price_paise / 100) + addonsCost;
@@ -197,6 +269,7 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         ];
       }
     });
+    return true;
   };
 
   const updateQuantity = (cartItemId: string, newQty: number) => {
@@ -223,6 +296,51 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const clearCart = () => {
     setCart([]);
+  };
+
+  const placeDineInOrder = async (instructions: string = '', paymentMethod: string = 'cash') => {
+    if (!customer?.token) {
+      throw new Error('Please sign in to place your Dine-In order.');
+    }
+    if (cart.length === 0) {
+      throw new Error('Your cart is empty. Please add items to place an order.');
+    }
+
+    if (isTableRevoked) {
+      throw new Error(tableRevocationReason || 'This table QR credential is deactivated. Please contact café staff.');
+    }
+
+    const orderPayload = {
+      tableNumber,
+      paymentMethod,
+      instructions,
+      items: cart.map((item) => ({
+        id: item.product.slug,
+        slug: item.product.slug,
+        name: item.product.name,
+        variant_name: item.selectedVariant.name,
+        quantity: item.quantity,
+        price: item.unitPrice,
+        instructions: item.kitchenInstructions || '',
+      })),
+    };
+
+    const res = await fetch('/api/dine-in/order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${customer.token}`,
+      },
+      body: JSON.stringify(orderPayload),
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || data.error || 'Failed to place dine-in order. Please try again.');
+    }
+
+    return data;
   };
 
   const signIn = (
@@ -264,12 +382,19 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         isCartDrawerOpen,
         selectedProduct,
         isVegOnly,
+        products,
+        isStoreOpen,
+        isDineInOpen,
+        isTableRevoked,
+        tableRevocationReason,
         setIsVegOnly,
         toggleVegOnly,
         addToCart,
         updateQuantity,
         removeFromCart,
         clearCart,
+        placeDineInOrder,
+        refreshCatalog,
         signIn,
         signOut,
         openAuthModal: () => setIsAuthModalOpen(true),

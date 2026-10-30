@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDineIn } from '../contexts/DineInContext';
 import { customerSignIn, customerSignUp, createGuestSession } from '../services/auth';
-import { Eye, EyeOff, ArrowRight, Utensils, Sparkles, ShieldCheck, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight, Utensils, Sparkles, ShieldCheck, Loader2, AlertTriangle } from 'lucide-react';
 
 export const CustomerLoginGate: React.FC = () => {
-  const { signIn, tableNumber } = useDineIn();
+  const { signIn, tableNumber, isTableRevoked, tableRevocationReason } = useDineIn();
   const [tab, setTab] = useState<'signin' | 'signup'>('signin');
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
@@ -165,6 +165,31 @@ export const CustomerLoginGate: React.FC = () => {
             <span style={{ color: 'rgba(255, 255, 255, 0.4)', margin: '0 2px' }}>•</span>
             <span style={{ color: '#FAF7F2' }}>{tableNumber}</span>
           </div>
+
+          {isTableRevoked && (
+            <div
+              style={{
+                width: '100%',
+                padding: '10px 14px',
+                borderRadius: '8px',
+                background: 'rgba(239, 68, 68, 0.15)',
+                border: '1px solid rgba(239, 68, 68, 0.4)',
+                color: '#F87171',
+                fontSize: '12px',
+                fontWeight: 600,
+                marginBottom: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                textAlign: 'left',
+              }}
+            >
+              <AlertTriangle size={15} style={{ color: '#F87171', flexShrink: 0 }} />
+              <span style={{ lineHeight: 1.4 }}>
+                {tableRevocationReason || `Table ${tableNumber} QR has been deactivated by café staff. Ordering is disabled.`}
+              </span>
+            </div>
+          )}
 
           <h1
             style={{

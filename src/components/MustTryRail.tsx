@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Product } from '../types';
 import { getBasePrice, getOriginalPrice, getDiscountPercentage } from '../services/catalog';
 import { useDineIn } from '../contexts/DineInContext';
-import { Plus, Minus, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { Plus, Check, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 
 interface MustTryRailProps {
   products: Product[];
@@ -10,7 +10,7 @@ interface MustTryRailProps {
 }
 
 export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductClick }) => {
-  const { cart, addToCart, updateQuantity, isVegOnly } = useDineIn();
+  const { cart, addToCart, isVegOnly } = useDineIn();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
@@ -32,32 +32,94 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
   if (!displayProducts || displayProducts.length === 0) return null;
 
   return (
-    <section className="must-try-section">
-      {/* Header */}
-      <div className="must-try-header" style={{ marginBottom: '14px' }}>
+    <section
+      aria-label="Chef's Must-Try Recommendations"
+      className="must-try-section"
+      style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: '16px 24px 24px 24px',
+        boxSizing: 'border-box',
+      }}
+    >
+      {/* Section Header */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '14px',
+        }}
+      >
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Sparkles size={18} style={{ color: '#FBC324' }} />
-            <h2 className="must-try-editorial-heading">Must Try Specialities</h2>
+            <Sparkles size={17} style={{ color: '#FFC21A' }} />
+            <h2
+              style={{
+                fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
+                fontSize: '18px',
+                fontWeight: 700,
+                color: '#F5F5F5',
+                margin: 0,
+              }}
+            >
+              Must-Try Specialities
+            </h2>
           </div>
-          <p style={{ margin: '3px 0 0 26px', fontSize: '12px', color: '#9C8C7E' }}>
+          <p style={{ margin: '2px 0 0 25px', fontSize: '11.5px', color: '#888888' }}>
             Chef's signature handcrafted recommendations
           </p>
         </div>
 
         {/* Scroll Arrows */}
-        <div className="must-try-nav-arrows">
+        <div style={{ display: 'flex', gap: '6px' }}>
           <button
             onClick={scrollLeft}
             aria-label="Scroll left"
-            className="must-try-arrow-btn"
+            style={{
+              width: '30px',
+              height: '30px',
+              borderRadius: '6px',
+              backgroundColor: '#111111',
+              border: '1px solid #242424',
+              color: '#F5F5F5',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'border-color 0.15s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#FFC21A';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = '#242424';
+            }}
           >
             <ChevronLeft size={16} />
           </button>
           <button
             onClick={scrollRight}
             aria-label="Scroll right"
-            className="must-try-arrow-btn"
+            style={{
+              width: '30px',
+              height: '30px',
+              borderRadius: '6px',
+              backgroundColor: '#111111',
+              border: '1px solid #242424',
+              color: '#F5F5F5',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'border-color 0.15s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#FFC21A';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = '#242424';
+            }}
           >
             <ChevronRight size={16} />
           </button>
@@ -69,269 +131,245 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
         ref={scrollRef}
         style={{
           display: 'flex',
-          gap: '16px',
+          gap: '12px',
           overflowX: 'auto',
-          paddingBottom: '12px',
+          paddingBottom: '10px',
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
           WebkitOverflowScrolling: 'touch',
         }}
       >
-        {displayProducts.map((product, index) => {
+        {displayProducts.map((product) => {
           const inCartItem = cart.find((item) => item.product.slug === product.slug);
           const price = getBasePrice(product);
           const originalPrice = getOriginalPrice(product);
           const discountPercent = getDiscountPercentage(product);
-          const delayClass = index % 3 === 0 ? '' : index % 3 === 1 ? 'lm-reflection-delay-1' : 'lm-reflection-delay-2';
+          const isVeg = product.dietary_classification === 'VEG';
 
           return (
             <div
               key={product.slug}
-              className={`must-try-editorial-card lm-surface-reflection ${delayClass} ${inCartItem ? 'in-cart' : ''}`}
               onClick={() => onProductClick(product)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onProductClick(product);
+                }
+              }}
+              style={{
+                width: '220px',
+                minWidth: '220px',
+                backgroundColor: '#111111',
+                border: inCartItem
+                  ? '1.5px solid #FFC21A'
+                  : '1px solid rgba(255, 194, 26, 0.35)',
+                borderRadius: '10px',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                cursor: 'pointer',
+                transition: 'transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 194, 26, 0.08)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.borderColor = '#FFC21A';
+                e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.7), 0 0 16px rgba(255, 194, 26, 0.18)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.borderColor = inCartItem
+                  ? '#FFC21A'
+                  : 'rgba(255, 194, 26, 0.35)';
+                e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 194, 26, 0.08)';
+              }}
             >
-              {/* Image Container */}
-              <div className="must-try-photo-container" style={{ position: 'relative', zIndex: 3, overflow: 'hidden', borderRadius: '10px' }}>
+              {/* Product Photograph Container */}
+              <div
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  aspectRatio: '16 / 10',
+                  backgroundColor: '#080808',
+                  overflow: 'hidden',
+                  borderBottom: '1px solid #1E1E1E',
+                }}
+              >
+                {/* Diet Indicator (Top Left) */}
                 <div
                   style={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: '#12100E',
-                    backgroundImage: product.image_url
-                      ? 'none'
-                      : 'radial-gradient(circle at 50% 40%, rgba(251, 195, 36, 0.12) 0%, transparent 70%), linear-gradient(180deg, #181715 0%, #0D0C0B 100%)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    borderRadius: '10px',
+                    position: 'absolute',
+                    top: '8px',
+                    left: '8px',
+                    zIndex: 4,
+                    width: '14px',
+                    height: '14px',
+                    borderRadius: '2.5px',
+                    border: `1.5px solid ${isVeg ? '#22C55E' : '#EF4444'}`,
                     display: 'flex',
-                    flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    textAlign: 'center',
-                    position: 'relative',
-                    overflow: 'hidden',
+                    backgroundColor: 'rgba(5, 5, 5, 0.85)',
                   }}
                 >
                   <div
                     style={{
-                      position: 'absolute',
-                      top: '6px',
-                      left: '6px',
-                      width: '12px',
-                      height: '12px',
-                      border: `1.5px solid ${product.dietary_classification === 'VEG' ? '#22C55E' : '#EF4444'}`,
-                      borderRadius: '2.5px',
+                      width: '5px',
+                      height: '5px',
+                      borderRadius: '50%',
+                      backgroundColor: isVeg ? '#22C55E' : '#EF4444',
+                    }}
+                  />
+                </div>
+
+                {/* Must Try Pill (Top Right) */}
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: '8px',
+                    right: '8px',
+                    zIndex: 4,
+                    fontSize: '9px',
+                    fontWeight: 800,
+                    backgroundColor: 'rgba(255, 194, 26, 0.15)',
+                    color: '#FFC21A',
+                    border: '1px solid rgba(255, 194, 26, 0.45)',
+                    borderRadius: '4px',
+                    padding: '2px 6px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
+                    backdropFilter: 'blur(4px)',
+                    WebkitBackdropFilter: 'blur(4px)',
+                  }}
+                >
+                  Must Try
+                </span>
+
+                {product.image_url ? (
+                  <img
+                    src={product.image_url}
+                    alt={product.name}
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                      zIndex: 3,
+                      backgroundColor: '#0D0D0D',
+                      color: '#FFC21A',
                     }}
                   >
-                    <div
-                      style={{
-                        width: '5px',
-                        height: '5px',
-                        borderRadius: '50%',
-                        backgroundColor: product.dietary_classification === 'VEG' ? '#22C55E' : '#EF4444',
-                      }}
-                    />
+                    <Sparkles size={18} />
                   </div>
-
-                  {product.image_url ? (
-                    <img
-                      src={product.image_url}
-                      alt={product.name}
-                      loading="lazy"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        objectPosition: 'center',
-                        display: 'block',
-                      }}
-                    />
-                  ) : (
-                    <>
-                      <Sparkles size={20} style={{ color: '#FBC324', opacity: 0.9, marginBottom: '4px' }} />
-                      <span
-                        style={{
-                          fontSize: '9px',
-                          fontWeight: 800,
-                          color: '#FBC324',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.06em',
-                        }}
-                      >
-                        MUST TRY
-                      </span>
-                    </>
-                  )}
-                </div>
+                )}
               </div>
 
               {/* Product Info */}
-              <div style={{ position: 'relative', zIndex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+              <div
+                style={{
+                  padding: '10px 12px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  flex: 1,
+                  gap: '6px',
+                  backgroundColor: '#111111',
+                }}
+              >
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-                    <div
-                      style={{
-                        width: '7px',
-                        height: '7px',
-                        borderRadius: '50%',
-                        backgroundColor: product.dietary_classification === 'VEG' ? '#22C55E' : '#EF4444',
-                        flexShrink: 0,
-                      }}
-                    />
-                    <h3
-                      style={{
-                        fontSize: '14px',
-                        fontWeight: 700,
-                        color: '#FAF7F2',
-                        margin: 0,
-                        lineHeight: 1.25,
-                      }}
-                    >
-                      {product.name}
-                    </h3>
-                  </div>
-
+                  <h3
+                    style={{
+                      fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
+                      fontSize: '13px',
+                      fontWeight: 700,
+                      color: '#F5F5F5',
+                      margin: '0 0 2px 0',
+                      lineHeight: 1.3,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                    title={product.name}
+                  >
+                    {product.name}
+                  </h3>
                   <p
                     style={{
                       fontSize: '11px',
-                      color: '#9C8C7E',
-                      margin: '0 0 8px 0',
-                      lineHeight: 1.35,
+                      color: '#888888',
+                      margin: 0,
+                      lineHeight: 1.3,
                       display: '-webkit-box',
-                      WebkitLineClamp: 2,
+                      WebkitLineClamp: 1,
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden',
                     }}
                   >
-                    {product.description}
+                    {product.tagline || product.description}
                   </p>
                 </div>
 
-                {/* Price & Add Action */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
-                  {price !== null ? (
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '5px', flexWrap: 'wrap' }}>
-                      <span style={{ fontSize: '15px', fontWeight: 800, color: '#FBC324' }}>
-                        ₹{price}
-                      </span>
-                      {originalPrice && originalPrice > price && (
-                        <span
-                          style={{
-                            fontSize: '11px',
-                            color: '#8C827A',
-                            textDecoration: 'line-through',
-                            fontWeight: 500,
-                          }}
-                        >
-                          ₹{originalPrice}
-                        </span>
-                      )}
-                      {discountPercent && (
-                        <span
-                          style={{
-                            fontSize: '9px',
-                            fontWeight: 800,
-                            color: '#4ADE80',
-                            backgroundColor: 'rgba(34, 197, 94, 0.15)',
-                            border: '1px solid rgba(34, 197, 94, 0.35)',
-                            borderRadius: '4px',
-                            padding: '1px 4px',
-                          }}
-                        >
-                          {discountPercent}% OFF
-                        </span>
-                      )}
-                    </div>
-                  ) : (
-                    <span
-                      style={{
-                        fontSize: '10px',
-                        fontWeight: 700,
-                        color: '#F59E0B',
-                        backgroundColor: 'rgba(245, 158, 11, 0.12)',
-                        border: '1px solid rgba(245, 158, 11, 0.3)',
-                        borderRadius: '4px',
-                        padding: '2px 5px',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.03em',
-                      }}
-                    >
-                      Price Unclear
+                {/* Price and Add button */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingTop: '4px',
+                    borderTop: '1px solid #1E1E1E',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '5px' }}>
+                    <span style={{ fontSize: '14px', fontWeight: 800, color: '#FFC21A' }}>
+                      ₹{price !== null ? price : '—'}
                     </span>
-                  )}
-
-                  {inCartItem ? (
-                    <div
-                      onClick={(e) => e.stopPropagation()}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        backgroundColor: '#FBC324',
-                        borderRadius: '6px',
-                        padding: '2px 6px',
-                        gap: '6px',
-                      }}
-                    >
-                      <button
-                        onClick={() => updateQuantity(inCartItem.id, inCartItem.quantity - 1)}
+                    {originalPrice && originalPrice > (price || 0) && (
+                      <span
                         style={{
-                          background: 'none',
-                          border: 'none',
-                          color: '#080808',
-                          padding: '2px',
-                          display: 'flex',
-                          cursor: 'pointer',
+                          fontSize: '11px',
+                          color: '#666666',
+                          textDecoration: 'line-through',
+                          fontWeight: 500,
                         }}
                       >
-                        <Minus size={13} />
-                      </button>
-                      <span style={{ fontSize: '12px', fontWeight: 800, color: '#080808' }}>
-                        {inCartItem.quantity}
+                        ₹{originalPrice}
                       </span>
-                      <button
-                        onClick={() => updateQuantity(inCartItem.id, inCartItem.quantity + 1)}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: '#080808',
-                          padding: '2px',
-                          display: 'flex',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <Plus size={13} />
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      className="lm-interactive-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        addToCart(product);
-                      }}
-                      style={{
-                        padding: '5px 12px',
-                        borderRadius: '6px',
-                        backgroundColor: '#191816',
-                        border: '1px solid #FBC324',
-                        color: '#FBC324',
-                        fontSize: '11px',
-                        fontWeight: 800,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        transition: 'all 0.15s ease',
-                      }}
-                    >
-                      <Plus size={12} />
-                      <span>ADD</span>
-                    </button>
-                  )}
+                    )}
+                  </div>
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onProductClick(product);
+                    }}
+                    style={{
+                      width: '26px',
+                      height: '26px',
+                      borderRadius: '5px',
+                      backgroundColor: inCartItem ? '#FFC21A' : '#1A1A1A',
+                      border: '1px solid ' + (inCartItem ? '#FFC21A' : '#2A2A2A'),
+                      color: inCartItem ? '#080808' : '#F5F5F5',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {inCartItem ? <Check size={13} strokeWidth={3} /> : <Plus size={13} strokeWidth={2.5} />}
+                  </button>
                 </div>
               </div>
             </div>

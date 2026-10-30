@@ -25,10 +25,6 @@ export interface ValidationResult {
 
 export const AUTH_STORAGE_KEYS = {
   DINE_IN: 'lm_dinein_auth_v2',
-  DEV_SESSION: 'lm_dev_customer_session',
-  CUSTOMER_USER: 'lm_customer_user',
-  CUSTOMER_ACCOUNT: 'lm_customer_account',
-  USER_SESSION: 'lm_user_session',
 };
 
 /**
@@ -204,22 +200,13 @@ export async function createGuestSession(
 }
 
 /**
- * Proactively checks browser storage & URL parameters for an existing Takeaway
- * or Dine-In customer session.
+ * Resolves any existing customer session in this application's local storage.
+ * Follows standard session management without custom SSO, token sniffing, or URL parameters.
  */
 export function detectCandidateToken(): { token: string; candidateUser?: any } | null {
   if (typeof window === 'undefined') return null;
 
-  // 1. Check URL query parameters (e.g. ?auth_token=... or ?token=...)
-  try {
-    const params = new URLSearchParams(window.location.search);
-    const urlToken = params.get('auth_token') || params.get('token') || params.get('session');
-    if (urlToken && urlToken.trim()) {
-      return { token: urlToken.trim() };
-    }
-  } catch {}
-
-  // 2. Check Dine-In local storage
+  // 1. Check standard Dine-In session storage
   try {
     const savedDineIn = localStorage.getItem(AUTH_STORAGE_KEYS.DINE_IN);
     if (savedDineIn) {
@@ -229,31 +216,11 @@ export function detectCandidateToken(): { token: string; candidateUser?: any } |
     }
   } catch {}
 
-  // 3. Check shared Takeaway developer session
-  try {
-    const savedDev = localStorage.getItem(AUTH_STORAGE_KEYS.DEV_SESSION);
-    if (savedDev) {
-      const parsed = JSON.parse(savedDev);
-      const token = parsed?.token || parsed?.access_token || parsed?.sessionToken;
-      if (token) return { token, candidateUser: parsed };
-    }
-  } catch {}
-
-  // 4. Check Takeaway customer user/account
-  try {
-    const savedUser = localStorage.getItem(AUTH_STORAGE_KEYS.CUSTOMER_USER) || localStorage.getItem(AUTH_STORAGE_KEYS.CUSTOMER_ACCOUNT);
-    if (savedUser) {
-      const parsed = JSON.parse(savedUser);
-      const token = parsed?.token || parsed?.access_token || parsed?.sessionToken;
-      if (token) return { token, candidateUser: parsed };
-    }
-  } catch {}
-
-  // 5. Check Supabase auth token keys in localStorage (sb-*-auth-token)
+  // 2. Check standard Supabase client token storage (sb-*-auth-token)
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key && (key.startsWith('sb-') && key.endsWith('-auth-token'))) {
+      if (key && key.startsWith('sb-') && key.endsWith('-auth-token')) {
         const raw = localStorage.getItem(key);
         if (raw) {
           const parsed = JSON.parse(raw);
@@ -261,16 +228,6 @@ export function detectCandidateToken(): { token: string; candidateUser?: any } |
           if (token) return { token, candidateUser: parsed?.user };
         }
       }
-    }
-  } catch {}
-
-  // 6. Check sessionStorage fallback
-  try {
-    const sessionDev = sessionStorage.getItem(AUTH_STORAGE_KEYS.DEV_SESSION);
-    if (sessionDev) {
-      const parsed = JSON.parse(sessionDev);
-      const token = parsed?.token || parsed?.access_token;
-      if (token) return { token, candidateUser: parsed };
     }
   } catch {}
 
@@ -304,19 +261,6 @@ export function persistCustomerSession(session: CustomerSession): void {
   if (typeof window === 'undefined') return;
   try {
     localStorage.setItem(AUTH_STORAGE_KEYS.DINE_IN, JSON.stringify(session));
-    if (session.token) {
-      localStorage.setItem(
-        AUTH_STORAGE_KEYS.DEV_SESSION,
-        JSON.stringify({
-          id: session.id || session.mobile,
-          phone: session.mobile,
-          name: session.name,
-          token: session.token,
-          access_token: session.token,
-          user_metadata: { full_name: session.name, phone: session.mobile },
-        })
-      );
-    }
   } catch {}
 }
 
@@ -327,9 +271,5 @@ export function clearCustomerSession(): void {
   if (typeof window === 'undefined') return;
   try {
     localStorage.removeItem(AUTH_STORAGE_KEYS.DINE_IN);
-    localStorage.removeItem(AUTH_STORAGE_KEYS.DEV_SESSION);
-    localStorage.removeItem(AUTH_STORAGE_KEYS.CUSTOMER_USER);
-    localStorage.removeItem(AUTH_STORAGE_KEYS.CUSTOMER_ACCOUNT);
-    sessionStorage.removeItem(AUTH_STORAGE_KEYS.DEV_SESSION);
   } catch {}
 }
