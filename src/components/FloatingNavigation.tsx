@@ -1,13 +1,17 @@
 import React from 'react';
 import { useDineIn } from '../contexts/DineInContext';
-import { Utensils, ShoppingBag, User } from 'lucide-react';
+import { Utensils, Search, User } from 'lucide-react';
 
 interface FloatingNavigationProps {
   onMenuClick: () => void;
+  onSearchClick?: () => void;
 }
 
-export const FloatingNavigation: React.FC<FloatingNavigationProps> = ({ onMenuClick }) => {
-  const { cartCount, openCart, openAuthModal, customer } = useDineIn();
+export const FloatingNavigation: React.FC<FloatingNavigationProps> = ({
+  onMenuClick,
+  onSearchClick,
+}) => {
+  const { openAuthModal, customer } = useDineIn();
 
   return (
     <nav
@@ -24,7 +28,7 @@ export const FloatingNavigation: React.FC<FloatingNavigationProps> = ({ onMenuCl
         padding: '5px 14px',
         display: 'flex',
         alignItems: 'center',
-        gap: '12px',
+        gap: '8px',
         boxShadow: '0 10px 30px rgba(0, 0, 0, 0.9), 0 0 16px rgba(255, 194, 26, 0.08)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
@@ -33,6 +37,7 @@ export const FloatingNavigation: React.FC<FloatingNavigationProps> = ({ onMenuCl
       {/* Menu Tab */}
       <button
         onClick={onMenuClick}
+        aria-label="Browse Menu"
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -51,59 +56,39 @@ export const FloatingNavigation: React.FC<FloatingNavigationProps> = ({ onMenuCl
         </span>
       </button>
 
-      <div style={{ width: '1px', height: '18px', backgroundColor: '#242424' }} />
-
-      {/* Cart Tab with Badge */}
-      <button
-        onClick={openCart}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '2px',
-          background: 'none',
-          border: 'none',
-          color: cartCount > 0 ? '#F5F5F5' : '#888888',
-          cursor: 'pointer',
-          padding: '4px 12px',
-          position: 'relative',
-        }}
-      >
-        <div style={{ position: 'relative' }}>
-          <ShoppingBag size={17} />
-          {cartCount > 0 && (
-            <span
-              style={{
-                position: 'absolute',
-                top: '-4px',
-                right: '-8px',
-                backgroundColor: '#FFC21A',
-                color: '#080808',
-                borderRadius: '999px',
-                fontSize: '9px',
-                fontWeight: 900,
-                minWidth: '15px',
-                height: '15px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '0 3px',
-              }}
-            >
-              {cartCount}
+      {onSearchClick && (
+        <>
+          <div style={{ width: '1px', height: '18px', backgroundColor: '#242424' }} />
+          {/* Search Tab */}
+          <button
+            onClick={onSearchClick}
+            aria-label="Search Dishes"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '2px',
+              background: 'none',
+              border: 'none',
+              color: '#FAF7F2',
+              cursor: 'pointer',
+              padding: '4px 12px',
+            }}
+          >
+            <Search size={17} />
+            <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.04em' }}>
+              Search
             </span>
-          )}
-        </div>
-        <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.04em' }}>
-          Cart
-        </span>
-      </button>
+          </button>
+        </>
+      )}
 
       <div style={{ width: '1px', height: '18px', backgroundColor: '#242424' }} />
 
       {/* Account Tab */}
       <button
         onClick={openAuthModal}
+        aria-label="Customer Account"
         style={{
           display: 'flex',
           flexDirection: 'column',

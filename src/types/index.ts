@@ -16,11 +16,12 @@ export interface ProductIngredient {
 }
 
 export interface Product {
+  id?: string;
   slug: string;
   category: string;
   name: string;
   description: string;
-  dietary_classification: 'VEG' | 'NON_VEG';
+  dietary_classification: 'VEG' | 'NON_VEG' | 'EGG';
   is_must_try: boolean;
   variants: ProductVariant[];
   image_url?: string | null;
@@ -46,6 +47,20 @@ export interface CartItem {
   totalPrice: number; // in Rupees
 }
 
+export interface DiningSession {
+  sessionId: string;
+  tableNumber: string;
+  credentialId?: string;
+  createdAt: number;
+  expiresAt: number;
+  timeRemainingMs: number;
+  customer?: {
+    id: string;
+    name: string;
+    phone: string;
+  };
+}
+
 export interface CustomerSession {
   id?: string;
   mobile: string;
@@ -54,6 +69,8 @@ export interface CustomerSession {
   expiresAt?: number;
   isAuthenticated: boolean;
   tableNumber?: string;
+  role?: string;
+  isGuest?: boolean;
 }
 
 export interface MenuCategoryGroup {

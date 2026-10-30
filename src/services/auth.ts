@@ -25,6 +25,8 @@ export interface ValidationResult {
 
 export const AUTH_STORAGE_KEYS = {
   DINE_IN: 'lm_dinein_auth_v2',
+  DINING_SESSION: 'lm_dining_session_token',
+  QR_PROOF: 'lm_dining_qr_proof',
 };
 
 /**
@@ -265,11 +267,166 @@ export function persistCustomerSession(session: CustomerSession): void {
 }
 
 /**
+ * Verifies a scanned table QR credential against the backend.
+ */
+export async function verifyScannedQr(
+  table: string,
+  cred: string
+): Promise<{ valid: boolean; tableNumber?: string; qrProofToken?: string; credentialId?: string; error?: string; message?: string }> {
+  try {
+    const res = await fetch('/api/dine-in/verify-qr', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ table, cred }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data?.valid) {
+      return {
+        valid: true,
+        tableNumber: data.tableNumber,
+        qrProofToken: data.qrProofToken,
+        credentialId: data.credentialId,
+        message: data.message,
+      };
+    }
+
+    return {
+      valid: false,
+      error: data.error || 'INVALID_QR',
+      message: data.message || 'QR code verification failed.',
+    };
+  } catch (err: any) {
+    return {
+      valid: false,
+      error: 'NETWORK_ERROR',
+      message: 'Failed to verify QR code with café server.',
+    };
+  }
+}
+
+/**
+ * Initiates a 30-minute Dining Session binding Table QR Proof + Customer Token.
+ */
+export async function initiateDiningSession(
+  qrProofToken: string,
+  customerToken: string
+): Promise<{ success: boolean; sessionToken?: string; session?: any; error?: string; message?: string }> {
+  try {
+    const res = await fetch('/api/dine-in/create-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${customerToken}`,
+      },
+      body: JSON.stringify({ qrProofToken, token: customerToken }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data?.success) {
+      return {
+        success: true,
+        sessionToken: data.sessionToken,
+        session: data.session,
+      };
+    }
+
+    return {
+      success: false,
+      error: data.error || 'SESSION_CREATION_FAILED',
+      message: data.message || 'Could not initiate dining session.',
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      error: 'NETWORK_ERROR',
+      message: 'Network error connecting to dining session server.',
+    };
+  }
+}
+
+/**
+ * Checks active Dining Session validity & remaining time.
+ */
+export async function checkDiningSessionStatus(
+  sessionToken: string
+): Promise<{ valid: boolean; tableNumber?: string; timeRemainingMs?: number; expiresAt?: number; error?: string; message?: string }> {
+  try {
+    const res = await fetch('/api/dine-in/session-status', {
+      headers: {
+        'X-Dining-Session': sessionToken,
+      },
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data?.valid) {
+      return {
+        valid: true,
+        tableNumber: data.tableNumber,
+        timeRemainingMs: data.timeRemainingMs,
+        expiresAt: data.expiresAt,
+      };
+    }
+
+    return {
+      valid: false,
+      error: data.error || 'INVALID_SESSION',
+      message: data.message || 'Dining session is no longer active.',
+    };
+  } catch (err: any) {
+    return {
+      valid: false,
+      error: 'NETWORK_ERROR',
+      message: 'Could not contact dining session service.',
+    };
+  }
+}
+
+/**
+ * Explicitly terminates active dining session on the server.
+ */
+export async function terminateDiningSession(sessionToken?: string): Promise<void> {
+  if (!sessionToken) return;
+  try {
+    await fetch('/api/dine-in/logout-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Dining-Session': sessionToken,
+      },
+      body: JSON.stringify({ sessionToken }),
+    });
+  } catch {}
+}
+
+/**
+ * Cleans QR credential query params from URL without page reload.
+ */
+export function cleanQrUrlParams(): void {
+  if (typeof window === 'undefined') return;
+  try {
+    const url = new URL(window.location.href);
+    let changed = false;
+    for (const p of ['cred', 'c', 'auth_token', 'token']) {
+      if (url.searchParams.has(p)) {
+        url.searchParams.delete(p);
+        changed = true;
+      }
+    }
+    if (changed) {
+      window.history.replaceState({}, document.title, url.pathname + (url.search ? url.search : ''));
+    }
+  } catch {}
+}
+
+/**
  * Clears customer session from local storage.
  */
 export function clearCustomerSession(): void {
   if (typeof window === 'undefined') return;
   try {
     localStorage.removeItem(AUTH_STORAGE_KEYS.DINE_IN);
+    sessionStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
+    sessionStorage.removeItem(AUTH_STORAGE_KEYS.QR_PROOF);
   } catch {}
 }

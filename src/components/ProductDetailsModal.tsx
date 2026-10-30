@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Product, ProductVariant, ProductAddon } from '../types';
-import { useDineIn } from '../contexts/DineInContext';
+import { Product, ProductVariant } from '../types';
+// useDineIn removed for read-only digital menu
 import { resolveProductImage } from '../services/productImageMap';
-import { X, Plus, Minus, Check, Sparkles, Coffee } from 'lucide-react';
+import { X, Sparkles, Coffee } from 'lucide-react';
 import { LiquidWaveTransition } from './LiquidWaveTransition';
 import { CustomScrollbarContainer } from './CustomScrollbarContainer';
 
@@ -11,23 +11,12 @@ interface ProductDetailsModalProps {
   onClose: () => void;
 }
 
-const DEFAULT_ADDONS: ProductAddon[] = [
-  { id: 'extra-cheese', name: 'Extra Mozzarella Cheese', price: 49 },
-  { id: 'garlic-dip', name: 'Signature Garlic Mayo Dip', price: 30 },
-  { id: 'peri-peri-seasoning', name: 'Extra Peri Peri Sprinkle', price: 20 },
-];
-
-const BEVERAGE_ADDONS: ProductAddon[] = [
-  { id: 'extra-espresso-shot', name: 'Extra Shot Espresso', price: 40 },
-  { id: 'sweet-cream-float', name: 'Velvety Sweet Cream Float', price: 35 },
-  { id: 'vanilla-bean-syrup', name: 'Artisanal Vanilla Syrup', price: 25 },
-];
 
 export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   product,
   onClose,
 }) => {
-  const { addToCart } = useDineIn();
+
 
   const [activeProduct, setActiveProduct] = useState<Product | null>(product);
   const [isClosing, setIsClosing] = useState(false);
@@ -35,9 +24,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   const [imageError, setImageError] = useState(false);
 
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
-  const [selectedAddons, setSelectedAddons] = useState<ProductAddon[]>([]);
-  const [instructions, setInstructions] = useState('');
-  const [quantity, setQuantity] = useState(1);
+  // Read-only modal: order customization states removed
 
   // Smooth dismiss with slide-down exit animation
   const triggerClose = useCallback(() => {
@@ -59,9 +46,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
       setIsClosing(false);
       setImageError(false);
       setSelectedVariant(product.variants[0] || { name: 'Regular', price_paise: 19900 });
-      setSelectedAddons([]);
-      setInstructions('');
-      setQuantity(1);
+
 
       // Lock body scroll while modal is active
       const originalOverflow = document.body.style.overflow;
@@ -107,36 +92,9 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     ? Math.round(((originalPrice - basePrice) / originalPrice) * 100)
     : null;
 
-  const isBeverage =
-    currentProduct.category === 'cold-brew' ||
-    currentProduct.category.includes('coffee') ||
-    currentProduct.category.includes('tea') ||
-    currentProduct.category.includes('shake') ||
-    currentProduct.category.includes('mojito');
-
-  const availableAddons = isBeverage ? BEVERAGE_ADDONS : DEFAULT_ADDONS;
-  const addonsTotal = selectedAddons.reduce((sum, a) => sum + a.price, 0);
-  const unitPrice = basePrice + addonsTotal;
-  const grandTotal = unitPrice * quantity;
   const isAvailable = currentProduct.is_available !== false;
   const isVeg = currentProduct.dietary_classification === 'VEG';
-
-  // Resolved authoritative photograph
   const displayImage = currentProduct.image_url || resolveProductImage(currentProduct);
-
-  const toggleAddon = (addon: ProductAddon) => {
-    setSelectedAddons((prev) =>
-      prev.some((a) => a.id === addon.id)
-        ? prev.filter((a) => a.id !== addon.id)
-        : [...prev, addon]
-    );
-  };
-
-  const handleAdd = () => {
-    if (isClosing || !isAvailable) return;
-    addToCart(currentProduct, selectedVariant || undefined, selectedAddons, instructions, quantity);
-    triggerClose();
-  };
 
   return (
     <div
@@ -160,6 +118,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     >
       {/* Bottom Sliding Card Drawer with Sharp Clean Edges */}
       <div
+        className="lm-product-details-modal"
         style={{
           width: '100%',
           maxWidth: '520px',
@@ -205,29 +164,44 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           />
         </div>
 
-        {/* Dedicated Top Navigation Header: Category, Badges & Close Button */}
+        {/* Dedicated Top Navigation Header: Read-Only "Product Details", Category & Close */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '6px 16px 8px 16px',
+            padding: '10px 18px',
             borderBottom: '1px solid #1A1A1A',
-            backgroundColor: '#080808',
+            backgroundColor: '#0A0A0A',
+            flexShrink: 0,
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
+            <span
+              style={{
+                fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
+                fontSize: '12.5px',
+                fontWeight: 800,
+                color: '#FFC21A',
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+              }}
+            >
+              Product Details
+            </span>
+            <span style={{ color: '#333333' }}>•</span>
             {/* Dietary Badge */}
             <div
               style={{
-                width: '15px',
-                height: '15px',
+                width: '14px',
+                height: '14px',
                 borderRadius: '2.5px',
                 border: `1.5px solid ${isVeg ? '#22C55E' : '#EF4444'}`,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: 'rgba(5, 5, 5, 0.9)',
+                flexShrink: 0,
               }}
               title={isVeg ? 'Vegetarian' : 'Non-Vegetarian'}
             >
@@ -249,60 +223,25 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em',
                 fontWeight: 600,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
               }}
             >
               {currentProduct.category.replace(/-/g, ' ')}
             </span>
-
-            {/* Signature or Must-Try Badges */}
-            {currentProduct.badge ? (
-              <span
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  backgroundColor: 'rgba(255, 194, 26, 0.12)',
-                  border: '1px solid rgba(255, 194, 26, 0.45)',
-                  borderRadius: '4px',
-                  padding: '2px 7px',
-                  color: '#FFC21A',
-                  fontSize: '9.5px',
-                  fontWeight: 800,
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                <Sparkles size={10} />
-                <span>{currentProduct.badge}</span>
-              </span>
-            ) : currentProduct.is_must_try ? (
-              <span
-                style={{
-                  backgroundColor: 'rgba(255, 194, 26, 0.12)',
-                  border: '1px solid rgba(255, 194, 26, 0.45)',
-                  borderRadius: '4px',
-                  padding: '2px 7px',
-                  color: '#FFC21A',
-                  fontSize: '9.5px',
-                  fontWeight: 800,
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                Must Try
-              </span>
-            ) : null}
           </div>
 
-          {/* Close Button: Clearly visible, completely outside and above the image stage */}
+          {/* Close Button: Accessible name, clearly visible outside image stage */}
           <button
             onClick={triggerClose}
             aria-label="Close product details"
+            title="Close (Esc)"
             style={{
               width: '32px',
               height: '32px',
-              borderRadius: '7px',
-              backgroundColor: '#121212',
+              borderRadius: '50%',
+              backgroundColor: '#141414',
               border: '1px solid #282828',
               color: '#F5F5F5',
               display: 'flex',
@@ -310,7 +249,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
               justifyContent: 'center',
               cursor: 'pointer',
               flexShrink: 0,
-              transition: 'border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease',
+              transition: 'all 0.15s ease',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = '#FFC21A';
@@ -320,7 +259,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = '#282828';
               e.currentTarget.style.color = '#F5F5F5';
-              e.currentTarget.style.backgroundColor = '#121212';
+              e.currentTarget.style.backgroundColor = '#141414';
             }}
           >
             <X size={16} />
@@ -329,22 +268,18 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
         {/* Dedicated Product Showcase Frame (Image Region) */}
         <div
+          className="lm-detail-img-wrap"
           style={{
-            margin: '10px 16px 6px 16px',
-            height: '200px',
+            position: 'relative',
+            width: '100%',
+            height: 'clamp(220px, 30vh, 310px)',
             flexShrink: 0,
             backgroundColor: '#050505',
-            background:
-              'radial-gradient(ellipse at 50% 68%, rgba(255, 194, 26, 0.08) 0%, rgba(255, 194, 26, 0.015) 50%, rgba(5, 5, 5, 0) 75%), #050505',
-            border: '1px solid #202020',
-            borderRadius: '10px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
+            background: displayImage && displayImage.includes('/cold-brew/')
+              ? 'radial-gradient(ellipse at 50% 68%, rgba(255, 194, 26, 0.12) 0%, rgba(255, 194, 26, 0.02) 55%, rgba(5, 5, 5, 0) 80%), #050505'
+              : '#080808',
+            borderBottom: '1px solid #1E1E1E',
             overflow: 'hidden',
-            padding: '12px 16px',
-            boxSizing: 'border-box',
           }}
         >
           {displayImage && !imageError ? (
@@ -352,22 +287,24 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
               src={displayImage}
               alt={currentProduct.name}
               onError={() => setImageError(true)}
+              className="lm-detail-img"
               style={{
-                maxHeight: '100%',
-                maxWidth: '85%',
-                width: 'auto',
-                height: 'auto',
-                objectFit: 'contain',
+                width: '100%',
+                height: '100%',
+                objectFit: displayImage.includes('/cold-brew/') ? 'contain' : 'cover',
+                objectPosition: 'center',
                 display: 'block',
-                margin: '0 auto',
-                filter: 'drop-shadow(0 12px 24px rgba(0, 0, 0, 0.8))',
-                transition: 'transform 0.25s ease',
+                filter: displayImage.includes('/cold-brew/')
+                  ? 'drop-shadow(0 14px 28px rgba(0, 0, 0, 0.9))'
+                  : 'none',
               }}
             />
           ) : (
             /* Branded Architectural Placeholder for products without imagery */
             <div
               style={{
+                width: '100%',
+                height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -375,6 +312,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 textAlign: 'center',
                 padding: '16px',
                 gap: '8px',
+                backgroundColor: '#0D0D0D',
               }}
             >
               <div
@@ -382,7 +320,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                   width: '48px',
                   height: '48px',
                   borderRadius: '10px',
-                  backgroundColor: '#111111',
+                  backgroundColor: '#141414',
                   border: '1px solid #242424',
                   display: 'flex',
                   alignItems: 'center',
@@ -408,6 +346,57 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
               </div>
             </div>
           )}
+
+          {/* Badges Overlay */}
+          {currentProduct.badge ? (
+            <div
+              style={{
+                position: 'absolute',
+                top: '12px',
+                left: '14px',
+                zIndex: 3,
+                backgroundColor: 'rgba(8, 8, 8, 0.85)',
+                border: '1px solid rgba(255, 194, 26, 0.5)',
+                borderRadius: '4px',
+                padding: '3px 8px',
+                color: '#FFC21A',
+                fontSize: '10px',
+                fontWeight: 800,
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)',
+              }}
+            >
+              <Sparkles size={11} />
+              <span>{currentProduct.badge}</span>
+            </div>
+          ) : currentProduct.is_must_try ? (
+            <div
+              style={{
+                position: 'absolute',
+                top: '12px',
+                left: '14px',
+                zIndex: 3,
+                backgroundColor: 'rgba(255, 194, 26, 0.18)',
+                border: '1px solid rgba(255, 194, 26, 0.5)',
+                borderRadius: '4px',
+                padding: '3px 8px',
+                color: '#FFC21A',
+                fontSize: '10px',
+                fontWeight: 800,
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)',
+              }}
+            >
+              Must Try
+            </div>
+          ) : null}
         </div>
 
         {/* Synchronized Custom Scrollbar Content Body */}
@@ -597,215 +586,81 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             </div>
           )}
 
-          {/* Add-ons List */}
-          <div style={{ marginBottom: '16px' }}>
-            <label
-              style={{
-                display: 'block',
-                fontSize: '11.5px',
-                fontWeight: 700,
-                color: '#F5F5F5',
-                marginBottom: '8px',
-              }}
-            >
-              Optional Add-Ons:
-            </label>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              {availableAddons.map((addon) => {
-                const isChecked = selectedAddons.some((a) => a.id === addon.id);
-                return (
-                  <div
-                    key={addon.id}
-                    onClick={() => toggleAddon(addon)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      backgroundColor: '#111111',
-                      border: '1px solid ' + (isChecked ? 'rgba(255, 194, 26, 0.5)' : '#242424'),
-                      borderRadius: '6px',
-                      padding: '8px 12px',
-                      cursor: 'pointer',
-                      transition: 'border-color 0.15s ease',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <div
-                        style={{
-                          width: '15px',
-                          height: '15px',
-                          borderRadius: '3px',
-                          backgroundColor: isChecked ? '#FFC21A' : 'transparent',
-                          border: '1.5px solid ' + (isChecked ? '#FFC21A' : '#555555'),
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#080808',
-                        }}
-                      >
-                        {isChecked && <Check size={11} strokeWidth={3} />}
-                      </div>
-                      <span style={{ fontSize: '12px', color: '#F5F5F5' }}>{addon.name}</span>
-                    </div>
-                    <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#FFC21A' }}>
-                      +₹{addon.price}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          </CustomScrollbarContainer>
 
-          {/* Kitchen Instructions */}
-          <div style={{ marginBottom: '14px' }}>
-            <label
-              style={{
-                display: 'block',
-                fontSize: '11.5px',
-                fontWeight: 700,
-                color: '#F5F5F5',
-                marginBottom: '6px',
-              }}
-            >
-              Kitchen Instructions (Optional):
-            </label>
-            <textarea
-              placeholder="e.g. Less spicy, dressing on side..."
-              value={instructions}
-              onChange={(e) => setInstructions(e.target.value)}
-              rows={2}
-              style={{
-                width: '100%',
-                backgroundColor: '#111111',
-                border: '1px solid #242424',
-                borderRadius: '6px',
-                padding: '8px 10px',
-                color: '#F5F5F5',
-                fontSize: '11.5px',
-                outline: 'none',
-                resize: 'none',
-                boxSizing: 'border-box',
-              }}
-            />
-          </div>
-        </CustomScrollbarContainer>
-
-        {/* Sticky Bottom Actions Bar */}
+        {/* Sticky Bottom Actions Bar (Read-Only Informational) */}
         <div
           style={{
-            padding: '12px 16px',
-            backgroundColor: '#080808',
+            padding: '14px 20px',
+            backgroundColor: '#0A0A0A',
             borderTop: '1px solid #1E1E1E',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '12px',
+            gap: '16px',
+            flexShrink: 0,
           }}
         >
-          {/* Quantity Stepper */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              backgroundColor: '#111111',
-              border: '1px solid #242424',
-              borderRadius: '6px',
-              padding: '5px 8px',
-              gap: '10px',
-            }}
-          >
-            <button
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              disabled={quantity <= 1}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: quantity <= 1 ? '#444444' : '#F5F5F5',
-                cursor: quantity <= 1 ? 'not-allowed' : 'pointer',
-                display: 'flex',
-                padding: 0,
-              }}
-            >
-              <Minus size={14} />
-            </button>
-            <span
-              style={{
-                fontSize: '13px',
-                fontWeight: 800,
-                color: '#F5F5F5',
-                minWidth: '16px',
-                textAlign: 'center',
-              }}
-            >
-              {quantity}
+          {/* Price & Offer Display */}
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '20px', fontWeight: 800, color: '#FFC21A' }}>
+              ₹{basePrice}
             </span>
-            <button
-              onClick={() => setQuantity(quantity + 1)}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#F5F5F5',
-                cursor: 'pointer',
-                display: 'flex',
-                padding: 0,
-              }}
-            >
-              <Plus size={14} />
-            </button>
+            {originalPrice && originalPrice > basePrice && (
+              <span
+                style={{
+                  fontSize: '13px',
+                  color: '#666666',
+                  textDecoration: 'line-through',
+                  fontWeight: 500,
+                }}
+              >
+                ₹{originalPrice}
+              </span>
+            )}
+            {discountPercent && (
+              <span
+                style={{
+                  fontSize: '10.5px',
+                  fontWeight: 800,
+                  color: '#22C55E',
+                  backgroundColor: 'rgba(34, 197, 94, 0.12)',
+                  borderRadius: '4px',
+                  padding: '2px 6px',
+                }}
+              >
+                {discountPercent}% OFF
+              </span>
+            )}
+            <span style={{ fontSize: '11px', color: '#777777', marginLeft: '4px' }}>
+              (Read-Only Menu)
+            </span>
           </div>
 
-          {/* Add to Order Button */}
-          {!isAvailable ? (
-            <button
-              disabled
-              style={{
-                flex: 1,
-                backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                color: '#EF4444',
-                border: '1px solid rgba(239, 68, 68, 0.4)',
-                borderRadius: '6px',
-                padding: '11px 16px',
-                fontSize: '12.5px',
-                fontWeight: 800,
-                cursor: 'not-allowed',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                letterSpacing: '0.04em',
-              }}
-            >
-              CURRENTLY SOLD OUT
-            </button>
-          ) : (
-            <button
-              onClick={handleAdd}
-              style={{
-                flex: 1,
-                backgroundColor: '#FFC21A',
-                color: '#080808',
-                border: 'none',
-                borderRadius: '6px',
-                padding: '11px 16px',
-                fontSize: '13px',
-                fontWeight: 800,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                boxShadow: '0 4px 14px rgba(255, 194, 26, 0.25)',
-                transition: 'background-color 0.15s ease, transform 0.1s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#FBC324';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#FFC21A';
-              }}
-            >
-              <span>ADD TO ORDER</span>
-              <span>₹{grandTotal}</span>
-            </button>
-          )}
+          {/* Dismiss / Close Action */}
+          <button
+            onClick={triggerClose}
+            aria-label="Close product details"
+            className="lm-interactive-btn"
+            style={{
+              backgroundColor: '#FFC21A',
+              color: '#080808',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '10px 24px',
+              fontSize: '12px',
+              fontWeight: 800,
+              cursor: 'pointer',
+              letterSpacing: '0.04em',
+              transition: 'background-color 0.15s ease',
+              boxShadow: '0 4px 14px rgba(255, 194, 26, 0.25)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}
+          >
+            CLOSE
+          </button>
         </div>
       </div>
     </div>

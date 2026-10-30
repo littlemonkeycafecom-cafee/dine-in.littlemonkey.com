@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Product } from '../types';
 import { SPECIALTY_COLD_BREW_PRODUCTS, getBasePrice, getOriginalPrice, getDiscountPercentage } from '../services/catalog';
-import { useDineIn } from '../contexts/DineInContext';
-import { X, Sparkles, Plus, Check } from 'lucide-react';
+// DineInContext removed for read-only digital menu
+import { X, Sparkles, ChevronRight } from 'lucide-react';
 import { LiquidWaveTransition } from './LiquidWaveTransition';
 import { CustomScrollbarContainer } from './CustomScrollbarContainer';
 
@@ -17,7 +17,7 @@ export const PromotionalDrawer: React.FC<PromotionalDrawerProps> = ({
   onClose,
   onProductSelect,
 }) => {
-  const { cart } = useDineIn();
+  // Cart removed for read-only digital menu
   const [isVisible, setIsVisible] = useState(false);
   const [isRendered, setIsRendered] = useState(isOpen);
 
@@ -230,7 +230,7 @@ export const PromotionalDrawer: React.FC<PromotionalDrawerProps> = ({
             }}
           >
             {SPECIALTY_COLD_BREW_PRODUCTS.map((brew) => {
-              const inCartItem = cart.find((item) => item.product.slug === brew.slug);
+              const inCartItem = null;
               const price = getBasePrice(brew);
               const originalPrice = getOriginalPrice(brew);
               const discountPercent = getDiscountPercentage(brew);
@@ -365,29 +365,6 @@ export const PromotionalDrawer: React.FC<PromotionalDrawerProps> = ({
                       </div>
                     )}
 
-                    {/* In-Cart Indicator */}
-                    {inCartItem && (
-                      <div
-                        style={{
-                          position: 'absolute',
-                          bottom: '6px',
-                          left: '6px',
-                          backgroundColor: '#FFC21A',
-                          color: '#080808',
-                          fontSize: '9.5px',
-                          fontWeight: 800,
-                          borderRadius: '999px',
-                          padding: '1px 6px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '3px',
-                          zIndex: 4,
-                        }}
-                      >
-                        <Check size={10} strokeWidth={3} />
-                        <span>{inCartItem.quantity} IN CART</span>
-                      </div>
-                    )}
                   </div>
 
                   {/* Info Surface */}
@@ -488,7 +465,7 @@ export const PromotionalDrawer: React.FC<PromotionalDrawerProps> = ({
                           cursor: 'pointer',
                         }}
                       >
-                        {inCartItem ? <Check size={13} strokeWidth={3} /> : <Plus size={13} strokeWidth={2.5} />}
+                        <ChevronRight size={14} style={{ color: "#FFC21A" }} />
                       </button>
                     </div>
                   </div>

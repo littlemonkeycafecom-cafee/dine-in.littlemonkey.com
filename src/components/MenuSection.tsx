@@ -14,6 +14,7 @@ interface MenuSectionProps {
   onClearSearch: () => void;
   selectedCategoryId?: string;
   onSelectCategory?: (id: string) => void;
+  onOpenCategorySheet?: (id: string) => void;
   isLoading?: boolean;
 }
 
@@ -23,6 +24,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
   onClearSearch,
   selectedCategoryId,
   onSelectCategory,
+  onOpenCategorySheet,
   isLoading = false,
 }) => {
   const { isVegOnly, setIsVegOnly, products: liveProducts } = useDineIn();
@@ -50,10 +52,12 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
   }, [isVegOnly]);
 
   const handleCategorySelect = (id: string) => {
-    if (id === activeCategoryId) return;
     setIsTransitioning(true);
     setActiveCategoryId(id);
     onSelectCategory?.(id);
+    if (id !== 'all') {
+      onOpenCategorySheet?.(id);
+    }
     setTimeout(() => {
       setIsTransitioning(false);
     }, 160);
@@ -157,6 +161,29 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
             <span style={{ fontSize: '12px', color: '#666666', fontWeight: 600 }}>
               ({filteredProducts.length} {filteredProducts.length === 1 ? 'item' : 'items'})
             </span>
+            {activeCategoryId !== 'all' && onOpenCategorySheet && (
+              <button
+                type="button"
+                onClick={() => onOpenCategorySheet(activeCategoryId)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  backgroundColor: 'rgba(255, 194, 26, 0.12)',
+                  border: '1px solid rgba(255, 194, 26, 0.4)',
+                  color: '#FFC21A',
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  borderRadius: '6px',
+                  padding: '3px 8px',
+                  cursor: 'pointer',
+                  marginLeft: '4px',
+                  transition: 'background-color 0.15s ease',
+                }}
+              >
+                Category Modal
+              </button>
+            )}
             {searchQuery && (
               <span style={{ fontSize: '11px', color: '#FFC21A', marginLeft: '4px' }}>
                 matching "{searchQuery}"

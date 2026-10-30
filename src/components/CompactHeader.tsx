@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
 import { useDineIn } from '../contexts/DineInContext';
-import { ShoppingBag, Search, User, LogOut, Utensils } from 'lucide-react';
+import { Search, User, LogOut, Utensils, Clock, Shield } from 'lucide-react';
 
 interface CompactHeaderProps {
   onSearchClick: () => void;
 }
 
 export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) => {
-  const { customer, tableNumber, cartCount, openAuthModal, signOut, openCart, isVegOnly, toggleVegOnly } = useDineIn();
+  const {
+    customer,
+    tableNumber,
+    openAuthModal,
+    signOut,
+    isVegOnly,
+    toggleVegOnly,
+    diningSessionRemainingMs,
+    openAdminModal,
+  } = useDineIn();
+
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const isGuest = Boolean(customer?.isGuest || customer?.role === 'guest' || customer?.mobile === '9999999999');
+
+  const mins = Math.floor(diningSessionRemainingMs / 60000);
+  const secs = Math.floor((diningSessionRemainingMs % 60000) / 1000);
+  const countdownFormatted = `${mins}:${String(secs).padStart(2, '0')}`;
 
   return (
     <header
@@ -63,12 +78,12 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
           </span>
         </a>
 
-        {/* DINING Badge */}
+        {/* DINING Badge with Table & 30-min Countdown */}
         <div
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '5px',
+            gap: '6px',
             backgroundColor: 'rgba(251, 195, 36, 0.1)',
             border: '1px solid rgba(251, 195, 36, 0.35)',
             borderRadius: '999px',
@@ -76,20 +91,50 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
             color: '#FBC324',
             fontSize: '11px',
             fontWeight: 800,
-            letterSpacing: '0.06em',
+            letterSpacing: '0.04em',
             textTransform: 'uppercase',
             whiteSpace: 'nowrap',
           }}
         >
           <Utensils size={11} />
-          <span>DINE-IN</span>
-          <span style={{ color: 'rgba(255, 255, 255, 0.4)', margin: '0 2px' }}>•</span>
-          <span style={{ color: '#FAF7F2' }}>{tableNumber}</span>
+          <span>{tableNumber || 'Table 01'}</span>
+          {diningSessionRemainingMs > 0 && (
+            <>
+              <span style={{ color: 'rgba(255, 255, 255, 0.4)', margin: '0 2px' }}>•</span>
+              <Clock size={11} style={{ color: mins < 5 ? '#F87171' : '#FBC324' }} />
+              <span style={{ color: mins < 5 ? '#F87171' : '#FAF7F2' }}>
+                {countdownFormatted}
+              </span>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Right Controls: Veg Only Toggle, Search, Account Pill, Cart Icon */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      {/* Right Controls: Veg Only Toggle, Search, Admin QR, Account Pill */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        {/* Admin QR Management Button */}
+        <button
+          onClick={openAdminModal}
+          aria-label="Table QR Administration"
+          className="lm-interactive-btn"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '5px',
+            padding: '5px 8px',
+            borderRadius: '8px',
+            backgroundColor: '#161616',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            color: '#A8A196',
+            fontSize: '11px',
+            fontWeight: 600,
+            cursor: 'pointer',
+          }}
+        >
+          <Shield size={13} style={{ color: '#FBC324' }} />
+          <span style={{ display: 'none' }}>Admin QR</span>
+        </button>
+
         {/* Veg Only Toggle */}
         <button
           onClick={toggleVegOnly}
@@ -227,6 +272,23 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
               <span style={{ maxWidth: '75px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {customer.name}
               </span>
+              {isGuest && (
+                <span
+                  style={{
+                    backgroundColor: 'rgba(251, 195, 36, 0.15)',
+                    color: '#FBC324',
+                    border: '1px solid rgba(251, 195, 36, 0.35)',
+                    borderRadius: '4px',
+                    fontSize: '9px',
+                    fontWeight: 800,
+                    padding: '2px 5px',
+                    letterSpacing: '0.04em',
+                    lineHeight: 1,
+                  }}
+                >
+                  GUEST PREVIEW
+                </span>
+              )}
             </button>
           ) : (
             <button
@@ -270,7 +332,7 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
               }}
             >
               <div style={{ padding: '6px 8px', fontSize: '11px', color: '#9C8C7E', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                +91 {customer.mobile}
+                {isGuest ? 'Guest Preview Session' : `+91 ${customer.mobile}`}
               </div>
               <button
                 onClick={() => {
@@ -298,52 +360,6 @@ export const CompactHeader: React.FC<CompactHeaderProps> = ({ onSearchClick }) =
             </div>
           )}
         </div>
-
-        {/* Cart Icon with Live Badge */}
-        <button
-          onClick={openCart}
-          aria-label={`Cart with ${cartCount} items`}
-          className="lm-interactive-btn"
-          style={{
-            position: 'relative',
-            width: '38px',
-            height: '38px',
-            borderRadius: '50%',
-            backgroundColor: cartCount > 0 ? '#FBC324' : '#191816',
-            border: '1px solid ' + (cartCount > 0 ? '#FBC324' : 'rgba(255, 255, 255, 0.1)'),
-            color: cartCount > 0 ? '#080808' : '#FAF7F2',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.15s ease',
-          }}
-        >
-          <ShoppingBag size={17} />
-          {cartCount > 0 && (
-            <span
-              style={{
-                position: 'absolute',
-                top: '-4px',
-                right: '-4px',
-                backgroundColor: '#EF4444',
-                color: '#FFFFFF',
-                borderRadius: '999px',
-                fontSize: '10px',
-                fontWeight: 800,
-                minWidth: '18px',
-                height: '18px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '0 4px',
-                border: '1.5px solid #080808',
-              }}
-            >
-              {cartCount}
-            </span>
-          )}
-        </button>
       </div>
     </header>
   );

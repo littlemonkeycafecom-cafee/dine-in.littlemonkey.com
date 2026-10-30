@@ -10,10 +10,13 @@ import { MustTryRail } from './components/MustTryRail';
 import { MenuSection } from './components/MenuSection';
 import { EditorialReviews } from './components/EditorialReviews';
 import { ProductDetailsModal } from './components/ProductDetailsModal';
-import { CartDrawer } from './components/CartDrawer';
+import { CategorySheetModal } from './components/CategorySheetModal';
+import { BrandedIntroScreen } from './components/BrandedIntroScreen';
 import { FloatingNavigation } from './components/FloatingNavigation';
 import { CustomerAuthModal } from './components/CustomerAuthModal';
 import { CustomerLoginGate } from './components/CustomerLoginGate';
+import { TableQrRequiredGate, DiningSessionExpiredGate } from './components/QrAccessGates';
+import { AdminQrManagementModal } from './components/AdminQrManagementModal';
 import { SearchModal } from './components/SearchModal';
 import { Product } from './types';
 import { AlertTriangle } from 'lucide-react';
@@ -30,11 +33,21 @@ const DiningAppContent: React.FC = () => {
     products,
     isTableRevoked,
     tableRevocationReason,
+    isQrAuthorized,
+    isQrRequired,
+    isSessionExpired,
+    isAdminModalOpen,
+    closeAdminModal,
   } = useDineIn();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategoryId, setSelectedCategoryId] = useState('all');
+  const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
+  const [activeCategorySheetId, setActiveCategorySheetId] = useState('thin-crust-pizza');
+  const [isIntroComplete, setIsIntroComplete] = useState(() => {
+    return typeof window !== 'undefined' && sessionStorage.getItem('lm_dinein_intro_seen') === 'true';
+  });
 
   const mustTryProducts = products.filter((p) => p.is_must_try);
 
@@ -43,6 +56,11 @@ const DiningAppContent: React.FC = () => {
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const handleOpenCategorySheet = (categoryId: string) => {
+    setActiveCategorySheetId(categoryId);
+    setIsCategorySheetOpen(true);
   };
 
   const handleExploreColdBrew = () => {
@@ -55,15 +73,24 @@ const DiningAppContent: React.FC = () => {
 
   const handleSelectCategory = (categoryId: string) => {
     setSelectedCategoryId(categoryId);
-    const el = document.getElementById('main-menu-catalog');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+    if (categoryId && categoryId !== 'all') {
+      handleOpenCategorySheet(categoryId);
+    } else {
+      const el = document.getElementById('main-menu-catalog');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
   const handleProductSelect = (product: Product) => {
     setSelectedProduct(product);
   };
+
+  // 0. Branded Welcome Intro Screen (First visit in session)
+  if (!isIntroComplete) {
+    return <BrandedIntroScreen onComplete={() => setIsIntroComplete(true)} />;
+  }
 
   // 1. Session Probing State: Validating credentials server-side
   if (isValidatingAuth) {
@@ -124,7 +151,18 @@ const DiningAppContent: React.FC = () => {
     );
   }
 
-  // 2. Login-First Gate: Customer MUST authenticate before accessing menu
+  // 2. Strict 30-Minute Dining Session Expiry Gate (Scenario F)
+  if (isSessionExpired) {
+    return <DiningSessionExpiredGate />;
+  }
+
+  // 3. Mandatory Table QR Scan Gate (Scenarios A, B, C, D)
+  // Direct URL, copied URL, incognito without valid QR cred are strictly blocked!
+  if (isQrRequired || !isQrAuthorized) {
+    return <TableQrRequiredGate />;
+  }
+
+  // 4. Login-First Gate: Customer MUST authenticate before accessing menu
   if (!customer) {
     return <CustomerLoginGate />;
   }
@@ -210,29 +248,48 @@ const DiningAppContent: React.FC = () => {
           onClearSearch={() => setSearchQuery('')}
           selectedCategoryId={selectedCategoryId}
           onSelectCategory={setSelectedCategoryId}
+          onOpenCategorySheet={handleOpenCategorySheet}
         />
 
         {/* 3D. Verified Guest Feedback & Customer Reviews */}
         <EditorialReviews />
       </main>
 
-      {/* 4. Product Details Modal / Sheet (Section 11) */}
+      {/* 4. Category Bottom Sheet / Modal Experience */}
+      <CategorySheetModal
+        isOpen={isCategorySheetOpen}
+        onClose={() => setIsCategorySheetOpen(false)}
+        activeCategoryId={activeCategorySheetId}
+        onSelectCategory={(id) => {
+          setActiveCategorySheetId(id);
+          setSelectedCategoryId(id);
+        }}
+        onProductClick={handleProductSelect}
+      />
+
+      {/* 5. Product Details Modal / Sheet (Section 11) */}
       <ProductDetailsModal
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
       />
 
-      {/* 5. Cart Drawer & Bill Summary (Section 11) */}
-      <CartDrawer />
+      {/* 5. Floating Bottom Navigation (Section 12) */}
+      <FloatingNavigation
+        onMenuClick={handleExploreClick}
+        onSearchClick={() => setIsSearchOpen(true)}
+      />
 
-      {/* 6. Floating Bottom Navigation & Floating Checkout Bar (Section 12) */}
-      <FloatingNavigation onMenuClick={handleExploreClick} />
-
-      {/* 7. Search Modal */}
+      {/* 6. Search Modal */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         onSelectProduct={handleProductSelect}
+      />
+
+      {/* 7. Admin QR Management Modal */}
+      <AdminQrManagementModal
+        isOpen={isAdminModalOpen}
+        onClose={closeAdminModal}
       />
 
       {/* 8. Minimalist Footer */}
@@ -257,8 +314,11 @@ const DiningAppContent: React.FC = () => {
         <p style={{ margin: '0 0 4px 0' }}>
           In-Café Digital Dining • {tableNumber} • Authentic Handcrafted Menu
         </p>
-        <p style={{ margin: 0, color: 'rgba(255, 255, 255, 0.25)' }}>
-          © {new Date().getFullYear()} Little Monkey Café. All rights reserved.
+        <p style={{ margin: 0, color: 'rgba(255, 255, 255, 0.45)' }}>
+          © 2019–Present Little Monkey Café. All rights reserved.
+        </p>
+        <p style={{ margin: '4px 0 0', fontStyle: 'italic', fontSize: '11.5px', color: '#B8B3A8' }}>
+          Good Food. Great Coffee. A Little More Joy.
         </p>
       </footer>
     </div>

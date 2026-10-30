@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Product } from '../types';
 import { getBasePrice, getOriginalPrice, getDiscountPercentage } from '../services/catalog';
 import { useDineIn } from '../contexts/DineInContext';
-import { Plus, Check, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 
 interface MustTryRailProps {
   products: Product[];
@@ -10,7 +10,7 @@ interface MustTryRailProps {
 }
 
 export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductClick }) => {
-  const { cart, addToCart, isVegOnly } = useDineIn();
+  const { isVegOnly } = useDineIn();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
@@ -140,7 +140,6 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
         }}
       >
         {displayProducts.map((product) => {
-          const inCartItem = cart.find((item) => item.product.slug === product.slug);
           const price = getBasePrice(product);
           const originalPrice = getOriginalPrice(product);
           const discountPercent = getDiscountPercentage(product);
@@ -162,9 +161,7 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
                 width: '220px',
                 minWidth: '220px',
                 backgroundColor: '#111111',
-                border: inCartItem
-                  ? '1.5px solid #FFC21A'
-                  : '1px solid rgba(255, 194, 26, 0.35)',
+                border: '1px solid rgba(255, 194, 26, 0.35)',
                 borderRadius: '10px',
                 overflow: 'hidden',
                 display: 'flex',
@@ -181,9 +178,7 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.borderColor = inCartItem
-                  ? '#FFC21A'
-                  : 'rgba(255, 194, 26, 0.35)';
+                e.currentTarget.style.borderColor = 'rgba(255, 194, 26, 0.35)';
                 e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 194, 26, 0.08)';
               }}
             >
@@ -350,26 +345,19 @@ export const MustTryRail: React.FC<MustTryRailProps> = ({ products, onProductCli
                     )}
                   </div>
 
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onProductClick(product);
-                    }}
+                  <span
                     style={{
-                      width: '26px',
-                      height: '26px',
-                      borderRadius: '5px',
-                      backgroundColor: inCartItem ? '#FFC21A' : '#1A1A1A',
-                      border: '1px solid ' + (inCartItem ? '#FFC21A' : '#2A2A2A'),
-                      color: inCartItem ? '#080808' : '#F5F5F5',
-                      display: 'flex',
+                      fontSize: '11px',
+                      color: '#9C8C7E',
+                      display: 'inline-flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
+                      gap: '2px',
+                      fontWeight: 600,
                     }}
                   >
-                    {inCartItem ? <Check size={13} strokeWidth={3} /> : <Plus size={13} strokeWidth={2.5} />}
-                  </button>
+                    <span>View</span>
+                    <ChevronRight size={13} style={{ color: '#FFC21A' }} />
+                  </span>
                 </div>
               </div>
             </div>

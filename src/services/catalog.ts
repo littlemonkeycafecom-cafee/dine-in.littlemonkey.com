@@ -31,9 +31,6 @@ export const REGULAR_CATEGORIES: RegularCategory[] = [
   { id: 'combos', label: 'Combos', subtitle: 'Value Café Pairings' },
   { id: 'healthy-bowls', label: 'Healthy Bowls', subtitle: 'Quinoa & Rice Bowls' },
   { id: 'salads', label: 'Salads', subtitle: 'Fresh Half & Full Bowls' },
-  { id: 'extra-dips', label: 'Extra Dips', subtitle: 'House-Crafted Dips' },
-  { id: 'grills', label: 'Grills', subtitle: 'Herb Olive Oil Grills' },
-  { id: 'add-ons', label: 'Add Ons', subtitle: 'Extra Toppings & Dips' },
   { id: 'milkshakes', label: 'Milkshakes', subtitle: 'Classic Chilled Shakes' },
   { id: 'cold-coffee', label: 'Cold Coffee', subtitle: 'Frappes & Iced Brews' },
   { id: 'mojito', label: 'Mojito', subtitle: 'Sparkling Mint Mojitos' },
@@ -353,6 +350,7 @@ const reconciledProducts: Product[] = (menuData.products as Product[]).map((p) =
   const resolvedImg = resolveProductImage(p);
   return {
     ...p,
+    is_available: p.is_available !== false,
     image_url: resolvedImg || p.image_url || null,
     description: cleanCustomerDescription(p.description),
     variants:
@@ -395,7 +393,8 @@ export function filterProducts(
 
     // 2. Diet filtering
     if (dietFilter !== 'ALL') {
-      if (p.dietary_classification !== dietFilter) return false;
+      if (dietFilter === 'VEG' && p.dietary_classification !== 'VEG') return false;
+      if (dietFilter === 'NON_VEG' && p.dietary_classification !== 'NON_VEG' && p.dietary_classification !== 'EGG') return false;
     }
 
     // 3. Search query
@@ -451,6 +450,8 @@ export function applyLiveUpdates(
       updated.is_available = liveAvailability[p.slug];
     } else if (p.id && liveAvailability[p.id] !== undefined) {
       updated.is_available = liveAvailability[p.id];
+    } else if (p.name && liveAvailability[p.name.toLowerCase().trim()] !== undefined) {
+      updated.is_available = liveAvailability[p.name.toLowerCase().trim()];
     }
 
     // 2. Authoritative live image updates from Admin Portal / Supabase

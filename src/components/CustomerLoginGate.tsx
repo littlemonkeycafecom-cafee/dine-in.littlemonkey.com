@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import { useDineIn } from '../contexts/DineInContext';
 import { customerSignIn, customerSignUp, createGuestSession } from '../services/auth';
-import { Eye, EyeOff, ArrowRight, Utensils, Sparkles, ShieldCheck, Loader2, AlertTriangle } from 'lucide-react';
+import { AdminQrManagementModal } from './AdminQrManagementModal';
+import { Eye, EyeOff, ArrowRight, Utensils, Sparkles, ShieldCheck, Loader2, AlertTriangle, Shield, CheckCircle2 } from 'lucide-react';
 
 export const CustomerLoginGate: React.FC = () => {
-  const { signIn, tableNumber, isTableRevoked, tableRevocationReason } = useDineIn();
+  const {
+    signIn,
+    tableNumber,
+    isTableRevoked,
+    tableRevocationReason,
+    isQrAuthorized,
+    openAdminModal,
+    isAdminModalOpen,
+    closeAdminModal,
+  } = useDineIn();
   const [tab, setTab] = useState<'signin' | 'signup'>('signin');
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
@@ -70,14 +80,16 @@ export const CustomerLoginGate: React.FC = () => {
     }
   };
 
+  const isGuestAllowed = Boolean(import.meta.env.DEV || import.meta.env.VITE_ENABLE_GUEST_PREVIEW === 'true');
+
   const handleGuestEntry = async () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     try {
       const guest = await createGuestSession(tableNumber);
-      signIn('9999999999', guest.user.name || 'Table Guest', guest.token, guest.user.id);
+      signIn('9999999999', guest.user?.name || 'Table Guest', guest.token, guest.user?.id, 'guest');
     } catch {
-      signIn('9999999999', 'Table Guest');
+      signIn('9999999999', 'Table Guest', undefined, undefined, 'guest');
     } finally {
       setIsSubmitting(false);
     }
@@ -148,11 +160,11 @@ export const CustomerLoginGate: React.FC = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '6px',
-              backgroundColor: 'rgba(251, 195, 36, 0.1)',
-              border: '1px solid rgba(251, 195, 36, 0.35)',
+              backgroundColor: isQrAuthorized ? 'rgba(16, 185, 129, 0.12)' : 'rgba(251, 195, 36, 0.1)',
+              border: isQrAuthorized ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid rgba(251, 195, 36, 0.35)',
               borderRadius: '999px',
               padding: '4px 12px',
-              color: '#FBC324',
+              color: isQrAuthorized ? '#10B981' : '#FBC324',
               fontSize: '11px',
               fontWeight: 800,
               letterSpacing: '0.08em',
@@ -160,10 +172,16 @@ export const CustomerLoginGate: React.FC = () => {
               marginBottom: '10px',
             }}
           >
-            <Utensils size={12} />
+            {isQrAuthorized ? <ShieldCheck size={12} /> : <Utensils size={12} />}
             <span>DINE-IN ACCESS</span>
             <span style={{ color: 'rgba(255, 255, 255, 0.4)', margin: '0 2px' }}>•</span>
             <span style={{ color: '#FAF7F2' }}>{tableNumber}</span>
+            {isQrAuthorized && (
+              <>
+                <span style={{ color: 'rgba(255, 255, 255, 0.4)', margin: '0 2px' }}>•</span>
+                <span style={{ color: '#10B981' }}>QR VERIFIED</span>
+              </>
+            )}
           </div>
 
           {isTableRevoked && (
@@ -210,7 +228,7 @@ export const CustomerLoginGate: React.FC = () => {
               margin: 0,
             }}
           >
-            Authenticate to unlock the digital menu, order dishes, and track your table.
+            Sign in to explore the Little Monkey Café handcrafted digital menu and view item details.
           </p>
         </div>
 
@@ -482,60 +500,95 @@ export const CustomerLoginGate: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <span>{tab === 'signin' ? 'ENTER MENU' : 'CREATE ACCOUNT & ENTER'}</span>
+                  <span>{tab === 'signin' ? 'ENTER DIGITAL MENU' : 'CREATE ACCOUNT & ENTER'}</span>
                   <ArrowRight size={17} />
                 </>
               )}
             </button>
           </form>
 
-          {/* Quick Table Guest Entry */}
-          <div
-            style={{
-              marginTop: '20px',
-              paddingTop: '16px',
-              borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-              textAlign: 'center',
-            }}
-          >
-            <button
-              onClick={handleGuestEntry}
-              className="lm-interactive-btn"
+          {/* Quick Table Guest Entry (Dev Preview Only) */}
+          {isGuestAllowed && (
+            <div
               style={{
-                background: 'none',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                borderRadius: '999px',
-                padding: '7px 18px',
-                color: '#FAF7F2',
-                fontSize: '12px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
+                marginTop: '20px',
+                paddingTop: '16px',
+                borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                textAlign: 'center',
               }}
             >
-              <Sparkles size={13} style={{ color: '#FBC324' }} />
-              <span>Continue as Table Guest</span>
-            </button>
-          </div>
+              <button
+                onClick={handleGuestEntry}
+                className="lm-interactive-btn"
+                style={{
+                  background: 'none',
+                  border: '1px solid rgba(251, 195, 36, 0.25)',
+                  borderRadius: '999px',
+                  padding: '7px 18px',
+                  color: '#FAF7F2',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                }}
+              >
+                <Sparkles size={13} style={{ color: '#FBC324' }} />
+                <span>Continue as Guest (Dev Preview)</span>
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Security / Privacy Trust Pill */}
+        {/* Security / Privacy Trust Pill & Staff Link */}
         <div
           style={{
             marginTop: '20px',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            gap: '6px',
-            fontSize: '11px',
-            color: '#9C8C7E',
+            gap: '8px',
           }}
         >
-          <ShieldCheck size={14} style={{ color: '#FBC324' }} />
-          <span>Little Monkey In-Café Dining Session</span>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '11px',
+              color: '#9C8C7E',
+            }}
+          >
+            <ShieldCheck size={14} style={{ color: '#FBC324' }} />
+            <span>Little Monkey In-Café Dining Session</span>
+          </div>
+
+          <button
+            type="button"
+            onClick={openAdminModal}
+            className="lm-interactive-btn"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#6B6258',
+              fontSize: '11px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '4px 8px',
+            }}
+          >
+            <Shield size={12} />
+            <span>Staff QR Administration</span>
+          </button>
         </div>
       </div>
+
+      {/* Admin QR Management Modal */}
+      <AdminQrManagementModal isOpen={isAdminModalOpen} onClose={closeAdminModal} />
     </div>
   );
 };

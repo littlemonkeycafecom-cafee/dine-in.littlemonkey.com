@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Product } from '../types';
 import { getBasePrice, getOriginalPrice, getDiscountPercentage } from '../services/catalog';
 import { resolveProductImage } from '../services/productImageMap';
-import { useDineIn } from '../contexts/DineInContext';
-import { Plus, Check, Sparkles } from 'lucide-react';
+import { Sparkles, ChevronRight } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -11,9 +10,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {
-  const { cart, addToCart } = useDineIn();
   const [imgError, setImgError] = useState(false);
-  const inCartItem = cart.find((item) => item.product.slug === product.slug);
 
   const price = getBasePrice(product);
   const originalPrice = getOriginalPrice(product);
@@ -21,18 +18,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
   const isAvailable = product.is_available !== false;
   const isVeg = product.dietary_classification === 'VEG';
   const displayImage = product.image_url || resolveProductImage(product);
-
-  const handleQuickAdd = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!isAvailable) return;
-    // If product has complex customization, open modal instead
-    if (product.variants.length > 1 || (product.ingredients && product.ingredients.length > 0)) {
-      onClick(product);
-      return;
-    }
-    const defaultVariant = product.variants[0] || { name: 'Regular', price_paise: (price || 199) * 100 };
-    addToCart(product, defaultVariant, [], '', 1);
-  };
 
   return (
     <div
@@ -48,9 +33,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
       className="lm-product-card"
       style={{
         backgroundColor: '#111111',
-        border: inCartItem
-          ? '1.5px solid #FFC21A'
-          : product.is_must_try
+        border: product.is_must_try
           ? '1px solid rgba(255, 194, 26, 0.35)'
           : '1px solid #242424',
         borderRadius: '12px',
@@ -62,35 +45,28 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
         opacity: isAvailable ? 1 : 0.65,
         position: 'relative',
         transition: 'transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease',
-        boxShadow: inCartItem
-          ? '0 0 16px rgba(255, 194, 26, 0.18)'
-          : product.is_must_try
+        boxShadow: product.is_must_try
           ? '0 4px 16px rgba(0, 0, 0, 0.6), 0 0 10px rgba(255, 194, 26, 0.08)'
           : '0 4px 12px rgba(0, 0, 0, 0.4)',
       }}
       onMouseEnter={(e) => {
         if (isAvailable) {
           e.currentTarget.style.borderColor = '#FFC21A';
-          e.currentTarget.style.transform = 'translateY(-2px)';
           e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.8), 0 0 14px rgba(255, 194, 26, 0.2)';
         }
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = inCartItem
-          ? '#FFC21A'
-          : product.is_must_try
+        e.currentTarget.style.borderColor = product.is_must_try
           ? 'rgba(255, 194, 26, 0.35)'
           : '#242424';
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = inCartItem
-          ? '0 0 16px rgba(255, 194, 26, 0.18)'
-          : product.is_must_try
+        e.currentTarget.style.boxShadow = product.is_must_try
           ? '0 4px 16px rgba(0, 0, 0, 0.6), 0 0 10px rgba(255, 194, 26, 0.08)'
           : '0 4px 12px rgba(0, 0, 0, 0.4)';
       }}
     >
       {/* 1. Image Container with Fixed Aspect Ratio */}
       <div
+        className="lm-product-card-img-wrap"
         style={{
           position: 'relative',
           width: '100%',
@@ -203,13 +179,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
             alt={product.name}
             loading="lazy"
             onError={() => setImgError(true)}
+            className="lm-product-card-img"
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
+              objectFit: displayImage.includes('/cold-brew/') ? 'contain' : 'cover',
               objectPosition: 'center',
               display: 'block',
-              transition: 'transform 0.3s ease',
             }}
           />
         ) : (
@@ -230,31 +206,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
             <span style={{ fontSize: '9px', fontWeight: 800, color: '#A3A3A3', letterSpacing: '0.06em' }}>
               LM CAFÉ
             </span>
-          </div>
-        )}
-
-        {/* In-Cart Pill on Image */}
-        {inCartItem && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '6px',
-              left: '8px',
-              backgroundColor: '#FFC21A',
-              color: '#080808',
-              fontSize: '10px',
-              fontWeight: 800,
-              borderRadius: '999px',
-              padding: '2px 8px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              zIndex: 4,
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
-            }}
-          >
-            <Check size={11} strokeWidth={3} />
-            <span>{inCartItem.quantity} IN ORDER</span>
           </div>
         )}
       </div>
@@ -381,41 +332,22 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
             )}
           </div>
 
-          {/* Action Trigger Button */}
+          {/* Read-Only Details Trigger */}
           {isAvailable ? (
-            <button
-              onClick={handleQuickAdd}
-              aria-label={`Add ${product.name} to order`}
-              className="lm-interactive-btn"
+            <span
               style={{
-                width: '28px',
-                height: '28px',
-                borderRadius: '6px',
-                backgroundColor: inCartItem ? '#FFC21A' : '#1A1A1A',
-                border: '1px solid ' + (inCartItem ? '#FFC21A' : '#2E2E2E'),
-                color: inCartItem ? '#080808' : '#F5F5F5',
-                display: 'flex',
+                fontSize: '11.5px',
+                color: '#9C8C7E',
+                display: 'inline-flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                flexShrink: 0,
-                transition: 'all 0.15s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#FFC21A';
-                e.currentTarget.style.color = '#080808';
-                e.currentTarget.style.borderColor = '#FFC21A';
-              }}
-              onMouseLeave={(e) => {
-                if (!inCartItem) {
-                  e.currentTarget.style.backgroundColor = '#1A1A1A';
-                  e.currentTarget.style.color = '#F5F5F5';
-                  e.currentTarget.style.borderColor = '#2E2E2E';
-                }
+                gap: '2px',
+                fontWeight: 600,
+                letterSpacing: '0.02em',
               }}
             >
-              {inCartItem ? <Check size={14} strokeWidth={3} /> : <Plus size={14} strokeWidth={2.5} />}
-            </button>
+              <span>View</span>
+              <ChevronRight size={13} style={{ color: '#FBC324' }} />
+            </span>
           ) : (
             <span style={{ fontSize: '10px', color: '#EF4444', fontWeight: 700 }}>Unavailable</span>
           )}

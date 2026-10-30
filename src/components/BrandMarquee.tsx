@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
  * BrandMarquee
  *
  * Continuous horizontal scrolling brand announcement strip.
- * Displays: ✦ LITTLE MONKEY CAFÉ · COFFEE AND MORE · HANAMKONDA ✦
+ * Displays: • LITTLE MONKEY CAFÉ · COFFEE AND MORE · HANAMKONDA •
  * Seamless, gapless looping across mobile, tablet, and desktop viewports.
  */
 export const BrandMarquee: React.FC = () => {
@@ -15,13 +15,13 @@ export const BrandMarquee: React.FC = () => {
 
   const marqueeText = (
     <>
-      <span style={{ color: '#FBC324', marginRight: '6px' }}>✦</span>
+      <span style={{ color: '#FBC324', marginRight: '6px' }}>•</span>
       <span>LITTLE MONKEY CAFÉ</span>
       <span style={{ color: '#FBC324', margin: '0 8px' }}>·</span>
       <span>COFFEE AND MORE</span>
       <span style={{ color: '#FBC324', margin: '0 8px' }}>·</span>
       <span>HANAMKONDA</span>
-      <span style={{ color: '#FBC324', marginLeft: '6px' }}>✦</span>
+      <span style={{ color: '#FBC324', marginLeft: '6px' }}>•</span>
     </>
   );
 
