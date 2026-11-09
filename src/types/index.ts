@@ -54,6 +54,8 @@ export interface DiningSession {
   createdAt: number;
   expiresAt: number;
   timeRemainingMs: number;
+  durationMs?: number;
+  serverTime?: number;
   customer?: {
     id: string;
     name: string;

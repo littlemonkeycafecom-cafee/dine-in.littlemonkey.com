@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { useDineIn } from '../contexts/DineInContext';
-import { customerSignIn, customerSignUp } from '../services/auth';
-import { User, Eye, EyeOff, X, ArrowRight, ShieldCheck, LogOut, Loader2, Utensils } from 'lucide-react';
+import {
+  submitCustomerRecord,
+  normalizeIndianMobile,
+  isValidIndianMobile,
+  AUTH_STORAGE_KEYS,
+} from '../services/auth';
+import { User, Phone, X, ArrowRight, ShieldCheck, LogOut, Loader2, Utensils, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 interface CustomerAuthModalProps {
   isOpen: boolean;
@@ -14,72 +19,89 @@ export const CustomerAuthModal: React.FC<CustomerAuthModalProps> = ({
   onClose,
   mandatory = false,
 }) => {
-  const { customer, signIn, signOut, tableNumber } = useDineIn();
-  const [tab, setTab] = useState<'signin' | 'signup'>('signin');
+  const { customer, signIn, signOut, tableNumber, qrProofToken } = useDineIn();
   const [mobile, setMobile] = useState('');
-  const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [conflictData, setConflictData] = useState<{
+    customerId: string;
+    storedName: string;
+    submittedName: string;
+    mobile: string;
+  } | null>(null);
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent, confirmedExistingName = false) => {
+    if (e) e.preventDefault();
     if (isSubmitting) return;
     setError('');
 
+    const cleanName = confirmedExistingName && conflictData ? conflictData.storedName : name.trim();
+    const cleanMobile = normalizeIndianMobile(mobile);
+
     // Validation
-    const cleanMobile = mobile.replace(/\D/g, '');
-    if (cleanMobile.length !== 10) {
-      setError('Please enter a valid 10-digit mobile number');
-      return;
-    }
-
-    if (password.length < 4) {
-      setError('Password must be at least 4 characters');
-      return;
-    }
-
-    if (tab === 'signup' && !name.trim()) {
+    if (!cleanName || cleanName.length < 1) {
       setError('Please enter your full name');
+      return;
+    }
+
+    if (cleanName.length > 60) {
+      setError('Full name must be 60 characters or fewer');
+      return;
+    }
+
+    if (!isValidIndianMobile(cleanMobile)) {
+      setError('Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9');
+      return;
+    }
+
+    const effectiveProof =
+      qrProofToken ||
+      (typeof window !== 'undefined' ? sessionStorage.getItem(AUTH_STORAGE_KEYS.QR_PROOF) : '') ||
+      '';
+
+    if (!effectiveProof) {
+      setError('Table QR code verification is missing or expired. Please re-scan your table QR code.');
       return;
     }
 
     setIsSubmitting(true);
     try {
-      if (tab === 'signin') {
-        const res = await customerSignIn(cleanMobile, password);
-        if (!res.success) {
-          setError(res.error || 'Authentication failed. Please check your credentials.');
-          setIsSubmitting(false);
-          return;
-        }
+      const res = await submitCustomerRecord(cleanName, cleanMobile, effectiveProof, confirmedExistingName);
 
-        const user = res.user || res.session?.user;
-        const customerName =
-          user?.user_metadata?.full_name ||
-          user?.user_metadata?.name ||
-          user?.name ||
-          'Diner ' + cleanMobile.slice(-4);
+      if (!res.success) {
+        setError(res.message || res.error || 'Failed to process customer registration.');
+        setIsSubmitting(false);
+        return;
+      }
 
-        signIn(cleanMobile, customerName, res.token, user?.id);
-        onClose();
-      } else {
-        const res = await customerSignUp(name.trim(), cleanMobile, password);
-        if (!res.success) {
-          setError(res.error || 'Failed to create account.');
-          setIsSubmitting(false);
-          return;
-        }
+      // Name Conflict Resolution
+      if (res.status === 'EXISTING_CUSTOMER_NAME_MISMATCH' && res.customer) {
+        setConflictData({
+          customerId: res.customer.customerId,
+          storedName: res.customer.name,
+          submittedName: res.customer.submittedName || cleanName,
+          mobile: res.customer.mobile,
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
-        const user = res.user || res.session?.user;
-        signIn(cleanMobile, name.trim(), res.token, user?.id);
+      // Successful verification
+      if (res.customer) {
+        await signIn(
+          res.customer.mobile,
+          res.customer.name,
+          res.sessionToken,
+          res.customer.customerId,
+          'customer'
+        );
         onClose();
       }
     } catch (err: any) {
-      setError(err?.message || 'Authentication error.');
+      setError(err?.message || 'Authentication error. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -202,6 +224,11 @@ export const CustomerAuthModal: React.FC<CustomerAuthModalProps> = ({
               <p style={{ fontSize: '12.5px', color: '#9C8C7E', margin: 0 }}>
                 Mobile: +91 {customer.mobile}
               </p>
+              {customer.id && (
+                <p style={{ fontSize: '11px', color: '#6B6258', margin: '4px 0 0 0' }}>
+                  Customer ID: {customer.id}
+                </p>
+              )}
             </div>
 
             <div
@@ -218,24 +245,21 @@ export const CustomerAuthModal: React.FC<CustomerAuthModalProps> = ({
             >
               <ShieldCheck size={20} style={{ color: '#FBC324', flexShrink: 0 }} />
               <div style={{ fontSize: '11.5px', color: '#9C8C7E', lineHeight: 1.4 }}>
-                <span style={{ color: '#FAF7F2', fontWeight: 600 }}>Verified Customer Account</span>
-                <br />
-                Authenticated across Little Monkey Café dining services.
+                Your customer record is stored in our private Google Sheets customer database and linked to your table session.
               </div>
             </div>
 
             <button
-              type="button"
               onClick={handleSignOut}
               className="lm-interactive-btn"
               style={{
                 width: '100%',
-                backgroundColor: 'rgba(239, 68, 68, 0.12)',
-                border: '1px solid #EF4444',
-                color: '#FCA5A5',
+                backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                color: '#EF4444',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
                 borderRadius: '8px',
                 padding: '12px',
-                fontSize: '13.5px',
+                fontSize: '13px',
                 fontWeight: 700,
                 cursor: 'pointer',
                 display: 'flex',
@@ -245,31 +269,12 @@ export const CustomerAuthModal: React.FC<CustomerAuthModalProps> = ({
               }}
             >
               <LogOut size={16} />
-              <span>Sign Out of Dining</span>
+              <span>Leave Dining Table / Sign Out</span>
             </button>
           </div>
         ) : (
-          /* Sign In / Sign Up Form */
           <div>
-            {/* Top Header */}
             <div style={{ textAlign: 'center', marginBottom: '22px' }}>
-              <div
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '50%',
-                  backgroundColor: '#191816',
-                  border: '1.5px solid #FBC324',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 14px auto',
-                  color: '#FBC324',
-                }}
-              >
-                <User size={28} />
-              </div>
-
               <h2
                 style={{
                   fontFamily: '"Playfair Display", Georgia, serif',
@@ -279,243 +284,261 @@ export const CustomerAuthModal: React.FC<CustomerAuthModalProps> = ({
                   margin: '0 0 6px 0',
                 }}
               >
-                {tab === 'signin' ? 'Sign In to Little Monkey' : 'Create Diner Account'}
+                Customer Registration
               </h2>
-
-              <p style={{ fontSize: '12px', color: '#9C8C7E', margin: 0 }}>
-                {tableNumber} • Access order history, favorites & live tracking.
+              <p style={{ fontSize: '12.5px', color: '#9C8C7E', margin: 0 }}>
+                Enter your details to view today's digital dining menu at {tableNumber}.
               </p>
             </div>
 
-            {/* Tabs */}
-            <div
-              style={{
-                display: 'flex',
-                backgroundColor: '#191816',
-                borderRadius: '10px',
-                padding: '4px',
-                marginBottom: '20px',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-              }}
-            >
-              <button
-                type="button"
-                className="lm-interactive-btn"
-                onClick={() => {
-                  setTab('signin');
-                  setError('');
-                }}
-                style={{
-                  flex: 1,
-                  padding: '8px 12px',
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  border: 'none',
-                  backgroundColor: tab === 'signin' ? '#FBC324' : 'transparent',
-                  color: tab === 'signin' ? '#080808' : '#9C8C7E',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
-              >
-                Sign In
-              </button>
-
-              <button
-                type="button"
-                className="lm-interactive-btn"
-                onClick={() => {
-                  setTab('signup');
-                  setError('');
-                }}
-                style={{
-                  flex: 1,
-                  padding: '8px 12px',
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  border: 'none',
-                  backgroundColor: tab === 'signup' ? '#FBC324' : 'transparent',
-                  color: tab === 'signup' ? '#080808' : '#9C8C7E',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
-              >
-                Create Account
-              </button>
-            </div>
-
-            {error && (
-              <div
-                style={{
-                  backgroundColor: 'rgba(239, 68, 68, 0.12)',
-                  border: '1px solid #EF4444',
-                  borderRadius: '8px',
-                  padding: '8px 12px',
-                  color: '#FCA5A5',
-                  fontSize: '12px',
-                  marginBottom: '16px',
-                }}
-              >
-                {error}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit}>
-              {tab === 'signup' && (
-                <div style={{ marginBottom: '14px' }}>
-                  <label style={{ display: 'block', fontSize: '11px', color: '#9C8C7E', marginBottom: '6px', fontWeight: 600 }}>
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter your name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    style={{
-                      width: '100%',
-                      padding: '11px 14px',
-                      backgroundColor: '#191816',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      borderRadius: '8px',
-                      color: '#FAF7F2',
-                      fontSize: '13px',
-                      outline: 'none',
-                      boxSizing: 'border-box',
-                    }}
-                  />
-                </div>
-              )}
-
-              {/* Mobile Number */}
-              <div style={{ marginBottom: '14px' }}>
-                <label style={{ display: 'block', fontSize: '11px', color: '#9C8C7E', marginBottom: '6px', fontWeight: 600 }}>
-                  Mobile Number *
-                </label>
+            {/* Conflicting Name Resolution State */}
+            {conflictData ? (
+              <div>
                 <div
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    backgroundColor: '#191816',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
+                    gap: '8px',
+                    backgroundColor: 'rgba(251, 195, 36, 0.12)',
+                    border: '1px solid rgba(251, 195, 36, 0.35)',
+                    borderRadius: '10px',
+                    padding: '12px 14px',
+                    marginBottom: '16px',
                   }}
                 >
-                  <span
-                    style={{
-                      padding: '11px 12px',
-                      color: '#FBC324',
-                      fontWeight: 800,
-                      fontSize: '13px',
-                      borderRight: '1px solid rgba(255, 255, 255, 0.08)',
-                    }}
-                  >
-                    +91
-                  </span>
-                  <input
-                    type="tel"
-                    maxLength={10}
-                    placeholder="Enter 10-digit number"
-                    value={mobile}
-                    onChange={(e) => setMobile(e.target.value.replace(/\D/g, ''))}
-                    style={{
-                      flex: 1,
-                      padding: '11px 14px',
-                      backgroundColor: 'transparent',
-                      border: 'none',
-                      color: '#FAF7F2',
-                      fontSize: '13px',
-                      outline: 'none',
-                    }}
-                  />
+                  <CheckCircle2 size={18} style={{ color: '#FBC324', flexShrink: 0 }} />
+                  <div style={{ fontSize: '12.5px', color: '#FAF7F2', lineHeight: 1.4 }}>
+                    <span>Existing record found for </span>
+                    <strong style={{ color: '#FBC324' }}>+91 {conflictData.mobile}</strong>
+                    <span>.</span>
+                  </div>
                 </div>
-              </div>
 
-              {/* Password */}
-              <div style={{ marginBottom: '20px' }}>
-                <label style={{ display: 'block', fontSize: '11px', color: '#9C8C7E', marginBottom: '6px', fontWeight: 600 }}>
-                  Password *
-                </label>
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
                     backgroundColor: '#191816',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    paddingRight: '12px',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    borderRadius: '12px',
+                    padding: '14px',
+                    marginBottom: '18px',
                   }}
                 >
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    style={{
-                      flex: 1,
-                      padding: '11px 14px',
-                      backgroundColor: 'transparent',
-                      border: 'none',
-                      color: '#FAF7F2',
-                      fontSize: '13px',
-                      outline: 'none',
-                    }}
-                  />
+                  <div style={{ fontSize: '11px', color: '#9C8C7E', textTransform: 'uppercase', marginBottom: '3px' }}>
+                    Registered Name on File
+                  </div>
+                  <div style={{ fontSize: '15px', fontWeight: 700, color: '#FAF7F2', marginBottom: '8px' }}>
+                    {conflictData.storedName}
+                  </div>
+                  <p style={{ fontSize: '12px', color: '#9C8C7E', margin: 0, lineHeight: 1.4 }}>
+                    Stored names are never silently overwritten. Would you like to continue as <strong>{conflictData.storedName}</strong>?
+                  </p>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    disabled={isSubmitting}
+                    onClick={() => handleSubmit(undefined, true)}
+                    className="lm-interactive-btn"
                     style={{
-                      background: 'none',
+                      width: '100%',
+                      backgroundColor: isSubmitting ? '#d4a319' : '#FBC324',
+                      color: '#080808',
                       border: 'none',
-                      color: '#9C8C7E',
-                      cursor: 'pointer',
-                      padding: 0,
+                      borderRadius: '8px',
+                      padding: '12px',
+                      fontSize: '13px',
+                      fontWeight: 800,
+                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
                       display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
                     }}
                   >
-                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {isSubmitting ? <Loader2 size={16} className="lm-spin" /> : <span>CONTINUE AS {conflictData.storedName.toUpperCase()}</span>}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={isSubmitting}
+                    onClick={() => setConflictData(null)}
+                    style={{
+                      width: '100%',
+                      backgroundColor: 'transparent',
+                      color: '#9C8C7E',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      borderRadius: '8px',
+                      padding: '10px',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    Edit Details
                   </button>
                 </div>
               </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="lm-interactive-btn"
-                style={{
-                  width: '100%',
-                  backgroundColor: isSubmitting ? '#d4a319' : '#FBC324',
-                  color: '#080808',
-                  border: 'none',
-                  borderRadius: '8px',
-                  padding: '13px',
-                  fontSize: '14px',
-                  fontWeight: 800,
-                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  transition: 'background-color 0.15s ease',
-                  opacity: isSubmitting ? 0.8 : 1,
-                }}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 size={16} className="lm-spin" />
-                    <span>AUTHENTICATING...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>{tab === 'signin' ? 'SIGN IN' : 'CREATE ACCOUNT'}</span>
-                    <ArrowRight size={16} />
-                  </>
+            ) : (
+              <>
+                {/* Error Banner */}
+                {error && (
+                  <div
+                    style={{
+                      backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                      border: '1px solid #EF4444',
+                      borderRadius: '8px',
+                      padding: '10px 14px',
+                      color: '#FCA5A5',
+                      fontSize: '12px',
+                      marginBottom: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                    }}
+                  >
+                    <AlertTriangle size={15} style={{ color: '#EF4444', flexShrink: 0 }} />
+                    <span>{error}</span>
+                  </div>
                 )}
-              </button>
-            </form>
+
+                <form onSubmit={(e) => handleSubmit(e, false)}>
+                  {/* Full Name */}
+                  <div style={{ marginBottom: '16px' }}>
+                    <label
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        fontSize: '11px',
+                        color: '#9C8C7E',
+                        marginBottom: '6px',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.04em',
+                      }}
+                    >
+                      <User size={13} style={{ color: '#FBC324' }} />
+                      <span>Full Name *</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      maxLength={60}
+                      placeholder="e.g. Aarav Sharma"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      disabled={isSubmitting}
+                      style={{
+                        width: '100%',
+                        padding: '12px 14px',
+                        backgroundColor: '#191816',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        borderRadius: '8px',
+                        color: '#FAF7F2',
+                        fontSize: '13px',
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                      }}
+                    />
+                  </div>
+
+                  {/* 10-Digit Mobile */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <label
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        fontSize: '11px',
+                        color: '#9C8C7E',
+                        marginBottom: '6px',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.04em',
+                      }}
+                    >
+                      <Phone size={13} style={{ color: '#FBC324' }} />
+                      <span>Mobile Number (10 Digits) *</span>
+                    </label>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        backgroundColor: '#191816',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        borderRadius: '8px',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <span
+                        style={{
+                          padding: '12px 14px',
+                          color: '#FBC324',
+                          fontWeight: 800,
+                          fontSize: '13px',
+                          borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+                          backgroundColor: 'rgba(251, 195, 36, 0.05)',
+                        }}
+                      >
+                        +91
+                      </span>
+                      <input
+                        type="tel"
+                        required
+                        maxLength={10}
+                        inputMode="numeric"
+                        placeholder="9876543210"
+                        value={mobile}
+                        onChange={(e) => setMobile(e.target.value.replace(/\D/g, ''))}
+                        disabled={isSubmitting}
+                        style={{
+                          flex: 1,
+                          padding: '12px 14px',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          color: '#FAF7F2',
+                          fontSize: '13px',
+                          outline: 'none',
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="lm-interactive-btn"
+                    style={{
+                      width: '100%',
+                      backgroundColor: isSubmitting ? '#d4a319' : '#FBC324',
+                      color: '#080808',
+                      border: 'none',
+                      borderRadius: '8px',
+                      padding: '13px',
+                      fontSize: '13.5px',
+                      fontWeight: 800,
+                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                    }}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 size={16} className="lm-spin" />
+                        <span>VERIFYING RECORD...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>VIEW DINING MENU</span>
+                        <ArrowRight size={16} />
+                      </>
+                    )}
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         )}
       </div>

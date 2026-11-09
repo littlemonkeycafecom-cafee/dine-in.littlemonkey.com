@@ -260,7 +260,11 @@ export function generateQRCode(text: string): QRCodeData {
     for (let j = 0; j < alignCoords.length; j++) {
       const ar = alignCoords[i];
       const ac = alignCoords[j];
-      if (isReserved[ar][ac]) continue;
+      // Only skip if overlapping one of the three finder patterns (including 1-module separator)
+      const inTL = ar <= 8 && ac <= 8;
+      const inTR = ar <= 8 && ac >= size - 9;
+      const inBL = ar >= size - 9 && ac <= 8;
+      if (inTL || inTR || inBL) continue;
 
       for (let r = -2; r <= 2; r++) {
         for (let c = -2; c <= 2; c++) {

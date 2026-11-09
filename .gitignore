@@ -6,5 +6,13 @@ dist
 .env.*
 .dining_sessions.json
 .qr_credentials.json
+.active_qr_secrets.json
+.spent_proof_tokens.json
+.table_2fa_secrets.json
+.spent_2fa_challenges.json
+storage/
 scratch/
+brain/
+backups/
+test_artifacts/
 

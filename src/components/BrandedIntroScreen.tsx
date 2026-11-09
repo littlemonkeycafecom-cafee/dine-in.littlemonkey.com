@@ -75,6 +75,35 @@ export const BrandedIntroScreen: React.FC<BrandedIntroScreenProps> = ({ onComple
         pointerEvents: phase === 'exiting' ? 'none' : 'auto',
       }}
     >
+      {/* Top Right SKIP Action */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          finishIntro();
+        }}
+        aria-label="Skip intro animation"
+        style={{
+          position: 'absolute',
+          top: '20px',
+          right: '20px',
+          zIndex: 10,
+          background: 'rgba(255, 255, 255, 0.08)',
+          border: '1px solid rgba(255, 255, 255, 0.16)',
+          borderRadius: '999px',
+          padding: '6px 14px',
+          color: '#FAF7F2',
+          fontSize: '11px',
+          fontWeight: 700,
+          letterSpacing: '0.08em',
+          cursor: 'pointer',
+          backdropFilter: 'blur(8px)',
+          transition: 'all 0.15s ease',
+        }}
+      >
+        SKIP →
+      </button>
+
       {/* Subtle Restrained Solar Amber Lighting */}
       <div
         style={{

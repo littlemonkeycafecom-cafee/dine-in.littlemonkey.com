@@ -31,6 +31,9 @@ export const REGULAR_CATEGORIES: RegularCategory[] = [
   { id: 'combos', label: 'Combos', subtitle: 'Value Café Pairings' },
   { id: 'healthy-bowls', label: 'Healthy Bowls', subtitle: 'Quinoa & Rice Bowls' },
   { id: 'salads', label: 'Salads', subtitle: 'Fresh Half & Full Bowls' },
+  { id: 'extra-dips', label: 'Extra Dips', subtitle: 'House-Crafted Gourmet Dips' },
+  { id: 'grills', label: 'Grills', subtitle: 'Herb Olive Oil Grills' },
+  { id: 'add-ons', label: 'Add Ons', subtitle: 'Extra Toppings & Accompaniments' },
   { id: 'milkshakes', label: 'Milkshakes', subtitle: 'Classic Chilled Shakes' },
   { id: 'cold-coffee', label: 'Cold Coffee', subtitle: 'Frappes & Iced Brews' },
   { id: 'mojito', label: 'Mojito', subtitle: 'Sparkling Mint Mojitos' },
@@ -78,7 +81,7 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     dietary_classification: 'VEG',
     is_must_try: true,
     is_available: true,
-    original_price: 289,
+    original_price: 274,
     discount_percent: 14,
     tagline: 'Marbled • Velvety • Intense',
     badge: 'Café Signature',
@@ -86,8 +89,8 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     variants: [
       {
         name: 'Regular (350ml)',
-        price_paise: 24900,
-        original_price_paise: 28900,
+        price_paise: 23400,
+        original_price_paise: 27400,
       },
     ],
     ingredients: [
@@ -111,7 +114,7 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     dietary_classification: 'VEG',
     is_must_try: true,
     is_available: true,
-    original_price: 349,
+    original_price: 334,
     discount_percent: 14,
     tagline: 'Silky • Cloud Foam • Decadent',
     badge: 'Alpine Reserve',
@@ -119,8 +122,8 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     variants: [
       {
         name: 'Regular (350ml)',
-        price_paise: 29900,
-        original_price_paise: 34900,
+        price_paise: 28400,
+        original_price_paise: 33400,
       },
     ],
     ingredients: [
@@ -143,7 +146,7 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     dietary_classification: 'VEG',
     is_must_try: true,
     is_available: true,
-    original_price: 249,
+    original_price: 234,
     discount_percent: 20,
     tagline: 'Bold • Chocolatey • Pure',
     badge: 'The Classic',
@@ -151,8 +154,8 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     variants: [
       {
         name: 'Regular (350ml)',
-        price_paise: 19900,
-        original_price_paise: 24900,
+        price_paise: 18400,
+        original_price_paise: 23400,
       },
     ],
     ingredients: [
@@ -174,7 +177,7 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     dietary_classification: 'VEG',
     is_must_try: false,
     is_available: true,
-    original_price: 299,
+    original_price: 284,
     discount_percent: 17,
     tagline: 'Spiced • Bubbly • Vibrant',
     badge: 'Sparkling Brew',
@@ -182,8 +185,8 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     variants: [
       {
         name: 'Regular (350ml)',
-        price_paise: 24900,
-        original_price_paise: 29900,
+        price_paise: 23400,
+        original_price_paise: 28400,
       },
     ],
   },
@@ -196,7 +199,7 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     dietary_classification: 'VEG',
     is_must_try: false,
     is_available: true,
-    original_price: 299,
+    original_price: 284,
     discount_percent: 17,
     tagline: 'Warm Spice • Honey Sweet • Balanced',
     badge: 'Botanical Reserve',
@@ -204,8 +207,8 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     variants: [
       {
         name: 'Regular (350ml)',
-        price_paise: 24900,
-        original_price_paise: 29900,
+        price_paise: 23400,
+        original_price_paise: 28400,
       },
     ],
   },
@@ -218,7 +221,7 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     dietary_classification: 'VEG',
     is_must_try: true,
     is_available: true,
-    original_price: 299,
+    original_price: 284,
     discount_percent: 17,
     tagline: 'Tropical • Zesty • Botanical',
     badge: 'Seasonal Reserve',
@@ -226,8 +229,8 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     variants: [
       {
         name: 'Regular (350ml)',
-        price_paise: 24900,
-        original_price_paise: 29900,
+        price_paise: 23400,
+        original_price_paise: 28400,
       },
     ],
     ingredients: [
@@ -251,7 +254,7 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     dietary_classification: 'VEG',
     is_must_try: true,
     is_available: true,
-    original_price: 299,
+    original_price: 284,
     discount_percent: 17,
     tagline: 'Bold • Citrusy • Refreshing',
     badge: 'Specialty Cold Brew',
@@ -259,8 +262,8 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     variants: [
       {
         name: 'Regular (350ml)',
-        price_paise: 24900,
-        original_price_paise: 29900,
+        price_paise: 23400,
+        original_price_paise: 28400,
       },
     ],
     ingredients: [
@@ -284,7 +287,7 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     dietary_classification: 'VEG',
     is_must_try: false,
     is_available: true,
-    original_price: 299,
+    original_price: 284,
     discount_percent: 17,
     tagline: 'Effervescent • Bitter-Sweet • Sharp',
     badge: 'Sparkling Espresso',
@@ -292,8 +295,8 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     variants: [
       {
         name: 'Regular (350ml)',
-        price_paise: 24900,
-        original_price_paise: 29900,
+        price_paise: 23400,
+        original_price_paise: 28400,
       },
     ],
   },
@@ -306,7 +309,7 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     dietary_classification: 'VEG',
     is_must_try: true,
     is_available: true,
-    original_price: 399,
+    original_price: 384,
     discount_percent: 13,
     tagline: 'Dessert-Crafted • Rich • Indulgent',
     badge: 'Gourmet Cold Coffee',
@@ -314,8 +317,8 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     variants: [
       {
         name: 'Regular (350ml)',
-        price_paise: 34900,
-        original_price_paise: 39900,
+        price_paise: 33400,
+        original_price_paise: 38400,
       },
     ],
   },
@@ -328,7 +331,7 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     dietary_classification: 'VEG',
     is_must_try: false,
     is_available: true,
-    original_price: 299,
+    original_price: 284,
     discount_percent: 17,
     tagline: 'Zesty • Sparkling • Punchy',
     badge: 'Craft Fusion',
@@ -336,8 +339,8 @@ export const SPECIALTY_COLD_BREW_PRODUCTS: Product[] = [
     variants: [
       {
         name: 'Regular (350ml)',
-        price_paise: 24900,
-        original_price_paise: 29900,
+        price_paise: 23400,
+        original_price_paise: 28400,
       },
     ],
   },
@@ -445,14 +448,10 @@ export function applyLiveUpdates(
 
   return products.map((p) => {
     const updated = { ...p };
-    // 1. Stock availability
-    if (liveAvailability[p.slug] !== undefined) {
-      updated.is_available = liveAvailability[p.slug];
-    } else if (p.id && liveAvailability[p.id] !== undefined) {
-      updated.is_available = liveAvailability[p.id];
-    } else if (p.name && liveAvailability[p.name.toLowerCase().trim()] !== undefined) {
-      updated.is_available = liveAvailability[p.name.toLowerCase().trim()];
-    }
+    // 1. Stock availability: Authoritative source for dining products is reconciled-menu.json.
+    // If a product is marked is_available: false in the authoritative catalog, preserve it.
+    // Genuinely available items in reconciled-menu.json remain active and are not falsely marked Sold Out.
+    updated.is_available = p.is_available !== false;
 
     // 2. Authoritative live image updates from Admin Portal / Supabase
     if (liveImages[p.slug]) {
@@ -517,5 +516,115 @@ export function getDiscountPercentage(product: Product): number | null {
   if (base && orig && orig > base) {
     return Math.round(((orig - base) / orig) * 100);
   }
+  return null;
+}
+
+export interface ProductAddon {
+  name: string;
+  price_paise: number;
+  dietary_classification: 'VEG' | 'NON_VEG';
+  category: string;
+  group_name: string;
+}
+
+export function getApplicableAddons(product: Product): { groupName: string; addons: ProductAddon[] } | null {
+  if (!product || !product.category) return null;
+  const cat = product.category.toLowerCase();
+
+  // Do not show add-ons for add-ons themselves
+  if (cat === 'add-ons' || cat === 'extra-dips') return null;
+
+  // 1. Coffees, Teas, Shakes, Cold Brews, Boba
+  if (
+    cat.includes('coffee') ||
+    cat.includes('tea') ||
+    cat.includes('shake') ||
+    cat.includes('cold-brew') ||
+    cat.includes('boba')
+  ) {
+    return {
+      groupName: 'Flavor Syrups & Enhancements',
+      addons: [
+        { name: 'Hazelnut Syrup', price_paise: 6000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Syrup' },
+        { name: 'Vanilla Syrup', price_paise: 6000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Syrup' },
+        { name: 'Irish Syrup', price_paise: 6000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Syrup' },
+        { name: 'Caramel Syrup', price_paise: 6000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Syrup' },
+      ],
+    };
+  }
+
+  // 2. Pizzas, Pizza Combos, Garlic Bread, Pasta
+  if (
+    cat.includes('pizza') ||
+    cat.includes('garlic-bread') ||
+    cat.includes('pasta')
+  ) {
+    return {
+      groupName: 'Toppings & Cheese Customization',
+      addons: [
+        { name: 'Extra Cheese', price_paise: 7500, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Cheese' },
+        { name: 'Cheese Slice', price_paise: 5000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Cheese' },
+        { name: 'Extra Chicken (Pizza)', price_paise: 8900, dietary_classification: 'NON_VEG', category: 'add-ons', group_name: 'Meat' },
+        { name: 'Paneer', price_paise: 9900, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Topping' },
+        { name: 'Mushroom', price_paise: 6000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Topping' },
+        { name: 'Jalapeno', price_paise: 5000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Topping' },
+        { name: 'Black Olive', price_paise: 5000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Topping' },
+        { name: 'Sweet Corn', price_paise: 5000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Topping' },
+        { name: 'Broccoli', price_paise: 9900, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Topping' },
+        { name: 'Pineapple', price_paise: 7000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Topping' },
+      ],
+    };
+  }
+
+  // 3. Burgers, Sandwiches, Shawarma
+  if (
+    cat.includes('burger') ||
+    cat.includes('sandwich') ||
+    cat.includes('shawarma')
+  ) {
+    return {
+      groupName: 'Burger & Sandwich Add-ons',
+      addons: [
+        { name: 'Cheese Slice', price_paise: 5000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Cheese' },
+        { name: 'Extra Cheese', price_paise: 7500, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Cheese' },
+        { name: 'Jalapeno', price_paise: 5000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Topping' },
+        { name: 'Mushroom', price_paise: 6000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Topping' },
+        { name: 'Mayo Dip', price_paise: 7000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Dip' },
+      ],
+    };
+  }
+
+  // 4. Salads, Healthy Bowls
+  if (cat.includes('salad') || cat.includes('healthy-bowl')) {
+    return {
+      groupName: 'Salad Add-ons & Protein',
+      addons: [
+        { name: 'Extra Chicken (Salads)', price_paise: 13900, dietary_classification: 'NON_VEG', category: 'add-ons', group_name: 'Meat' },
+        { name: 'Paneer', price_paise: 9900, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Protein' },
+        { name: 'Broccoli', price_paise: 9900, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Veggie' },
+        { name: 'Black Olive', price_paise: 5000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Topping' },
+        { name: 'Sweet Corn', price_paise: 5000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Topping' },
+      ],
+    };
+  }
+
+  // 5. Fries, Sides, Quick Bites, Crispy Chicken/Fish, Momos, Grills
+  if (
+    cat.includes('fries') ||
+    cat.includes('sides') ||
+    cat.includes('crispy') ||
+    cat.includes('momo') ||
+    cat.includes('grill')
+  ) {
+    return {
+      groupName: 'Dips & Accompaniments',
+      addons: [
+        { name: 'Extra Dip (Sauces)', price_paise: 3000, dietary_classification: 'VEG', category: 'extra-dips', group_name: 'Dip' },
+        { name: 'Mayo Dip', price_paise: 7000, dietary_classification: 'VEG', category: 'add-ons', group_name: 'Dip' },
+        { name: 'Extra Olives', price_paise: 3000, dietary_classification: 'VEG', category: 'extra-dips', group_name: 'Dip' },
+      ],
+    };
+  }
+
   return null;
 }

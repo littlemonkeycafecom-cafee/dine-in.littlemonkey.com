@@ -12745,12 +12745,12 @@ html, body {
 .menu-category-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
+  gap: 18px;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Tablet (641px - 1023px): 3 columns */
+/* Tablet (600px - 1023px): 3 columns */
 @media (max-width: 1023px) {
   .menu-categories-32-grid,
   .menu-category-grid {
@@ -12759,21 +12759,21 @@ html, body {
   }
 }
 
-/* Mobile (<= 640px): balanced 2-column layout */
-@media (max-width: 640px) {
+/* Mobile (<= 599px): balanced 2-column layout */
+@media (max-width: 599px) {
   .menu-categories-32-grid,
   .menu-category-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
+    gap: 12px;
   }
 }
 
-/* Ultra-compact Mobile fallback (< 360px) */
-@media (max-width: 359px) {
+/* Ultra-compact Mobile fallback (<= 360px) */
+@media (max-width: 360px) {
   .menu-categories-32-grid,
   .menu-category-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 8px;
   }
 }
 
@@ -12869,8 +12869,16 @@ html, body {
 @media (max-width: 640px) {
   .menu-category-card-info,
   .menu-category-card-label-bar {
-    min-height: 48px;
-    padding: 10px 12px;
+    min-height: 44px;
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .menu-category-card-info,
+  .menu-category-card-label-bar {
+    min-height: 40px;
+    padding: 7px 8px;
   }
 }
 
@@ -12907,6 +12915,13 @@ html, body {
   .menu-category-card-name {
     font-size: 13.5px;
     line-height: 1.25;
+  }
+}
+
+@media (max-width: 360px) {
+  .menu-category-card-name {
+    font-size: 12px;
+    line-height: 1.2;
   }
 }
 
@@ -13865,15 +13880,18 @@ html, body {
 }
 
 /* ==========================================================================
-   LITTLE MONKEY CAFÉ — RESPONSIVE COMPACT PRODUCT GRID
-   Mobile: 2 columns (< 640px)
-   Tablet: 3 columns (640px - 1024px)
+   LITTLE MONKEY CAFÉ — UNIFIED RESPONSIVE CATALOG & PRODUCT GRID
    Desktop: 4 columns (>= 1024px)
+   Tablet: 3 columns (600px - 1023px)
+   Mobile: 2 columns (< 600px)
+   Ultra-compact: 2 columns (<= 360px)
    ========================================================================== */
 .lm-product-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .lm-product-card:active {
@@ -13882,23 +13900,24 @@ html, body {
   border-color: #FBC324 !important;
 }
 
-@media (min-width: 640px) {
+@media (max-width: 1023px) {
   .lm-product-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .lm-product-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 599px) {
   .lm-product-grid {
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .lm-product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 }
 
@@ -13933,22 +13952,27 @@ html, body {
   width: 100%;
   aspect-ratio: 4 / 3;
   background-color: #080808;
+  background: radial-gradient(circle at center, #161616 0%, #080808 100%);
   overflow: hidden;
   border-bottom: 1px solid #1E1E1E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .lm-product-card-img {
   width: 100%;
   height: 100%;
   display: block;
+  object-position: center;
   transform: scale(1);
-  transition: transform 320ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: transform 320ms cubic-bezier(0.25, 0.1, 0.25, 1), opacity 240ms ease;
   will-change: transform;
 }
 
 .lm-product-card:hover .lm-product-card-img,
 .lm-product-card-img-wrap:hover .lm-product-card-img {
-  transform: scale(1.06);
+  transform: scale(1.04);
 }
 
 @media (hover: none) {
@@ -13963,19 +13987,24 @@ html, body {
   width: 100%;
   overflow: hidden;
   background-color: #060606;
+  background: radial-gradient(circle at center, #141414 0%, #060606 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .lm-detail-img {
   width: 100%;
   height: 100%;
   display: block;
+  object-position: center;
   transform: scale(1);
-  transition: transform 350ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: transform 350ms cubic-bezier(0.25, 0.1, 0.25, 1), opacity 240ms ease;
   will-change: transform;
 }
 
 .lm-detail-img-wrap:hover .lm-detail-img {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 @media (hover: none) {
@@ -13986,10 +14015,26 @@ html, body {
 
 @media (prefers-reduced-motion: reduce) {
   .lm-product-card-img,
-  .lm-detail-img {
+  .lm-detail-img,
+  .lm-img-ambient-backdrop {
     transition: none !important;
     transform: none !important;
   }
+}
+
+/* Ambient Image Backdrop Layer for drinks & uncropped items */
+.lm-img-ambient-backdrop {
+  position: absolute;
+  inset: -20px;
+  width: calc(100% + 40px);
+  height: calc(100% + 40px);
+  object-fit: cover;
+  filter: blur(32px) brightness(0.55) saturate(1.35);
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  transform: translate3d(0, 0, 0);
+  opacity: 0.85;
 }
 
 /* ───────────────────────────────────────────────────────────────────────── */
@@ -14009,5 +14054,569 @@ html, body {
     border: 1px solid #282828 !important;
     border-bottom: 1px solid #282828 !important;
     box-shadow: 0 24px 64px rgba(0, 0, 0, 0.95), 0 0 28px rgba(255, 194, 26, 0.12) !important;
+    transform: translateY(24px) scale(0.96) !important;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.24s ease !important;
+  }
+  .lm-product-details-modal.is-visible {
+    transform: translateY(0) scale(1) !important;
+    opacity: 1 !important;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .lm-product-details-modal,
+  .lm-product-details-modal.is-visible {
+    transform: none !important;
+    transition: opacity 0.15s ease !important;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────── */
+/* RESPONSIVE REFINEMENTS: HEADER, PADDINGS, MODAL & TOUCH OPTIMIZATIONS     */
+/* ───────────────────────────────────────────────────────────────────────── */
+@media (max-width: 540px) {
+  .lm-header-brand-title {
+    display: none !important;
+  }
+}
+
+/* Catalog section padding responsiveness */
+.main-menu-catalog-section {
+  padding: 24px 18px 80px 18px;
+}
+
+@media (max-width: 640px) {
+  .main-menu-catalog-section {
+    padding: 16px 12px 80px 12px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .main-menu-catalog-section {
+    padding: 12px 8px 80px 8px !important;
+  }
+}
+
+/* Must Try section padding responsiveness */
+.must-try-section {
+  padding: 16px 24px 24px 24px;
+}
+
+@media (max-width: 640px) {
+  .must-try-section {
+    padding: 16px 12px 24px 12px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .must-try-section {
+    padding: 14px 8px 20px 8px !important;
+  }
+}
+
+/* Search button & Category tabs synchronized height and tap targets */
+.lm-menu-search-btn,
+.lm-menu-cat-btn {
+  height: 38px;
+  min-height: 38px;
+}
+
+@media (max-width: 640px) {
+  .lm-menu-search-btn,
+  .lm-menu-cat-btn {
+    height: 35px !important;
+    min-height: 35px !important;
+    padding-left: 13px !important;
+    padding-right: 13px !important;
+    font-size: 11.5px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .lm-menu-search-btn,
+  .lm-menu-cat-btn {
+    height: 33px !important;
+    min-height: 33px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    font-size: 11px !important;
+  }
+}
+
+/* Product Card Information Padding & Typography */
+.lm-product-card-info {
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .lm-product-card-info {
+    padding: 9px 8px !important;
+    gap: 6px !important;
+  }
+  .lm-product-card-info h3 {
+    font-size: 12.5px !important;
+    line-height: 1.25 !important;
+    margin-bottom: 2px !important;
+  }
+  .lm-product-card-price-value {
+    font-size: 13.5px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .lm-product-card-info {
+    padding: 8px 6px !important;
+    gap: 4px !important;
+  }
+  .lm-product-card-info h3 {
+    font-size: 11.5px !important;
+    line-height: 1.2 !important;
+  }
+  .lm-product-card-price-value {
+    font-size: 12.5px !important;
+  }
+}
+
+/* Product Details Modal Image Frame & Sheet Height on Mobile */
+@media (max-width: 640px) {
+  .lm-detail-img-wrap {
+    height: clamp(150px, 24vh, 200px) !important;
+  }
+  .lm-product-details-modal {
+    max-height: 92vh !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .lm-detail-img-wrap {
+    height: 140px !important;
+  }
+}
+
+/* ==========================================================================
+   LITTLE MONKEY CAFÉ — CATEGORY DISCOVERY & CATEGORY VIEW MOTION
+   Smooth entrance, coordinated stagger, zero auditory components
+   Respects prefers-reduced-motion
+   ========================================================================== */
+@keyframes lmCatCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lm-category-card-enter {
+  animation: lmCatCardFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: min(calc(var(--cat-index, 0) * 18ms), 280ms);
+  will-change: transform, opacity;
+}
+
+@keyframes lmCategoryViewEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lm-category-view-wrap {
+  animation: lmCategoryViewEnter 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lm-product-card-enter-wrap {
+  animation: lmCatCardFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: min(calc(var(--prod-index, 0) * 24ms), 260ms);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.lm-back-to-categories-btn:hover {
+  background-color: #201D18 !important;
+  border-color: #FFC21A !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 10px rgba(255, 194, 26, 0.2);
+}
+
+.lm-back-to-categories-btn:active {
+  transform: scale(0.97) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lm-category-card-enter,
+  .lm-category-view-wrap,
+  .lm-product-card-enter-wrap {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ── Master Featured 2-Card Section ────────────────────────────────────────── */
+.lm-featured-master-section {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto 28px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .lm-featured-master-section {
+    padding: 0 12px;
+    margin-bottom: 20px;
+  }
+}
+
+.lm-featured-master-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 960px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .lm-featured-master-grid {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .lm-featured-master-grid {
+    gap: 8px;
+  }
+}
+
+.lm-featured-master-card {
+  background-color: #111111;
+  border: 1px solid rgba(255, 194, 26, 0.35);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  box-sizing: border-box;
+  min-width: 0;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 194, 26, 0.08);
+}
+
+.lm-featured-master-card:hover {
+  transform: translateY(-2px);
+  border-color: #FFC21A;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 16px rgba(255, 194, 26, 0.2);
+}
+
+.lm-featured-master-card:focus-visible {
+  outline: 2px solid #FFC21A;
+  outline-offset: 2px;
+}
+
+/* ── Consistent Image Container Across Both Cards ───────────────────────── */
+.lm-featured-img-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background-color: #080808;
+  overflow: hidden;
+  border-bottom: 1px solid #1E1E1E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.lm-featured-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-position: center;
+  box-sizing: border-box;
+  transition: transform 0.25s ease;
+}
+
+.lm-featured-master-card:hover .lm-featured-img {
+  transform: scale(1.03);
+}
+
+/* ── Refined Editorial Must-Try Specialties Section ──────────────────────── */
+.lm-must-try-editorial-section {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto 36px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.lm-must-try-card {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.24s ease,
+              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lm-must-try-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(251, 195, 36, 0.55) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 24px rgba(251, 195, 36, 0.15) !important;
+}
+
+.lm-must-try-card:active {
+  transform: scale(0.99);
+}
+
+.lm-must-try-card:hover .lm-must-try-img {
+  transform: scale(1.04);
+}
+
+.lm-must-try-view-btn {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lm-must-try-view-btn:hover {
+  background-color: #FBC324 !important;
+  color: #080808 !important;
+  border-color: #FBC324 !important;
+  box-shadow: 0 0 14px rgba(251, 195, 36, 0.4);
+}
+
+/* ── Refined Primary Hero Button ─────────────────────────────────────────── */
+.lm-hero-explore-btn {
+  transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lm-hero-explore-btn:hover {
+  transform: translateY(-2px);
+  background-color: #FFD447 !important;
+  box-shadow: 0 10px 28px rgba(251, 195, 36, 0.45), 0 0 20px rgba(251, 195, 36, 0.25) !important;
+}
+
+.lm-hero-explore-btn:active {
+  transform: scale(0.97);
+}
+
+/* ── Cohesive Cinematic Motion System ────────────────────────────────────── */
+@keyframes lmGoldenAmbientSweep {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes lmCardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lm-stagger-card {
+  animation: lmCardReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lm-product-card {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              box-shadow 0.22s ease;
+}
+
+.lm-product-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(251, 195, 36, 0.6) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.75), 0 0 16px rgba(251, 195, 36, 0.15) !important;
+}
+
+.lm-product-card:active {
+  transform: scale(0.98);
+}
+
+.lm-product-card:hover .lm-product-card-img {
+  transform: scale(1.03);
+}
+
+/* ── Full-Screen Scanner & Refined First-Impression Transitions ──────────── */
+@keyframes lmScannerRise {
+  0% {
+    transform: translateY(100%);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes lmScannerFade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes lmScannerBeam {
+  0%, 100% {
+    top: 6%;
+    opacity: 0.35;
+  }
+  50% {
+    top: 92%;
+    opacity: 0.95;
+  }
+}
+
+.lm-scanner-fullscreen {
+  animation: lmScannerRise 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.lm-scanner-beam-line {
+  animation: lmScannerBeam 2.2s ease-in-out infinite;
+}
+
+/* ── Refined First-Impression Responsive Grid ────────────────────────────── */
+.lm-landing-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .lm-landing-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(36px, 5vw, 64px);
+    align-items: center;
+  }
+}
+
+.lm-landing-hero-card {
+  background-color: #12110F;
+  border: 1px solid rgba(251, 195, 36, 0.28);
+  border-radius: 24px;
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 30px rgba(251, 195, 36, 0.08);
+  box-sizing: border-box;
+}
+
+/* ── Premium Recreated Yellow Scanner Dock & Apple-Style Spring Motion ───── */
+@keyframes lmIosButtonSpring {
+  0% {
+    transform: translateX(-50%) scale(0.93) translateY(2px);
+  }
+  38% {
+    transform: translateX(-50%) scale(1.04) translateY(-3px);
+  }
+  68% {
+    transform: translateX(-50%) scale(0.985) translateY(1px);
+  }
+  86% {
+    transform: translateX(-50%) scale(1.008) translateY(-0.5px);
+  }
+  100% {
+    transform: translateX(-50%) scale(1) translateY(0);
+  }
+}
+
+@keyframes lmIosDockSpring {
+  0% {
+    transform: scale(0.992) translateY(1px);
+  }
+  40% {
+    transform: scale(1.008) translateY(-1.5px);
+  }
+  75% {
+    transform: scale(0.998) translateY(0.5px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes lmScannerSpringRise {
+  0% {
+    transform: translateY(100%);
+    opacity: 0.8;
+  }
+  70% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+  88% {
+    transform: translateY(3px);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.lm-scanner-dock-wrap {
+  transition: transform 0.16s cubic-bezier(0.2, 0, 0, 1), filter 0.16s ease;
+}
+
+.lm-scanner-dock-btn {
+  transition: transform 0.16s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.16s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.lm-scanner-dock-btn:hover {
+  transform: translateX(-50%) translateY(-2px) scale(1.03) !important;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.9), 0 0 22px rgba(255, 194, 26, 0.45) !important;
+}
+
+.lm-scanner-dock-btn:active {
+  transform: translateX(-50%) scale(0.93) translateY(2px) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.95), 0 0 10px rgba(255, 194, 26, 0.2) !important;
+}
+
+.lm-btn-springing {
+  animation: lmIosButtonSpring 450ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+.lm-dock-springing {
+  animation: lmIosDockSpring 450ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+.lm-scanner-fullscreen {
+  animation: lmScannerSpringRise 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ── Accessibility & Performance Safeguards ──────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .lm-scanner-fullscreen {
+    animation: lmScannerFade 0.15s ease-out forwards !important;
+  }
+  .lm-btn-springing,
+  .lm-dock-springing {
+    animation: none !important;
+    transform: none !important;
+  }
+  .lm-scanner-beam-line {
+    animation: none !important;
+    top: 50% !important;
+    opacity: 0.7 !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

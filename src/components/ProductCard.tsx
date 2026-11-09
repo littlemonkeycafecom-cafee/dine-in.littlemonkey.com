@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Product } from '../types';
 import { getBasePrice, getOriginalPrice, getDiscountPercentage } from '../services/catalog';
 import { resolveProductImage } from '../services/productImageMap';
+import { getImagePresentation } from '../services/imagePresentation';
 import { Sparkles, ChevronRight } from 'lucide-react';
 
 interface ProductCardProps {
@@ -11,6 +12,7 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {
   const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   const price = getBasePrice(product);
   const originalPrice = getOriginalPrice(product);
@@ -18,6 +20,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
   const isAvailable = product.is_available !== false;
   const isVeg = product.dietary_classification === 'VEG';
   const displayImage = product.image_url || resolveProductImage(product);
+  const imgConfig = getImagePresentation(displayImage, product.category, product.slug);
 
   return (
     <div
@@ -41,8 +44,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        cursor: isAvailable ? 'pointer' : 'default',
-        opacity: isAvailable ? 1 : 0.65,
+        cursor: 'pointer',
+        opacity: isAvailable ? 1 : 0.88,
         position: 'relative',
         transition: 'transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease',
         boxShadow: product.is_must_try
@@ -50,10 +53,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
           : '0 4px 12px rgba(0, 0, 0, 0.4)',
       }}
       onMouseEnter={(e) => {
-        if (isAvailable) {
-          e.currentTarget.style.borderColor = '#FFC21A';
-          e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.8), 0 0 14px rgba(255, 194, 26, 0.2)';
-        }
+        e.currentTarget.style.borderColor = '#FFC21A';
+        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.8), 0 0 14px rgba(255, 194, 26, 0.2)';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = product.is_must_try
@@ -64,7 +65,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
           : '0 4px 12px rgba(0, 0, 0, 0.4)';
       }}
     >
-      {/* 1. Image Container with Fixed Aspect Ratio */}
+      {/* 1. Image Container with Fixed Aspect Ratio & Adaptive Centering */}
       <div
         className="lm-product-card-img-wrap"
         style={{
@@ -72,6 +73,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
           width: '100%',
           aspectRatio: '4 / 3',
           backgroundColor: '#080808',
+          background: 'radial-gradient(circle at center, #161616 0%, #080808 100%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           overflow: 'hidden',
           borderBottom: '1px solid #1E1E1E',
         }}
@@ -121,17 +126,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
             <span
               style={{
                 fontSize: '9px',
-                fontWeight: 800,
-                backgroundColor: 'rgba(239, 68, 68, 0.9)',
-                color: '#FFFFFF',
+                fontWeight: 700,
+                backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                color: '#FCA5A5',
+                border: '1px solid rgba(239, 68, 68, 0.4)',
                 borderRadius: '4px',
                 padding: '2px 6px',
                 textTransform: 'uppercase',
                 letterSpacing: '0.04em',
-                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.6)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)',
               }}
             >
-              Sold Out
+              Unavailable
             </span>
           ) : product.badge ? (
             <span
@@ -151,43 +158,61 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
             >
               {product.badge}
             </span>
-          ) : product.is_must_try ? (
-            <span
-              style={{
-                fontSize: '9px',
-                fontWeight: 800,
-                backgroundColor: 'rgba(255, 194, 26, 0.15)',
-                color: '#FFC21A',
-                border: '1px solid rgba(255, 194, 26, 0.4)',
-                borderRadius: '4px',
-                padding: '2px 6px',
-                textTransform: 'uppercase',
-                letterSpacing: '0.04em',
-                backdropFilter: 'blur(4px)',
-                WebkitBackdropFilter: 'blur(4px)',
-              }}
-            >
-              Must Try
-            </span>
           ) : null}
         </div>
 
-        {/* Product Photograph */}
+        {/* Product Photograph with Proportional Subject Framing */}
         {displayImage && !imgError ? (
-          <img
-            src={displayImage}
-            alt={product.name}
-            loading="lazy"
-            onError={() => setImgError(true)}
-            className="lm-product-card-img"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: displayImage.includes('/cold-brew/') ? 'contain' : 'cover',
-              objectPosition: 'center',
-              display: 'block',
-            }}
-          />
+          <>
+            {/* Ambient Backdrop Layer for drinks / cutouts */}
+            {imgConfig.useBackdrop && (
+              <img
+                src={displayImage}
+                alt=""
+                aria-hidden="true"
+                className="lm-img-ambient-backdrop"
+                style={{
+                  position: 'absolute',
+                  inset: '-16px',
+                  width: 'calc(100% + 32px)',
+                  height: 'calc(100% + 32px)',
+                  objectFit: 'cover',
+                  objectPosition: imgConfig.position,
+                  filter: 'blur(28px) brightness(0.5) saturate(1.3)',
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                  zIndex: 1,
+                  transform: 'translate3d(0, 0, 0)',
+                  opacity: 0.85,
+                }}
+              />
+            )}
+
+            <img
+              src={displayImage}
+              alt={product.name}
+              loading="lazy"
+              onLoad={() => setImgLoaded(true)}
+              onError={() => setImgError(true)}
+              className="lm-product-card-img"
+              style={{
+                position: 'relative',
+                zIndex: 2,
+                width: '100%',
+                height: '100%',
+                objectFit: imgConfig.fit,
+                objectPosition: imgConfig.position,
+                display: 'block',
+                padding: imgConfig.fit === 'contain' ? (imgConfig.padding || '10px') : '0',
+                boxSizing: 'border-box',
+                opacity: imgLoaded ? 1 : 0.4,
+                transition: 'opacity 0.2s ease, transform 320ms cubic-bezier(0.25, 0.1, 0.25, 1)',
+                filter: imgConfig.fit === 'contain'
+                  ? 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.85))'
+                  : 'none',
+              }}
+            />
+          </>
         ) : (
           <div
             style={{
@@ -212,8 +237,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
 
       {/* 2. Product Information Surface */}
       <div
+        className="lm-product-card-info"
         style={{
-          padding: '12px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
@@ -301,7 +326,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
         >
           {/* Price Block */}
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '15px', fontWeight: 800, color: '#FFC21A' }}>
+            <span className="lm-product-card-price-value" style={{ fontSize: '15px', fontWeight: 800, color: '#FFC21A' }}>
               ₹{price !== null ? price : '—'}
             </span>
             {originalPrice && originalPrice > (price || 0) && (

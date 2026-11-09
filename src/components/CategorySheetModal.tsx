@@ -450,9 +450,7 @@ export const CategorySheetModal: React.FC<CategorySheetModalProps> = ({
                 >
                   {activeCategory.label}
                 </h2>
-                <span style={{ fontSize: '11.5px', color: '#666666', fontWeight: 600 }}>
-                  ({filteredProducts.length} {filteredProducts.length === 1 ? 'item' : 'items'})
-                </span>
+                
               </div>
               {activeCategory.subtitle && (
                 <p style={{ margin: '2px 0 0 0', fontSize: '11.5px', color: '#9C8C7E' }}>

@@ -46,14 +46,15 @@ async function runVerificationSuite() {
   console.log('STARTING SECURE QR-AUTHORIZED DINING END-TO-END VERIFICATION');
   console.log('================================================================\n');
 
+  const baselineCredentialsSnapshot = fs.readFileSync('.qr_credentials.json', 'utf8');
   await resetTestClock();
 
   // Get active credentials from authoritative server
   const tables = await fetchAdminTables();
-  if (!tables || tables.length !== 6) {
-    throw new Error(`Expected 6 tables, received: ${tables?.length}`);
+  if (!tables || tables.length !== 10) {
+    throw new Error(`Expected 10 tables, received: ${tables?.length}`);
   }
-  console.log(`[SETUP] Fetched 6 authoritative tables: ${tables.map(t => t.tableNumber).join(', ')}`);
+  console.log(`[SETUP] Fetched 10 authoritative tables: ${tables.map(t => t.tableNumber).join(', ')}`);
 
   const t1 = tables.find(t => t.tableNumber === 'Table 01');
   const t2 = tables.find(t => t.tableNumber === 'Table 02');
@@ -81,7 +82,7 @@ async function runVerificationSuite() {
 
     const contentA = await pageA.content();
     const hasQrRequiredA = contentA.includes('Table QR Scan Required') || contentA.includes('IN-CAFÉ QR ACCESS REQUIRED');
-    const hasMenuCatalogA = contentA.includes('main-menu-catalog');
+    const hasMenuCatalogA = contentA.includes('id="main-menu-catalog"');
 
     console.log(`[SCENARIO A] Has "Table QR Scan Required": ${hasQrRequiredA}`);
     console.log(`[SCENARIO A] Has Protected Menu Catalog: ${hasMenuCatalogA}`);
@@ -107,8 +108,8 @@ async function runVerificationSuite() {
     await new Promise(r => setTimeout(r, 600));
 
     const contentB = await pageB.content();
-    const hasQrRequiredB = contentB.includes('Table QR Scan Required');
-    const hasMenuCatalogB = contentB.includes('main-menu-catalog');
+    const hasQrRequiredB = contentB.includes('Table QR Scan Required') || contentB.includes('IN-CAFÉ QR ACCESS REQUIRED');
+    const hasMenuCatalogB = contentB.includes('id="main-menu-catalog"');
 
     console.log(`[SCENARIO B] Has "Table QR Scan Required": ${hasQrRequiredB}`);
     console.log(`[SCENARIO B] Has Protected Menu Catalog: ${hasMenuCatalogB}`);
@@ -170,7 +171,12 @@ async function runVerificationSuite() {
 
     const contentD = await pageD.content();
     const hasQrVerifiedBadge = contentD.includes('QR VERIFIED');
-    const hasLoginGate = contentD.includes('Sign In to Dine') || contentD.includes('Continue as Guest');
+    const hasLoginGate =
+      contentD.includes('Sign In to Dine') ||
+      contentD.includes('New Diner Registration') ||
+      contentD.includes('Already registered? Sign in') ||
+      contentD.includes('Enter your mobile number to continue') ||
+      contentD.includes('Verify Mobile Number');
 
     console.log(`[SCENARIO D] Shows "Table 01 • QR VERIFIED": ${hasQrVerifiedBadge}`);
     console.log(`[SCENARIO D] Shows Customer Login Gate: ${hasLoginGate}`);
@@ -184,24 +190,59 @@ async function runVerificationSuite() {
     // -------------------------------------------------------------------------
     // SCENARIO E: Customer Authentication & 30-Minute Session Activation
     // -------------------------------------------------------------------------
+    pageD.on('console', msg => console.log('[BROWSER LOG]', msg.text()));
     console.log('\n--- SCENARIO E: Customer Authentication & 30-Minute Session ---');
-    // Click Guest Preview button (or complete sign in)
-    await pageD.evaluate(() => {
-      const btns = Array.from(document.querySelectorAll('button'));
-      const guestBtn = btns.find(b => b.textContent.includes('Continue as Guest') || b.textContent.includes('Guest'));
-      if (guestBtn) guestBtn.click();
-    });
+    // Complete registration with unique diner mobile using real keyboard typing
+    const randomMobile = '98' + Math.floor(10000000 + Math.random() * 90000000);
+    // Handle both password-free 2-step registration and legacy unified registration
+    const hasNameInputInitially = await pageD.$('input#customer-name');
+    if (!hasNameInputInitially) {
+      // Password-Free Flow: Step A (Enter Mobile) -> Verify -> Step C (Enter Name) -> Register
+      await pageD.type('input#customer-mobile', randomMobile);
+      await pageD.evaluate(() => {
+        const verifyBtn = Array.from(document.querySelectorAll('button')).find(
+          b => b.textContent && b.textContent.includes('Verify Mobile Number')
+        );
+        if (verifyBtn) verifyBtn.click();
+      });
+      await pageD.waitForSelector('input#customer-name', { timeout: 6000 });
+      await pageD.type('input#customer-name', 'Aarav Sharma');
+      await pageD.evaluate(() => {
+        const submitBtn = Array.from(document.querySelectorAll('button')).find(
+          b => b.textContent && (b.textContent.includes('Register') || b.textContent.includes('REGISTER'))
+        );
+        if (submitBtn) submitBtn.click();
+      });
+    } else {
+      // Legacy Unified Flow
+      await pageD.type('input#customer-name', 'Aarav Sharma');
+      await pageD.type('input#customer-mobile', randomMobile);
+      await pageD.evaluate(() => {
+        const submitBtn = document.querySelector('button[type="submit"]') || Array.from(document.querySelectorAll('button')).find(b => b.textContent && b.textContent.includes('REGISTER'));
+        if (submitBtn) submitBtn.click();
+      });
+    }
 
-    await new Promise(r => setTimeout(r, 1200));
+    try {
+      await pageD.waitForSelector('#main-menu-catalog', { timeout: 8000 });
+    } catch {
+      await new Promise(r => setTimeout(r, 2000));
+    }
 
     const contentE = await pageD.content();
-    const hasMenuCatalogE = contentE.includes('main-menu-catalog');
+    const hasMenuCatalogE = contentE.includes('id="main-menu-catalog"');
     const hasHeroE = contentE.includes('Little Monkey Café') && contentE.includes('Table 01');
 
     console.log(`[SCENARIO E] Menu Catalog Mounted: ${hasMenuCatalogE}`);
     console.log(`[SCENARIO E] Table 01 in Header: ${hasHeroE}`);
 
     if (!hasMenuCatalogE) {
+      const errorText = await pageD.evaluate(() => {
+        const errDiv = document.querySelector('div[style*="EF4444"], div[style*="ef4444"]');
+        return errDiv ? errDiv.textContent : 'No error banner';
+      });
+      console.log(`[SCENARIO E DIAGNOSTIC] Page error text: "${errorText}"`);
+      await pageD.screenshot({ path: path.join(SCREENSHOT_DIR, 'qr_scenario_e_debug_failure.png') });
       throw new Error('SCENARIO E FAILED: Menu did not mount after authenticating with valid QR!');
     }
 
@@ -220,8 +261,8 @@ async function runVerificationSuite() {
     await new Promise(r => setTimeout(r, 1000));
 
     const contentF = await pageD.content();
-    const hasSessionExpired = contentF.includes('30-MINUTE DINING SESSION EXPIRED') || contentF.includes('Session Concluded');
-    const hasMenuCatalogF = contentF.includes('main-menu-catalog');
+    const hasSessionExpired = contentF.includes('30-MINUTE DINING SESSION EXPIRED') || contentF.includes('15-MINUTE DINING SESSION EXPIRED') || contentF.includes('Session Concluded');
+    const hasMenuCatalogF = contentF.includes('id="main-menu-catalog"');
 
     console.log(`[SCENARIO F] Shows Session Expired Screen: ${hasSessionExpired}`);
     console.log(`[SCENARIO F] Protected Menu Catalog Unmounted: ${!hasMenuCatalogF}`);
@@ -378,8 +419,12 @@ async function runVerificationSuite() {
     console.log('ALL SCENARIOS (A THROUGH I) PASSED WITH COMPLETE EVIDENCE');
     console.log('================================================================');
   } finally {
+    if (baselineCredentialsSnapshot) {
+      fs.writeFileSync('.qr_credentials.json', baselineCredentialsSnapshot);
+      console.log('[VERIFICATION SUITE] Authoritative physical baseline credentials restored.');
+    }
     await resetTestClock();
-    await browser.close();
+    if (browser) await browser.close();
   }
 }
 

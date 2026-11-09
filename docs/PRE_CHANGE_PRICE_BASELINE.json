@@ -1,0 +1,2705 @@
+{
+  "timestamp": "2026-11-02T19:32:39.059Z",
+  "regularItems": [
+    {
+      "slug": "thin-crust-pizza-margherita-pizza",
+      "name": "Margherita Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 29400,
+      "base_price_inr": 294,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 29400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-spicy-mexican-pizza",
+      "name": "Spicy Mexican Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 39000,
+      "base_price_inr": 390,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 39000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-desi-masala-pizza",
+      "name": "Desi Masala Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 39000,
+      "base_price_inr": 390,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 39000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-sweet-corn-pizza",
+      "name": "Sweet Corn Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 39000,
+      "base_price_inr": 390,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 39000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-peri-peri-mexican-pizza",
+      "name": "Peri Peri Mexican Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 41100,
+      "base_price_inr": 411,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 41100
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-farmhouse",
+      "name": "Farmhouse",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 41400,
+      "base_price_inr": 414,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 41400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-veggie-paradise-pizza",
+      "name": "Veggie Paradise Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 42500,
+      "base_price_inr": 425,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 42500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-spicy-paneer-pizza",
+      "name": "Spicy Paneer Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 46400,
+      "base_price_inr": 464,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 46400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-peri-peri-italio-pizza",
+      "name": "Peri Peri Italio Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 46400,
+      "base_price_inr": 464,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 46400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-mexican-chicken-pizza",
+      "name": "Mexican Chicken Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 46400,
+      "base_price_inr": 464,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 46400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-chicken-and-sweet-corn-pizza",
+      "name": "Chicken and Sweet Corn Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 46400,
+      "base_price_inr": 464,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 46400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-chicken-mushroom-pizza",
+      "name": "Chicken Mushroom Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 46400,
+      "base_price_inr": 464,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 46400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-chicken-tikka-pizza",
+      "name": "Chicken Tikka Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 46400,
+      "base_price_inr": 464,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 46400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-pineapple-chicken-pizza",
+      "name": "Pineapple Chicken Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 46400,
+      "base_price_inr": 464,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 46400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-barbeque-chicken-pizza",
+      "name": "Barbeque Chicken Pizza",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 47400,
+      "base_price_inr": 474,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 47400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-chicken-tikka-pizza-pineapple",
+      "name": "Chicken Tikka Pizza Pineapple",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 48400,
+      "base_price_inr": 484,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 48400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thin-crust-pizza-chicken-pepperoni",
+      "name": "Chicken Pepperoni",
+      "category": "thin-crust-pizza",
+      "base_price_paise": 51400,
+      "base_price_inr": 514,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 51400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "pizza-combos-veg-pizza-combo",
+      "name": "Veg Pizza Combo",
+      "category": "pizza-combos",
+      "base_price_paise": 56400,
+      "base_price_inr": 564,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 56400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "pizza-combos-non-veg-pizza-combo",
+      "name": "Non-Veg Pizza Combo",
+      "category": "pizza-combos",
+      "base_price_paise": 61400,
+      "base_price_inr": 614,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 61400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "pasta-pasta-veg",
+      "name": "Pasta Veg",
+      "category": "pasta",
+      "base_price_paise": 26400,
+      "base_price_inr": 264,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 26400
+        },
+        {
+          "name": "Full",
+          "price_paise": 34400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "pasta-pasta-non-veg",
+      "name": "Pasta Non-Veg",
+      "category": "pasta",
+      "base_price_paise": 31400,
+      "base_price_inr": 314,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 31400
+        },
+        {
+          "name": "Full",
+          "price_paise": 37400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "sandwiches-veg-grill",
+      "name": "Veg Grill",
+      "category": "sandwiches",
+      "base_price_paise": 14400,
+      "base_price_inr": 144,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 14400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "sandwiches-veg-corn",
+      "name": "Veg Corn",
+      "category": "sandwiches",
+      "base_price_paise": 16400,
+      "base_price_inr": 164,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "sandwiches-paneer-grill",
+      "name": "Paneer Grill",
+      "category": "sandwiches",
+      "base_price_paise": 17400,
+      "base_price_inr": 174,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "sandwiches-chicken-onion",
+      "name": "Chicken Onion",
+      "category": "sandwiches",
+      "base_price_paise": 18000,
+      "base_price_inr": 180,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "sandwiches-chicken-tikka",
+      "name": "Chicken Tikka",
+      "category": "sandwiches",
+      "base_price_paise": 19400,
+      "base_price_inr": 194,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "sandwiches-bbq-chicken-sandwich",
+      "name": "BBQ Chicken Sandwich",
+      "category": "sandwiches",
+      "base_price_paise": 20400,
+      "base_price_inr": 204,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 20400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "sandwiches-special-chicken-tikka",
+      "name": "Special Chicken Tikka",
+      "category": "sandwiches",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "shawarma-classic-paneer-shawarma",
+      "name": "Classic Paneer Shawarma",
+      "category": "shawarma",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "shawarma-classic-chicken-shawarma",
+      "name": "Classic Chicken Shawarma",
+      "category": "shawarma",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "shawarma-fried-chicken-shawarma",
+      "name": "Fried Chicken Shawarma",
+      "category": "shawarma",
+      "base_price_paise": 23500,
+      "base_price_inr": 235,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 23500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "shawarma-veg-corn-cheese-grilled-roll",
+      "name": "Veg Corn Cheese Grilled Roll",
+      "category": "shawarma",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "fries-french-fries",
+      "name": "French Fries",
+      "category": "fries",
+      "base_price_paise": 14400,
+      "base_price_inr": 144,
+      "variants": [
+        {
+          "name": "M",
+          "price_paise": 14400
+        },
+        {
+          "name": "L",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "fries-masala-french-fries",
+      "name": "Masala French Fries",
+      "category": "fries",
+      "base_price_paise": 15500,
+      "base_price_inr": 155,
+      "variants": [
+        {
+          "name": "M",
+          "price_paise": 15500
+        },
+        {
+          "name": "L",
+          "price_paise": 19400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "fries-french-fries-with-cheese-sauce",
+      "name": "French Fries with Cheese Sauce",
+      "category": "fries",
+      "base_price_paise": 22400,
+      "base_price_inr": 224,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 22400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "burgers-veg-delight-burger",
+      "name": "Veg Delight Burger",
+      "category": "burgers",
+      "base_price_paise": 17400,
+      "base_price_inr": 174,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "burgers-veg-popular-burger",
+      "name": "Veg Popular Burger",
+      "category": "burgers",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "burgers-paneer-burger",
+      "name": "Paneer Burger",
+      "category": "burgers",
+      "base_price_paise": 28400,
+      "base_price_inr": 284,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 28400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "burgers-crispy-chicken-burger",
+      "name": "Crispy Chicken Burger",
+      "category": "burgers",
+      "base_price_paise": 20000,
+      "base_price_inr": 200,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 20000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "burgers-crispy-chicken-cheese-burger",
+      "name": "Crispy Chicken Cheese Burger",
+      "category": "burgers",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "burgers-spicy-mexican-chicken-burger",
+      "name": "Spicy Mexican Chicken Burger",
+      "category": "burgers",
+      "base_price_paise": 24500,
+      "base_price_inr": 245,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 24500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "burgers-spicy-mexican-chicken-cheese-burger",
+      "name": "Spicy Mexican Chicken Cheese Burger",
+      "category": "burgers",
+      "base_price_paise": 25400,
+      "base_price_inr": 254,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 25400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "burgers-crispy-fish-burger",
+      "name": "Crispy Fish Burger",
+      "category": "burgers",
+      "base_price_paise": 26400,
+      "base_price_inr": 264,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 26400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "burgers-crispy-fish-cheese-burger",
+      "name": "Crispy Fish Cheese Burger",
+      "category": "burgers",
+      "base_price_paise": 28400,
+      "base_price_inr": 284,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 28400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "burger-combos-veg-burger-combo",
+      "name": "Veg Burger Combo",
+      "category": "burger-combos",
+      "base_price_paise": 36400,
+      "base_price_inr": 364,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 36400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "burger-combos-chicken-burger-combo",
+      "name": "Chicken Burger Combo",
+      "category": "burger-combos",
+      "base_price_paise": 41400,
+      "base_price_inr": 414,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 41400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "burger-combos-chicken-crispy-combo",
+      "name": "Chicken Crispy Combo",
+      "category": "burger-combos",
+      "base_price_paise": 42500,
+      "base_price_inr": 425,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 42500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "garlic-bread-garlic-bread",
+      "name": "Garlic Bread",
+      "category": "garlic-bread",
+      "base_price_paise": 16400,
+      "base_price_inr": 164,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "garlic-bread-cheese-garlic-bread",
+      "name": "Cheese Garlic Bread",
+      "category": "garlic-bread",
+      "base_price_paise": 19400,
+      "base_price_inr": 194,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "garlic-bread-cheese-corn-garlic-bread",
+      "name": "Cheese & Corn Garlic Bread",
+      "category": "garlic-bread",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "sides-quick-bites-8-pcs-potato-cheese-shots",
+      "name": "8 Pcs Potato Cheese Shots",
+      "category": "sides-quick-bites",
+      "base_price_paise": 17400,
+      "base_price_inr": 174,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "sides-quick-bites-potato-wedges",
+      "name": "Potato Wedges",
+      "category": "sides-quick-bites",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "sides-quick-bites-peri-peri-potato-wedges",
+      "name": "Peri Peri Potato Wedges",
+      "category": "sides-quick-bites",
+      "base_price_paise": 23400,
+      "base_price_inr": 234,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 23400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "sides-quick-bites-veg-fries-5-pcs",
+      "name": "Veg Fries (5 Pcs)",
+      "category": "sides-quick-bites",
+      "base_price_paise": 16400,
+      "base_price_inr": 164,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "sides-quick-bites-veg-spring-rolls-4-pcs",
+      "name": "Veg Spring Rolls (4 Pcs)",
+      "category": "sides-quick-bites",
+      "base_price_paise": 16400,
+      "base_price_inr": 164,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "desserts-brownie",
+      "name": "Brownie",
+      "category": "desserts",
+      "base_price_paise": 16500,
+      "base_price_inr": 165,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "desserts-brownie-with-ice-cream",
+      "name": "Brownie with Ice Cream",
+      "category": "desserts",
+      "base_price_paise": 20000,
+      "base_price_inr": 200,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 20000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "desserts-sizzling-brownie",
+      "name": "Sizzling Brownie",
+      "category": "desserts",
+      "base_price_paise": 29000,
+      "base_price_inr": 290,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 29000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "desserts-marshmallow-with-hot-chocolate",
+      "name": "Marshmallow with Hot Chocolate",
+      "category": "desserts",
+      "base_price_paise": 24000,
+      "base_price_inr": 240,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 24000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "desserts-apricot-delight",
+      "name": "Apricot Delight",
+      "category": "desserts",
+      "base_price_paise": 19400,
+      "base_price_inr": 194,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "desserts-chocolava",
+      "name": "Chocolava",
+      "category": "desserts",
+      "base_price_paise": 13500,
+      "base_price_inr": 135,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 13500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "desserts-chocolava-with-ice-cream",
+      "name": "Chocolava with Ice Cream",
+      "category": "desserts",
+      "base_price_paise": 17400,
+      "base_price_inr": 174,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "desserts-chocolate-sandwich",
+      "name": "Chocolate Sandwich",
+      "category": "desserts",
+      "base_price_paise": 17500,
+      "base_price_inr": 175,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "desserts-nutella-sandwich",
+      "name": "Nutella Sandwich",
+      "category": "desserts",
+      "base_price_paise": 19000,
+      "base_price_inr": 190,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "desserts-sunday-mug-brownie",
+      "name": "Sunday Mug Brownie",
+      "category": "desserts",
+      "base_price_paise": 23500,
+      "base_price_inr": 235,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 23500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "crispy-chicken-chicken-wings",
+      "name": "Chicken Wings",
+      "category": "crispy-chicken",
+      "base_price_paise": 19400,
+      "base_price_inr": 194,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "crispy-chicken-chicken-nuggets",
+      "name": "Chicken Nuggets",
+      "category": "crispy-chicken",
+      "base_price_paise": 19400,
+      "base_price_inr": 194,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "crispy-chicken-chicken-popcorn",
+      "name": "Chicken Popcorn",
+      "category": "crispy-chicken",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "crispy-fish-crispy-fish-fingers-5",
+      "name": "Crispy Fish Fingers (5)",
+      "category": "crispy-fish",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "crispy-fish-crumb-fried-prawns-4",
+      "name": "Crumb Fried Prawns (4)",
+      "category": "crispy-fish",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "crispy-fish-fish-chips",
+      "name": "Fish & Chips",
+      "category": "crispy-fish",
+      "base_price_paise": 45400,
+      "base_price_inr": 454,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 45400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "combos-mojito-garlic-bread",
+      "name": "Mojito + Garlic Bread",
+      "category": "combos",
+      "base_price_paise": 30400,
+      "base_price_inr": 304,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 30400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "combos-sandwich-french-fries-mayo",
+      "name": "Sandwich French Fries + Mayo",
+      "category": "combos",
+      "base_price_paise": 26500,
+      "base_price_inr": 265,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 26500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "combos-chicken-sandwich-french-fries-mayo",
+      "name": "Chicken Sandwich French Fries + Mayo",
+      "category": "combos",
+      "base_price_paise": 31400,
+      "base_price_inr": 314,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 31400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "combos-paneer-sandwich-french-fries-mayo",
+      "name": "Paneer Sandwich French Fries + Mayo",
+      "category": "combos",
+      "base_price_paise": 31400,
+      "base_price_inr": 314,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 31400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "combos-veg-salad-half-sandwich",
+      "name": "Veg Salad Half Sandwich",
+      "category": "combos",
+      "base_price_paise": 36400,
+      "base_price_inr": 364,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 36400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "combos-chicken-salad-half-sandwich",
+      "name": "Chicken Salad Half + Sandwich",
+      "category": "combos",
+      "base_price_paise": 43400,
+      "base_price_inr": 434,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 43400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "combos-coffee-brownie-cappuccino-latte",
+      "name": "Coffee Brownie (Cappuccino/Latte)",
+      "category": "combos",
+      "base_price_paise": 26400,
+      "base_price_inr": 264,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 26400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "combos-salted-french-fries-chilly-mayo",
+      "name": "Salted French Fries + Chilly Mayo",
+      "category": "combos",
+      "base_price_paise": 22500,
+      "base_price_inr": 225,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 22500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "combos-peri-peri-fries-plain-mayo",
+      "name": "Peri Peri Fries + Plain Mayo",
+      "category": "combos",
+      "base_price_paise": 23000,
+      "base_price_inr": 230,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 23000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "healthy-bowls-healthy-veg-fried-quinoa-bowl",
+      "name": "Healthy Veg Fried Quinoa Bowl",
+      "category": "healthy-bowls",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "healthy-bowls-healthy-fried-quinoa-with-egg-bowl",
+      "name": "Healthy Fried Quinoa with Egg Bowl",
+      "category": "healthy-bowls",
+      "base_price_paise": 26400,
+      "base_price_inr": 264,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 26400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "healthy-bowls-boiled-quinoa-with-spicy-creamy-sauce",
+      "name": "Boiled Quinoa with Spicy Creamy Sauce",
+      "category": "healthy-bowls",
+      "base_price_paise": 31400,
+      "base_price_inr": 314,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 31400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "healthy-bowls-brown-rice-bowl-with-cream-cheese-sauce",
+      "name": "Brown Rice Bowl with Cream Cheese Sauce",
+      "category": "healthy-bowls",
+      "base_price_paise": 16400,
+      "base_price_inr": 164,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "healthy-bowls-veggi-paneer-rice-bowl",
+      "name": "Veggi & Paneer Rice Bowl",
+      "category": "healthy-bowls",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "healthy-bowls-creamy-corn-rice-bowl",
+      "name": "Creamy Corn Rice Bowl",
+      "category": "healthy-bowls",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "salads-greek-salad",
+      "name": "Greek Salad",
+      "category": "salads",
+      "base_price_paise": 25400,
+      "base_price_inr": 254,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 25400
+        },
+        {
+          "name": "Full",
+          "price_paise": 30400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "salads-caesar-salad",
+      "name": "Caesar Salad",
+      "category": "salads",
+      "base_price_paise": 25400,
+      "base_price_inr": 254,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 25400
+        },
+        {
+          "name": "Full",
+          "price_paise": 30400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "salads-veg-salad",
+      "name": "Veg Salad",
+      "category": "salads",
+      "base_price_paise": 25400,
+      "base_price_inr": 254,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 25400
+        },
+        {
+          "name": "Full",
+          "price_paise": 30400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "salads-american-corn-salad",
+      "name": "American Corn Salad",
+      "category": "salads",
+      "base_price_paise": 25400,
+      "base_price_inr": 254,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 25400
+        },
+        {
+          "name": "Full",
+          "price_paise": 30400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "salads-roasted-orange-salad",
+      "name": "Roasted Orange Salad",
+      "category": "salads",
+      "base_price_paise": 27400,
+      "base_price_inr": 274,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 27400
+        },
+        {
+          "name": "Full",
+          "price_paise": 32500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "salads-chicken-salad",
+      "name": "Chicken Salad",
+      "category": "salads",
+      "base_price_paise": 28400,
+      "base_price_inr": 284,
+      "variants": [
+        {
+          "name": "Half",
+          "price_paise": 28400
+        },
+        {
+          "name": "Full",
+          "price_paise": 34400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "grills-boneless-chicken-grill",
+      "name": "Boneless Chicken Grill",
+      "category": "grills",
+      "base_price_paise": 33400,
+      "base_price_inr": 334,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 33400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "grills-boneless-fish-grill",
+      "name": "Boneless Fish Grill",
+      "category": "grills",
+      "base_price_paise": 36400,
+      "base_price_inr": 364,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 36400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "grills-paneer-grill",
+      "name": "Paneer Grill",
+      "category": "grills",
+      "base_price_paise": 33400,
+      "base_price_inr": 334,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 33400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "milkshakes-vanilla",
+      "name": "Vanilla",
+      "category": "milkshakes",
+      "base_price_paise": 17400,
+      "base_price_inr": 174,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "milkshakes-mango",
+      "name": "Mango",
+      "category": "milkshakes",
+      "base_price_paise": 20000,
+      "base_price_inr": 200,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 20000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "milkshakes-butterscotch",
+      "name": "Butterscotch",
+      "category": "milkshakes",
+      "base_price_paise": 20000,
+      "base_price_inr": 200,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 20000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "milkshakes-strawberry",
+      "name": "Strawberry",
+      "category": "milkshakes",
+      "base_price_paise": 20000,
+      "base_price_inr": 200,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 20000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "milkshakes-chocolate",
+      "name": "Chocolate",
+      "category": "milkshakes",
+      "base_price_paise": 20000,
+      "base_price_inr": 200,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 20000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "milkshakes-pinacolada",
+      "name": "Pinacolada",
+      "category": "milkshakes",
+      "base_price_paise": 20400,
+      "base_price_inr": 204,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 20400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "milkshakes-red-velvet",
+      "name": "Red Velvet",
+      "category": "milkshakes",
+      "base_price_paise": 24400,
+      "base_price_inr": 244,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 24400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "milkshakes-lotus-biscoff",
+      "name": "Lotus Biscoff",
+      "category": "milkshakes",
+      "base_price_paise": 24400,
+      "base_price_inr": 244,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 24400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "cold-coffee-coffee-frappe",
+      "name": "Coffee Frappe",
+      "category": "cold-coffee",
+      "base_price_paise": 20400,
+      "base_price_inr": 204,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 20400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "cold-coffee-choco-frappe",
+      "name": "Choco Frappe",
+      "category": "cold-coffee",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "cold-coffee-creamy-white",
+      "name": "Creamy White",
+      "category": "cold-coffee",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "cold-coffee-evil-frappe",
+      "name": "Evil Frappe",
+      "category": "cold-coffee",
+      "base_price_paise": 26400,
+      "base_price_inr": 264,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 26400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "cold-coffee-iced-black",
+      "name": "Iced Black",
+      "category": "cold-coffee",
+      "base_price_paise": 17400,
+      "base_price_inr": 174,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "mojito-virgin-mojito",
+      "name": "Virgin Mojito",
+      "category": "mojito",
+      "base_price_paise": 16400,
+      "base_price_inr": 164,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "mojito-blue-mojito",
+      "name": "Blue Mojito",
+      "category": "mojito",
+      "base_price_paise": 17400,
+      "base_price_inr": 174,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "mojito-green-mojito",
+      "name": "Green Mojito",
+      "category": "mojito",
+      "base_price_paise": 17400,
+      "base_price_inr": 174,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "mojito-kiwi-mojito",
+      "name": "Kiwi Mojito",
+      "category": "mojito",
+      "base_price_paise": 17400,
+      "base_price_inr": 174,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "mojito-orange-mojito",
+      "name": "Orange Mojito",
+      "category": "mojito",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "mojito-water-melon",
+      "name": "Water Melon",
+      "category": "mojito",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "mojito-hazelnut",
+      "name": "Hazelnut",
+      "category": "mojito",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "mojito-passion-fruit",
+      "name": "Passion Fruit",
+      "category": "mojito",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "mojito-black-currant",
+      "name": "Black Currant",
+      "category": "mojito",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thick-shakes-kitkat",
+      "name": "KitKat",
+      "category": "thick-shakes",
+      "base_price_paise": 27400,
+      "base_price_inr": 274,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 27400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thick-shakes-brownie",
+      "name": "Brownie",
+      "category": "thick-shakes",
+      "base_price_paise": 27400,
+      "base_price_inr": 274,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 27400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thick-shakes-oreo",
+      "name": "Oreo",
+      "category": "thick-shakes",
+      "base_price_paise": 27400,
+      "base_price_inr": 274,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 27400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thick-shakes-ferrero-rocher",
+      "name": "Ferrero Rocher",
+      "category": "thick-shakes",
+      "base_price_paise": 32500,
+      "base_price_inr": 325,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 32500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "thick-shakes-nutella",
+      "name": "Nutella",
+      "category": "thick-shakes",
+      "base_price_paise": 32500,
+      "base_price_inr": 325,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 32500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "boba-tea-coffee-boba-tea",
+      "name": "Boba Tea",
+      "category": "boba-tea-coffee",
+      "base_price_paise": 23500,
+      "base_price_inr": 235,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 23500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "boba-tea-coffee-boba-coffee",
+      "name": "Boba Coffee",
+      "category": "boba-tea-coffee",
+      "base_price_paise": 28400,
+      "base_price_inr": 284,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 28400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "boba-tea-coffee-boba-coffee-with-brownie",
+      "name": "Boba Coffee with Brownie",
+      "category": "boba-tea-coffee",
+      "base_price_paise": 34500,
+      "base_price_inr": 345,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 34500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "boba-tea-coffee-boba-hazelnut",
+      "name": "Boba Hazelnut",
+      "category": "boba-tea-coffee",
+      "base_price_paise": 35500,
+      "base_price_inr": 355,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 35500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "boba-tea-coffee-boba-nutella",
+      "name": "Boba Nutella",
+      "category": "boba-tea-coffee",
+      "base_price_paise": 35500,
+      "base_price_inr": 355,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 35500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "momos-paneer-momos-6-pc",
+      "name": "Paneer Momos - 6 Pc",
+      "category": "momos",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "momos-non-veg-momos-6-pc",
+      "name": "Non-Veg Momos - 6 Pc",
+      "category": "momos",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "ice-creams-vanilla",
+      "name": "Vanilla",
+      "category": "ice-creams",
+      "base_price_paise": 14400,
+      "base_price_inr": 144,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 14400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "ice-creams-mango",
+      "name": "Mango",
+      "category": "ice-creams",
+      "base_price_paise": 16400,
+      "base_price_inr": 164,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "ice-creams-butterscotch",
+      "name": "Butterscotch",
+      "category": "ice-creams",
+      "base_price_paise": 16400,
+      "base_price_inr": 164,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "ice-creams-strawberry",
+      "name": "Strawberry",
+      "category": "ice-creams",
+      "base_price_paise": 16400,
+      "base_price_inr": 164,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 16400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "ice-creams-red-velvet",
+      "name": "Red Velvet",
+      "category": "ice-creams",
+      "base_price_paise": 19400,
+      "base_price_inr": 194,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "hot-coffee-espresso",
+      "name": "Espresso",
+      "category": "hot-coffee",
+      "base_price_paise": 13400,
+      "base_price_inr": 134,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 13400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "hot-coffee-americano",
+      "name": "Americano",
+      "category": "hot-coffee",
+      "base_price_paise": 15400,
+      "base_price_inr": 154,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "hot-coffee-cappuccino",
+      "name": "Cappuccino",
+      "category": "hot-coffee",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "hot-coffee-cafe-latte",
+      "name": "Café Latte",
+      "category": "hot-coffee",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "hot-coffee-cafe-mocha",
+      "name": "Café Mocha",
+      "category": "hot-coffee",
+      "base_price_paise": 19400,
+      "base_price_inr": 194,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "hot-coffee-cafe-hot-chocolate",
+      "name": "Café Hot Chocolate",
+      "category": "hot-coffee",
+      "base_price_paise": 22500,
+      "base_price_inr": 225,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 22500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "hot-coffee-cafe-hot-chocolate-with-marshmallow",
+      "name": "Café Hot Chocolate with Marshmallow",
+      "category": "hot-coffee",
+      "base_price_paise": 31400,
+      "base_price_inr": 314,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 31400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "hot-coffee-espresso-affogato",
+      "name": "Espresso Affogato",
+      "category": "hot-coffee",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "hot-coffee-ocean-latte",
+      "name": "Ocean Latte",
+      "category": "hot-coffee",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "hot-coffee-spanish-latte",
+      "name": "Spanish Latte",
+      "category": "hot-coffee",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "hot-coffee-vietnamese-hot-coffee",
+      "name": "Vietnamese Hot Coffee",
+      "category": "hot-coffee",
+      "base_price_paise": 19400,
+      "base_price_inr": 194,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 19400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "signature-coffee-lotus-latte",
+      "name": "Lotus Latte",
+      "category": "signature-coffee",
+      "base_price_paise": 23400,
+      "base_price_inr": 234,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 23400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "signature-coffee-floral-burst",
+      "name": "Floral Burst",
+      "category": "signature-coffee",
+      "base_price_paise": 23400,
+      "base_price_inr": 234,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 23400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "iced-coffee-iced-ocean-latte",
+      "name": "Iced Ocean Latte",
+      "category": "iced-coffee",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "iced-coffee-iced-spanish-latte",
+      "name": "Iced Spanish Latte",
+      "category": "iced-coffee",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "iced-coffee-iced-vietnamese-coffee",
+      "name": "Iced Vietnamese Coffee",
+      "category": "iced-coffee",
+      "base_price_paise": 20400,
+      "base_price_inr": 204,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 20400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "iced-tea-peach-iced-tea",
+      "name": "Peach Iced Tea",
+      "category": "iced-tea",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "iced-tea-lemon-iced-tea",
+      "name": "Lemon Iced Tea",
+      "category": "iced-tea",
+      "base_price_paise": 18400,
+      "base_price_inr": 184,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 18400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "green-tea-classic-green-tea",
+      "name": "Classic Green Tea",
+      "category": "green-tea",
+      "base_price_paise": 11400,
+      "base_price_inr": 114,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 11400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "green-tea-mint-green-tea",
+      "name": "Mint Green Tea",
+      "category": "green-tea",
+      "base_price_paise": 12400,
+      "base_price_inr": 124,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 12400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "green-tea-ginger-green-tea",
+      "name": "Ginger Green Tea",
+      "category": "green-tea",
+      "base_price_paise": 12400,
+      "base_price_inr": 124,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 12400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "green-tea-lemon-tea",
+      "name": "Lemon Tea",
+      "category": "green-tea",
+      "base_price_paise": 12400,
+      "base_price_inr": 124,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 12400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "green-tea-classic-green-tea-pot",
+      "name": "Classic Green Tea Pot",
+      "category": "green-tea",
+      "base_price_paise": 15400,
+      "base_price_inr": 154,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 15400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "green-tea-mint-green-tea-pot",
+      "name": "Mint Green Tea Pot",
+      "category": "green-tea",
+      "base_price_paise": 17400,
+      "base_price_inr": 174,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "green-tea-ginger-green-tea-pot",
+      "name": "Ginger Green Tea Pot",
+      "category": "green-tea",
+      "base_price_paise": 17400,
+      "base_price_inr": 174,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 17400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "special-green-tea-pot-rose-relaxing",
+      "name": "Rose Relaxing",
+      "category": "special-green-tea-pot",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "special-green-tea-pot-chamomile-detox-stress-relief",
+      "name": "Chamomile - Detox & Stress Relief",
+      "category": "special-green-tea-pot",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "special-green-tea-pot-turmeric-immunity-booster",
+      "name": "Turmeric - Immunity Booster",
+      "category": "special-green-tea-pot",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "special-green-tea-pot-slimming-weight-loss",
+      "name": "Slimming - Weight Loss",
+      "category": "special-green-tea-pot",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "special-green-tea-pot-hibiscus-liver-booster",
+      "name": "Hibiscus - Liver Booster",
+      "category": "special-green-tea-pot",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "special-green-tea-pot-blue-tea-hair-skin-booster",
+      "name": "Blue Tea - Hair & Skin Booster",
+      "category": "special-green-tea-pot",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "special-green-tea-pot-royal-kashmiri-kahwa",
+      "name": "Royal Kashmiri Kahwa",
+      "category": "special-green-tea-pot",
+      "base_price_paise": 21400,
+      "base_price_inr": 214,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 21400
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "cold-brew-tiger-bomb",
+      "name": "Tiger Bomb Cold Brew",
+      "category": "cold-brew",
+      "base_price_paise": 24900,
+      "base_price_inr": 249,
+      "source": "SPECIALTY_COLD_BREW_PRODUCTS"
+    },
+    {
+      "slug": "cold-brew-mont-blanc",
+      "name": "Mont Blanc Cold Brew",
+      "category": "cold-brew",
+      "base_price_paise": 29900,
+      "base_price_inr": 299,
+      "source": "SPECIALTY_COLD_BREW_PRODUCTS"
+    },
+    {
+      "slug": "cold-brew-classic",
+      "name": "Classic Cold Brew",
+      "category": "cold-brew",
+      "base_price_paise": 19900,
+      "base_price_inr": 199,
+      "source": "SPECIALTY_COLD_BREW_PRODUCTS"
+    },
+    {
+      "slug": "cold-brew-ginger-ale",
+      "name": "Ginger Ale Cold Brew",
+      "category": "cold-brew",
+      "base_price_paise": 24900,
+      "base_price_inr": 249,
+      "source": "SPECIALTY_COLD_BREW_PRODUCTS"
+    },
+    {
+      "slug": "cold-brew-honey-cinnamon",
+      "name": "Honey Cinnamon Cold Brew",
+      "category": "cold-brew",
+      "base_price_paise": 24900,
+      "base_price_inr": 249,
+      "source": "SPECIALTY_COLD_BREW_PRODUCTS"
+    },
+    {
+      "slug": "cold-brew-passion-fruit",
+      "name": "Passion Fruit Cold Brew",
+      "category": "cold-brew",
+      "base_price_paise": 24900,
+      "base_price_inr": 249,
+      "source": "SPECIALTY_COLD_BREW_PRODUCTS"
+    },
+    {
+      "slug": "cold-brew-espresso-orange",
+      "name": "Espresso Orange",
+      "category": "cold-brew",
+      "base_price_paise": 24900,
+      "base_price_inr": 249,
+      "source": "SPECIALTY_COLD_BREW_PRODUCTS"
+    },
+    {
+      "slug": "cold-brew-tonic-espresso",
+      "name": "Tonic Espresso",
+      "category": "cold-brew",
+      "base_price_paise": 24900,
+      "base_price_inr": 249,
+      "source": "SPECIALTY_COLD_BREW_PRODUCTS"
+    },
+    {
+      "slug": "cold-brew-tiramisu",
+      "name": "Tiramisu Cold Coffee",
+      "category": "cold-brew",
+      "base_price_paise": 34900,
+      "base_price_inr": 349,
+      "source": "SPECIALTY_COLD_BREW_PRODUCTS"
+    },
+    {
+      "slug": "cold-brew-ginger-ale-espresso",
+      "name": "Ginger Ale Espresso",
+      "category": "cold-brew",
+      "base_price_paise": 24900,
+      "base_price_inr": 249,
+      "source": "SPECIALTY_COLD_BREW_PRODUCTS"
+    }
+  ],
+  "dips": [
+    {
+      "slug": "extra-dips-extra-dip-sauces",
+      "name": "Extra Dip (Sauces)",
+      "category": "extra-dips",
+      "base_price_paise": 3000,
+      "base_price_inr": 30,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 3000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "extra-dips-extra-olives",
+      "name": "Extra Olives",
+      "category": "extra-dips",
+      "base_price_paise": 3000,
+      "base_price_inr": 30,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 3000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    }
+  ],
+  "addons": [
+    {
+      "slug": "add-ons-cheese",
+      "name": "Cheese",
+      "category": "add-ons",
+      "base_price_paise": 7500,
+      "base_price_inr": 75,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 7500
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-sweet-corn",
+      "name": "Sweet Corn",
+      "category": "add-ons",
+      "base_price_paise": 5000,
+      "base_price_inr": 50,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 5000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-jalapeno",
+      "name": "Jalapeno",
+      "category": "add-ons",
+      "base_price_paise": 5000,
+      "base_price_inr": 50,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 5000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-black-olive",
+      "name": "Black Olive",
+      "category": "add-ons",
+      "base_price_paise": 5000,
+      "base_price_inr": 50,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 5000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-extra-chicken-pizza",
+      "name": "Extra Chicken (Pizza)",
+      "category": "add-ons",
+      "base_price_paise": 8900,
+      "base_price_inr": 89,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 8900
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-extra-chicken-salads",
+      "name": "Extra Chicken (Salads)",
+      "category": "add-ons",
+      "base_price_paise": 13900,
+      "base_price_inr": 139,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 13900
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-paneer",
+      "name": "Paneer",
+      "category": "add-ons",
+      "base_price_paise": 9900,
+      "base_price_inr": 99,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 9900
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-mushroom",
+      "name": "Mushroom",
+      "category": "add-ons",
+      "base_price_paise": 6000,
+      "base_price_inr": 60,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 6000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-pineapple",
+      "name": "Pineapple",
+      "category": "add-ons",
+      "base_price_paise": 7000,
+      "base_price_inr": 70,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 7000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-mayo-dip",
+      "name": "Mayo Dip",
+      "category": "add-ons",
+      "base_price_paise": 7000,
+      "base_price_inr": 70,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 7000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-cheese-slice",
+      "name": "Cheese Slice",
+      "category": "add-ons",
+      "base_price_paise": 5000,
+      "base_price_inr": 50,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 5000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-broccoli",
+      "name": "Broccoli",
+      "category": "add-ons",
+      "base_price_paise": 9900,
+      "base_price_inr": 99,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 9900
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-hazelnut",
+      "name": "Hazelnut",
+      "category": "add-ons",
+      "base_price_paise": 6000,
+      "base_price_inr": 60,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 6000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-vanilla",
+      "name": "Vanilla",
+      "category": "add-ons",
+      "base_price_paise": 6000,
+      "base_price_inr": 60,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 6000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-irish",
+      "name": "Irish",
+      "category": "add-ons",
+      "base_price_paise": 6000,
+      "base_price_inr": 60,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 6000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    },
+    {
+      "slug": "add-ons-caramel",
+      "name": "Caramel",
+      "category": "add-ons",
+      "base_price_paise": 6000,
+      "base_price_inr": 60,
+      "variants": [
+        {
+          "name": "Regular",
+          "price_paise": 6000
+        }
+      ],
+      "source": "reconciled-menu.json"
+    }
+  ]
+}

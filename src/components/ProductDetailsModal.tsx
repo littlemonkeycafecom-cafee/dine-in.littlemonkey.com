@@ -2,7 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Product, ProductVariant } from '../types';
 // useDineIn removed for read-only digital menu
 import { resolveProductImage } from '../services/productImageMap';
-import { X, Sparkles, Coffee } from 'lucide-react';
+import { getApplicableAddons } from '../services/catalog';
+import { getImagePresentation } from '../services/imagePresentation';
+import { X, Sparkles, Coffee, Plus, Check } from 'lucide-react';
 import { LiquidWaveTransition } from './LiquidWaveTransition';
 import { CustomScrollbarContainer } from './CustomScrollbarContainer';
 
@@ -22,8 +24,17 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   const [isClosing, setIsClosing] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [modalImgLoaded, setModalImgLoaded] = useState(false);
 
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
+  const [selectedAddonNames, setSelectedAddonNames] = useState<string[]>([]);
+
+  // Toggle selection of an add-on (prevents duplicate charges, reverses price on deselect)
+  const toggleAddon = useCallback((addonName: string) => {
+    setSelectedAddonNames((prev) =>
+      prev.includes(addonName) ? prev.filter((name) => name !== addonName) : [...prev, addonName]
+    );
+  }, []);
   // Read-only modal: order customization states removed
 
   // Smooth dismiss with slide-down exit animation
@@ -45,7 +56,9 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
       setActiveProduct(product);
       setIsClosing(false);
       setImageError(false);
+      setModalImgLoaded(false);
       setSelectedVariant(product.variants[0] || { name: 'Regular', price_paise: 19900 });
+      setSelectedAddonNames([]);
 
 
       // Lock body scroll while modal is active
@@ -95,6 +108,17 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   const isAvailable = currentProduct.is_available !== false;
   const isVeg = currentProduct.dietary_classification === 'VEG';
   const displayImage = currentProduct.image_url || resolveProductImage(currentProduct);
+  const imgConfig = getImagePresentation(displayImage, currentProduct.category, currentProduct.slug);
+  const applicableAddons = getApplicableAddons(currentProduct);
+
+  // Calculate total price of selected add-ons
+  const selectedAddonsCost = selectedAddonNames.reduce((total, addonName) => {
+    const addon = applicableAddons?.addons.find((a) => a.name === addonName);
+    return total + (addon ? Math.round(addon.price_paise / 100) : 0);
+  }, 0);
+
+  // Selected item total = base product price + sum of selected add-on prices
+  const displayedTotal = basePrice + selectedAddonsCost;
 
   return (
     <div
@@ -118,7 +142,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     >
       {/* Bottom Sliding Card Drawer with Sharp Clean Edges */}
       <div
-        className="lm-product-details-modal"
+        className={`lm-product-details-modal ${isVisible ? 'is-visible' : ''}`}
         style={{
           width: '100%',
           maxWidth: '520px',
@@ -272,7 +296,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           style={{
             position: 'relative',
             width: '100%',
-            height: 'clamp(220px, 30vh, 310px)',
+            height: 'clamp(240px, 34vh, 320px)',
             flexShrink: 0,
             backgroundColor: '#050505',
             background: displayImage && displayImage.includes('/cold-brew/')
@@ -283,22 +307,56 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           }}
         >
           {displayImage && !imageError ? (
-            <img
-              src={displayImage}
-              alt={currentProduct.name}
-              onError={() => setImageError(true)}
-              className="lm-detail-img"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: displayImage.includes('/cold-brew/') ? 'contain' : 'cover',
-                objectPosition: 'center',
-                display: 'block',
-                filter: displayImage.includes('/cold-brew/')
-                  ? 'drop-shadow(0 14px 28px rgba(0, 0, 0, 0.9))'
-                  : 'none',
-              }}
-            />
+            <>
+              {/* Ambient Backdrop Layer for drinks / cutouts */}
+              {imgConfig.useBackdrop && (
+                <img
+                  src={displayImage}
+                  alt=""
+                  aria-hidden="true"
+                  className="lm-img-ambient-backdrop"
+                  style={{
+                    position: 'absolute',
+                    inset: '-20px',
+                    width: 'calc(100% + 40px)',
+                    height: 'calc(100% + 40px)',
+                    objectFit: 'cover',
+                    objectPosition: imgConfig.position,
+                    filter: 'blur(32px) brightness(0.55) saturate(1.35)',
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                    zIndex: 1,
+                    transform: 'translate3d(0, 0, 0)',
+                    opacity: 0.85,
+                  }}
+                />
+              )}
+
+              {/* Master Subject Foreground Image */}
+              <img
+                src={displayImage}
+                alt={currentProduct.name}
+                onLoad={() => setModalImgLoaded(true)}
+                onError={() => setImageError(true)}
+                className="lm-detail-img"
+                style={{
+                  position: 'relative',
+                  zIndex: 2,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: imgConfig.fit,
+                  objectPosition: imgConfig.position,
+                  display: 'block',
+                  padding: imgConfig.fit === 'contain' ? (imgConfig.padding || '14px') : '0',
+                  boxSizing: 'border-box',
+                  opacity: modalImgLoaded ? 1 : 0.4,
+                  transition: 'opacity 0.2s ease, transform 350ms cubic-bezier(0.25, 0.1, 0.25, 1)',
+                  filter: imgConfig.fit === 'contain'
+                    ? 'drop-shadow(0 14px 28px rgba(0, 0, 0, 0.9))'
+                    : 'none',
+                }}
+              />
+            </>
           ) : (
             /* Branded Architectural Placeholder for products without imagery */
             <div
@@ -374,28 +432,6 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
               <Sparkles size={11} />
               <span>{currentProduct.badge}</span>
             </div>
-          ) : currentProduct.is_must_try ? (
-            <div
-              style={{
-                position: 'absolute',
-                top: '12px',
-                left: '14px',
-                zIndex: 3,
-                backgroundColor: 'rgba(255, 194, 26, 0.18)',
-                border: '1px solid rgba(255, 194, 26, 0.5)',
-                borderRadius: '4px',
-                padding: '3px 8px',
-                color: '#FFC21A',
-                fontSize: '10px',
-                fontWeight: 800,
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                backdropFilter: 'blur(4px)',
-                WebkitBackdropFilter: 'blur(4px)',
-              }}
-            >
-              Must Try
-            </div>
           ) : null}
         </div>
 
@@ -446,37 +482,46 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
               paddingBottom: '12px',
               borderBottom: '1px solid #1E1E1E',
               marginBottom: '12px',
+              flexWrap: 'wrap',
             }}
           >
             <span style={{ fontSize: '22px', fontWeight: 800, color: '#FFC21A' }}>
-              ₹{basePrice}
+              ₹{displayedTotal}
             </span>
-            {originalPrice && originalPrice > basePrice && (
-              <span
-                style={{
-                  fontSize: '15px',
-                  color: '#666666',
-                  textDecoration: 'line-through',
-                  fontWeight: 500,
-                }}
-              >
-                ₹{originalPrice}
+            {selectedAddonsCost > 0 ? (
+              <span style={{ fontSize: '11.5px', color: '#9C8C7E', fontWeight: 600 }}>
+                (Base ₹{basePrice} + Extras ₹{selectedAddonsCost})
               </span>
-            )}
-            {discountPercent && (
-              <span
-                style={{
-                  fontSize: '10.5px',
-                  fontWeight: 800,
-                  color: '#22C55E',
-                  backgroundColor: 'rgba(34, 197, 94, 0.15)',
-                  border: '1px solid rgba(34, 197, 94, 0.4)',
-                  borderRadius: '4px',
-                  padding: '2px 6px',
-                }}
-              >
-                {discountPercent}% OFF
-              </span>
+            ) : (
+              <>
+                {originalPrice && originalPrice > basePrice && (
+                  <span
+                    style={{
+                      fontSize: '15px',
+                      color: '#666666',
+                      textDecoration: 'line-through',
+                      fontWeight: 500,
+                    }}
+                  >
+                    ₹{originalPrice}
+                  </span>
+                )}
+                {discountPercent && (
+                  <span
+                    style={{
+                      fontSize: '10.5px',
+                      fontWeight: 800,
+                      color: '#22C55E',
+                      backgroundColor: 'rgba(34, 197, 94, 0.15)',
+                      border: '1px solid rgba(34, 197, 94, 0.4)',
+                      borderRadius: '4px',
+                      padding: '2px 6px',
+                    }}
+                  >
+                    {discountPercent}% OFF
+                  </span>
+                )}
+              </>
             )}
           </div>
 
@@ -586,6 +631,120 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             </div>
           )}
 
+          
+
+          {/* Authoritative Add-ons & Extras from reconciled-menu.json (Read-Only Discovery) */}
+          {applicableAddons && applicableAddons.addons.length > 0 && (
+            <div style={{ marginBottom: '16px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '8px',
+                  flexWrap: 'wrap',
+                  gap: '4px',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontSize: '11px',
+                    fontWeight: 800,
+                    color: '#FFC21A',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                  }}
+                >
+                  <Plus size={12} />
+                  <span>Available Add-ons & Extras</span>
+                </div>
+                <span style={{ fontSize: '10.5px', color: '#888888' }}>
+                  {applicableAddons.groupName}
+                </span>
+              </div>
+
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+                  gap: '6px',
+                }}
+              >
+                {applicableAddons.addons.map((addon, idx) => {
+                  const isAddonVeg = addon.dietary_classification === 'VEG';
+                  const addonPrice = Math.round(addon.price_paise / 100);
+                  const isSelected = selectedAddonNames.includes(addon.name);
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      role="checkbox"
+                      aria-checked={isSelected}
+                      aria-label={`${addon.name}, ${addonPrice} rupees, ${isAddonVeg ? 'Vegetarian' : 'Non-Vegetarian'}`}
+                      onClick={() => toggleAddon(addon.name)}
+                      className="lm-addon-item"
+                      style={{
+                        backgroundColor: isSelected ? 'rgba(255, 194, 26, 0.12)' : '#111111',
+                        border: '1px solid ' + (isSelected ? '#FFC21A' : '#222222'),
+                        borderRadius: '6px',
+                        padding: '8px 10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '6px',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        width: '100%',
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
+                        <div
+                          style={{
+                            width: '8px',
+                            height: '8px',
+                            borderRadius: '50%',
+                            backgroundColor: isAddonVeg ? '#22C55E' : '#EF4444',
+                            flexShrink: 0,
+                          }}
+                          title={isAddonVeg ? 'Vegetarian' : 'Non-Vegetarian'}
+                        />
+                        <span
+                          style={{
+                            fontSize: '11.5px',
+                            fontWeight: isSelected ? 700 : 600,
+                            color: isSelected ? '#FFC21A' : '#E5E5E5',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          {addon.name}
+                        </span>
+                        {isSelected && (
+                          <Check size={12} style={{ color: '#FFC21A', flexShrink: 0, marginLeft: '2px' }} />
+                        )}
+                      </div>
+                      <span
+                        style={{
+                          fontSize: '11.5px',
+                          fontWeight: 800,
+                          color: '#FFC21A',
+                          flexShrink: 0,
+                        }}
+                      >
+                        +₹{addonPrice}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           </CustomScrollbarContainer>
 
         {/* Sticky Bottom Actions Bar (Read-Only Informational) */}
@@ -604,36 +763,44 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           {/* Price & Offer Display */}
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '20px', fontWeight: 800, color: '#FFC21A' }}>
-              ₹{basePrice}
+              ₹{displayedTotal}
             </span>
-            {originalPrice && originalPrice > basePrice && (
-              <span
-                style={{
-                  fontSize: '13px',
-                  color: '#666666',
-                  textDecoration: 'line-through',
-                  fontWeight: 500,
-                }}
-              >
-                ₹{originalPrice}
+            {selectedAddonsCost > 0 ? (
+              <span style={{ fontSize: '11px', color: '#9C8C7E', fontWeight: 600 }}>
+                (Base ₹{basePrice} + Extras ₹{selectedAddonsCost})
               </span>
+            ) : (
+              <>
+                {originalPrice && originalPrice > basePrice && (
+                  <span
+                    style={{
+                      fontSize: '13px',
+                      color: '#666666',
+                      textDecoration: 'line-through',
+                      fontWeight: 500,
+                    }}
+                  >
+                    ₹{originalPrice}
+                  </span>
+                )}
+                {discountPercent && (
+                  <span
+                    style={{
+                      fontSize: '10.5px',
+                      fontWeight: 800,
+                      color: '#22C55E',
+                      backgroundColor: 'rgba(34, 197, 94, 0.12)',
+                      borderRadius: '4px',
+                      padding: '2px 6px',
+                    }}
+                  >
+                    {discountPercent}% OFF
+                  </span>
+                )}
+              </>
             )}
-            {discountPercent && (
-              <span
-                style={{
-                  fontSize: '10.5px',
-                  fontWeight: 800,
-                  color: '#22C55E',
-                  backgroundColor: 'rgba(34, 197, 94, 0.12)',
-                  borderRadius: '4px',
-                  padding: '2px 6px',
-                }}
-              >
-                {discountPercent}% OFF
-              </span>
-            )}
-            <span style={{ fontSize: '11px', color: '#777777', marginLeft: '4px' }}>
-              (Read-Only Menu)
+            <span style={{ fontSize: '11px', color: '#9C8C7E', marginLeft: '4px' }}>
+              • In-Café Dining
             </span>
           </div>
 

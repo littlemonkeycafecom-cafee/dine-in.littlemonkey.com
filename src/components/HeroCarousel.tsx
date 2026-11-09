@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Product } from '../types';
-import { ChevronDown, ChevronLeft, ChevronRight, LayoutGrid, Check, Search, Sparkles } from 'lucide-react';
+import { ChevronDown, LayoutGrid, Check, Search, Sparkles } from 'lucide-react';
 import { CATEGORY_GROUPS } from '../services/catalog';
 import { useDineIn } from '../contexts/DineInContext';
 
@@ -13,6 +13,7 @@ export interface HeroItem {
   slug: string;
   price: number;
   dietary: 'VEG' | 'NON_VEG';
+  image: string;
 }
 
 export const HERO_ITEMS: HeroItem[] = [
@@ -22,9 +23,10 @@ export const HERO_ITEMS: HeroItem[] = [
     category: 'Desserts',
     tagline: 'Artisanal Sweet Finish',
     accent: '#FFC21A',
-    slug: 'desserts-sizzling-brownie',
+    slug: 'desserts-churros',
     price: 275,
     dietary: 'VEG',
+    image: '/images/products/desserts-churros.jpg',
   },
   {
     id: 'pizza',
@@ -35,6 +37,7 @@ export const HERO_ITEMS: HeroItem[] = [
     slug: 'thin-crust-pizza-farmhouse',
     price: 399,
     dietary: 'VEG',
+    image: '/images/products/thin-crust-pizza-farmhouse.jpg',
   },
   {
     id: 'burger',
@@ -45,6 +48,7 @@ export const HERO_ITEMS: HeroItem[] = [
     slug: 'burgers-crispy-chicken-burger',
     price: 185,
     dietary: 'NON_VEG',
+    image: '/images/products/chicken_burger_1.jpg',
   },
   {
     id: 'pasta',
@@ -55,6 +59,7 @@ export const HERO_ITEMS: HeroItem[] = [
     slug: 'pasta-pasta-veg',
     price: 249,
     dietary: 'VEG',
+    image: '/images/products/pasta-pasta-veg.jpg',
   },
   {
     id: 'chicken',
@@ -65,6 +70,7 @@ export const HERO_ITEMS: HeroItem[] = [
     slug: 'crispy-chicken-chicken-wings',
     price: 179,
     dietary: 'NON_VEG',
+    image: '/images/products/crispy-chicken-chicken-wings.jpg',
   },
   {
     id: 'fries',
@@ -75,6 +81,7 @@ export const HERO_ITEMS: HeroItem[] = [
     slug: 'fries-masala-french-fries',
     price: 140,
     dietary: 'VEG',
+    image: '/images/products/fries-masala-french-fries.jpg',
   },
   {
     id: 'coffee',
@@ -85,6 +92,7 @@ export const HERO_ITEMS: HeroItem[] = [
     slug: 'hot-coffee-cappuccino',
     price: 169,
     dietary: 'VEG',
+    image: '/images/products/hot-coffee-cappuccino.jpg',
   },
   {
     id: 'shakes',
@@ -92,13 +100,14 @@ export const HERO_ITEMS: HeroItem[] = [
     category: 'Thick Shakes',
     tagline: 'Premium Thick Shake',
     accent: '#FFC21A',
-    slug: 'thick-shakes-oreo',
+    slug: 'milkshakes-oreo-shake',
     price: 259,
     dietary: 'VEG',
+    image: '/images/products/milkshakes-oreo-shake.jpg',
   },
 ];
 
-const ROTATION_INTERVAL = 3200; // ~3.0s - 3.2s smooth dwell time per requirement
+const ROTATION_INTERVAL = 3000; // 3000 ms per specification
 const RESUME_DELAY = 6000; // 6s pause after customer interaction
 
 function mod(n: number, m: number) {
@@ -325,7 +334,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
   // Autonomous rotation with pause guards (reduced motion, hover, user interaction, dropdown open, hidden tab)
   const isAutoRotateAllowed =
-    !reducedMotion && !isHovered && !isInteracting && !isCategoryOpen && !isTabHidden;
+    !reducedMotion && !isHovered && !isInteracting && !isTabHidden;
 
   useEffect(() => {
     if (!isAutoRotateAllowed || total === 0) {
@@ -621,293 +630,39 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           Coffee and More.
         </p>
 
-        {/* Action Controls Row: Explore Menu Button + Category Popover Button (Search removed) */}
+        {/* Primary Hero Control: Explore Menu (All Items & Veg Only removed from hero) */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '12px',
-            flexWrap: 'wrap',
+            marginTop: '4px',
           }}
         >
-          {/* Explore Full Menu Button */}
           <button
             type="button"
             onClick={onExploreClick}
-            className="lm-interactive-btn"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              height: '42px',
-              padding: '0 24px',
-              borderRadius: '999px',
-              backgroundColor: '#FBC324',
-              color: '#080808',
-              fontSize: '13px',
-              fontWeight: 800,
-              letterSpacing: '0.02em',
-              border: 'none',
-              cursor: 'pointer',
-              boxShadow: '0 4px 16px rgba(251, 195, 36, 0.28)',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <span>Explore Menu</span>
-            <ChevronDown size={15} />
-          </button>
-
-          {/* Clean Category Dropdown Button (Replacing Search Input) */}
-          <div style={{ position: 'relative' }} ref={dropdownRef}>
-            <button
-              type="button"
-              onClick={() => {
-                pauseAutoRotateTemporarily();
-                setIsCategoryOpen((prev) => !prev);
-              }}
-              aria-expanded={isCategoryOpen}
-              aria-haspopup="listbox"
-              aria-label="Browse Menu Categories"
-              className="lm-interactive-btn"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                height: '42px',
-                padding: '0 20px',
-                borderRadius: '999px',
-                backgroundColor: isCategoryOpen ? 'rgba(251, 195, 36, 0.15)' : '#191816',
-                border: '1px solid ' + (isCategoryOpen ? '#FBC324' : 'rgba(251, 195, 36, 0.35)'),
-                color: isCategoryOpen ? '#FBC324' : '#FAF7F2',
-                fontSize: '13px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                boxShadow: isCategoryOpen
-                  ? '0 0 16px rgba(251, 195, 36, 0.25)'
-                  : '0 4px 14px rgba(0, 0, 0, 0.45)',
-                transition: 'all 0.18s ease',
-              }}
-            >
-              <LayoutGrid size={15} style={{ color: '#FBC324' }} />
-              <span>{activeCategoryGroup ? activeCategoryGroup.label : 'Categories'}</span>
-              <ChevronDown
-                size={15}
-                style={{
-                  color: '#FBC324',
-                  transform: isCategoryOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.2s ease',
-                }}
-              />
-            </button>
-
-            {/* Category Dropdown Popover Panel */}
-            {isCategoryOpen && (
-              <div
-                role="listbox"
-                aria-label="Menu Categories"
-                style={{
-                  position: 'absolute',
-                  top: 'calc(100% + 8px)',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: 'clamp(280px, 92vw, 360px)',
-                  maxHeight: '380px',
-                  overflowY: 'auto',
-                  backgroundColor: 'rgba(18, 16, 14, 0.97)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(251, 195, 36, 0.35)',
-                  borderRadius: '16px',
-                  boxShadow: '0 20px 48px rgba(0, 0, 0, 0.88), 0 0 24px rgba(251, 195, 36, 0.15)',
-                  padding: '8px',
-                  zIndex: 100,
-                  boxSizing: 'border-box',
-                  scrollbarWidth: 'thin',
-                }}
-              >
-                <div
-                  style={{
-                    padding: '8px 12px 6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-                    marginBottom: '6px',
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 800,
-                      letterSpacing: '0.08em',
-                      color: '#9C8C7E',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    Select Menu Category
-                  </span>
-                  <span style={{ fontSize: '10px', color: '#FBC324', fontWeight: 700 }}>
-                    {CATEGORY_GROUPS.length} Categories
-                  </span>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                  {CATEGORY_GROUPS.map((group) => {
-                    const isSelected = selectedCategoryId === group.id;
-                    return (
-                      <button
-                        key={group.id}
-                        role="option"
-                        aria-selected={isSelected}
-                        onClick={() => handleSelectCategory(group.id)}
-                        className="lm-interactive-btn"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          padding: '9px 12px',
-                          borderRadius: '10px',
-                          backgroundColor: isSelected ? 'rgba(251, 195, 36, 0.16)' : 'transparent',
-                          border: isSelected ? '1px solid rgba(251, 195, 36, 0.45)' : '1px solid transparent',
-                          color: isSelected ? '#FBC324' : '#FAF7F2',
-                          fontSize: '13px',
-                          fontWeight: isSelected ? 700 : 500,
-                          textAlign: 'left',
-                          cursor: 'pointer',
-                          transition: 'all 0.15s ease',
-                        }}
-                      >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <div
-                            style={{
-                              width: '6px',
-                              height: '6px',
-                              borderRadius: '50%',
-                              backgroundColor: isSelected ? '#FBC324' : 'rgba(255, 255, 255, 0.25)',
-                              transition: 'background-color 0.15s ease',
-                            }}
-                          />
-                          <span>{group.label}</span>
-                        </div>
-                        {isSelected && (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#FBC324' }}>
-                            <Check size={14} />
-                            <span style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase' }}>
-                              Active
-                            </span>
-                          </div>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Search Control Button */}
-          {onSearchClick && (
-            <button
-              type="button"
-              onClick={onSearchClick}
-              aria-label="Search Menu"
-              className="lm-interactive-btn"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '7px',
-                height: '42px',
-                padding: '0 18px',
-                borderRadius: '999px',
-                backgroundColor: '#191816',
-                border: '1px solid rgba(251, 195, 36, 0.35)',
-                color: '#FAF7F2',
-                fontSize: '13px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.45)',
-                transition: 'all 0.18s ease',
-              }}
-            >
-              <Search size={15} style={{ color: '#FBC324' }} />
-              <span>Search</span>
-            </button>
-          )}
-
-          {/* Veg Only Toggle Switch */}
-          <button
-            type="button"
-            onClick={toggleVegOnly}
-            aria-pressed={isVegOnly}
-            aria-label={isVegOnly ? 'Show all items' : 'Filter vegetarian items only'}
-            className="lm-interactive-btn"
+            className="lm-interactive-btn lm-hero-explore-btn"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              height: '42px',
-              padding: '0 16px',
+              height: '44px',
+              padding: '0 28px',
               borderRadius: '999px',
-              backgroundColor: isVegOnly ? 'rgba(251, 195, 36, 0.16)' : '#191816',
-              border: isVegOnly ? '1.5px solid #FBC324' : '1px solid rgba(255, 255, 255, 0.14)',
-              boxShadow: isVegOnly
-                ? '0 0 16px rgba(251, 195, 36, 0.35)'
-                : '0 4px 14px rgba(0, 0, 0, 0.45)',
-              color: isVegOnly ? '#FBC324' : '#9C8C7E',
-              fontSize: '12.5px',
-              fontWeight: 700,
+              backgroundColor: '#FBC324',
+              color: '#080808',
+              fontSize: '13.5px',
+              fontWeight: 800,
+              letterSpacing: '0.03em',
+              border: 'none',
               cursor: 'pointer',
-              transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
-              userSelect: 'none',
+              boxShadow: '0 6px 20px rgba(251, 195, 36, 0.32), 0 0 16px rgba(251, 195, 36, 0.18)',
+              transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
-            <span
-              style={{
-                width: '13px',
-                height: '13px',
-                border: `1.5px solid ${isVegOnly ? '#22C55E' : '#6B6258'}`,
-                borderRadius: '2.5px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-              }}
-            >
-              <span
-                style={{
-                  width: '5px',
-                  height: '5px',
-                  borderRadius: '50%',
-                  backgroundColor: isVegOnly ? '#22C55E' : '#6B6258',
-                  transition: 'background-color 0.2s ease',
-                }}
-              />
-            </span>
-            <span style={{ letterSpacing: '0.04em', textTransform: 'uppercase' }}>Veg Only</span>
-            <span
-              style={{
-                width: '26px',
-                height: '14px',
-                borderRadius: '999px',
-                backgroundColor: isVegOnly ? '#FBC324' : 'rgba(255, 255, 255, 0.16)',
-                position: 'relative',
-                display: 'inline-block',
-                transition: 'background-color 0.25s ease',
-              }}
-            >
-              <span
-                style={{
-                  position: 'absolute',
-                  top: '1.5px',
-                  left: isVegOnly ? '13px' : '1.5px',
-                  width: '11px',
-                  height: '11px',
-                  borderRadius: '50%',
-                  backgroundColor: isVegOnly ? '#080808' : '#FAF7F2',
-                  transition: 'left 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
-                }}
-              />
-            </span>
+            <span>Explore Menu</span>
+            <ChevronDown size={16} />
           </button>
         </div>
       </div>
@@ -1026,11 +781,11 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                     height: '100%',
                     borderRadius: '20px',
                     overflow: 'hidden',
-                    backgroundColor: '#191816',
-                    border: isActive ? '1px solid rgba(251, 195, 36, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)',
+                    backgroundColor: '#141414',
+                    border: isActive ? '1.5px solid #FFC21A' : '1px solid rgba(255, 255, 255, 0.12)',
                     boxShadow: isActive
-                      ? '0 18px 40px rgba(0, 0, 0, 0.9), 0 0 24px rgba(251, 195, 36, 0.28)'
-                      : '0 8px 20px rgba(0, 0, 0, 0.6)',
+                      ? '0 20px 48px rgba(0, 0, 0, 0.95), 0 0 28px rgba(251, 195, 36, 0.35)'
+                      : '0 8px 24px rgba(0, 0, 0, 0.7)',
                     boxSizing: 'border-box',
                     zIndex: 1,
                     display: 'flex',
@@ -1038,6 +793,36 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                     justifyContent: 'space-between',
                   }}
                 >
+                  {/* Dish Photography Fill */}
+                  <img
+                    src={item.image}
+                    alt={item.label}
+                    loading="lazy"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                      zIndex: 0,
+                      transition: 'transform 0.4s ease',
+                      transform: isActive ? 'scale(1.04)' : 'scale(1)',
+                    }}
+                  />
+
+                  {/* Gradient Vignette Overlay for Crisp Readability */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background:
+                        'linear-gradient(180deg, rgba(8, 8, 8, 0.75) 0%, rgba(8, 8, 8, 0.08) 40%, rgba(8, 8, 8, 0.88) 100%)',
+                      zIndex: 1,
+                      pointerEvents: 'none',
+                    }}
+                  />
+
                   {/* Top Badges: Veg/Non-Veg & Price */}
                   <div
                     style={{
@@ -1055,10 +840,11 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                         height: '14px',
                         border: `1.5px solid ${item.dietary === 'VEG' ? '#22C55E' : '#EF4444'}`,
                         borderRadius: '3px',
-                        backgroundColor: 'rgba(8, 8, 8, 0.75)',
+                        backgroundColor: 'rgba(8, 8, 8, 0.85)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        backdropFilter: 'blur(4px)',
                       }}
                     >
                       <span
@@ -1073,111 +859,60 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
                     <span
                       style={{
-                        backgroundColor: 'rgba(8, 8, 8, 0.85)',
-                        border: '1px solid rgba(251, 195, 36, 0.45)',
+                        backgroundColor: 'rgba(8, 8, 8, 0.88)',
+                        border: '1px solid rgba(251, 195, 36, 0.5)',
                         borderRadius: '999px',
-                        padding: '2px 8px',
-                        fontSize: '11px',
+                        padding: '3px 10px',
+                        fontSize: '11.5px',
                         fontWeight: 800,
                         color: '#FBC324',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.6)',
+                        backdropFilter: 'blur(4px)',
                       }}
                     >
                       ₹{item.price}
                     </span>
                   </div>
 
-                  {/* Center Dish Presentation with Ambient Gold Aura */}
+                  {/* Card Bottom: Dish Name & Category Badge Pill */}
                   <div
                     style={{
                       position: 'relative',
-                      zIndex: 8,
+                      zIndex: 10,
+                      padding: '14px 12px',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: '0 12px',
+                      gap: '6px',
+                      textAlign: 'center',
                     }}
                   >
-                    <div
-                      style={{
-                        width: '94px',
-                        height: '94px',
-                        borderRadius: '50%',
-                        backgroundColor: '#121110',
-                        backgroundImage:
-                          'radial-gradient(circle at 45% 40%, rgba(251, 195, 36, 0.16) 0%, transparent 70%), linear-gradient(180deg, #181715 0%, #0D0C0B 100%)',
-                        border: '1.5px solid rgba(251, 195, 36, 0.35)',
-                        boxShadow: 'inset 0 2px 10px rgba(0, 0, 0, 0.8), 0 0 22px rgba(251, 195, 36, 0.18)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '4px',
-                        marginBottom: '8px',
-                      }}
-                    >
-                      <Sparkles size={18} style={{ color: '#FBC324' }} />
-                      <span
-                        style={{
-                          fontSize: '8px',
-                          fontWeight: 800,
-                          letterSpacing: '0.1em',
-                          color: '#FAF7F2',
-                          textTransform: 'uppercase',
-                        }}
-                      >
-                        LM SPECIAL
-                      </span>
-                    </div>
-
                     <div
                       style={{
                         fontFamily: '"Playfair Display", Georgia, serif',
                         fontSize: '15px',
                         fontWeight: 700,
                         color: '#FAF7F2',
-                        textAlign: 'center',
                         lineHeight: 1.2,
-                        marginBottom: '2px',
+                        textShadow: '0 2px 8px rgba(0,0,0,0.9)',
                       }}
                     >
                       {item.label}
                     </div>
-                    <div
-                      style={{
-                        fontSize: '10px',
-                        color: '#9C8C7E',
-                        textAlign: 'center',
-                        letterSpacing: '0.02em',
-                      }}
-                    >
-                      {item.tagline}
-                    </div>
-                  </div>
 
-                  {/* Card Bottom Category Badge Pill */}
-                  <div
-                    style={{
-                      position: 'relative',
-                      zIndex: 10,
-                      padding: '12px',
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}
-                  >
                     <span
                       style={{
-                        backgroundColor: isActive ? '#FBC324' : 'rgba(25, 24, 22, 0.85)',
+                        backgroundColor: isActive ? '#FBC324' : 'rgba(18, 16, 14, 0.88)',
                         color: isActive ? '#080808' : '#FAF7F2',
-                        border: '1px solid ' + (isActive ? '#FBC324' : 'rgba(255, 255, 255, 0.1)'),
+                        border: '1px solid ' + (isActive ? '#FBC324' : 'rgba(255, 255, 255, 0.16)'),
                         fontSize: '10px',
                         fontWeight: 800,
                         letterSpacing: '0.08em',
                         textTransform: 'uppercase',
-                        padding: '4px 12px',
+                        padding: '3px 10px',
                         borderRadius: '999px',
-                        boxShadow: isActive ? '0 2px 12px rgba(251, 195, 36, 0.35)' : '0 2px 8px rgba(0, 0, 0, 0.4)',
+                        boxShadow: isActive ? '0 2px 12px rgba(251, 195, 36, 0.4)' : '0 2px 8px rgba(0, 0, 0, 0.5)',
+                        backdropFilter: 'blur(4px)',
                         transition: 'all 0.2s ease',
                       }}
                     >
@@ -1191,84 +926,40 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
         </div>
       </div>
 
-      {/* Manual Prev / Next Controls + Slide Indicator Dots */}
+      {/* Slide Indicator Dots (Previous/Next arrow buttons removed per requirement) */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '14px',
+          justifyContent: 'center',
+          gap: '6px',
           marginTop: '16px',
           zIndex: 3,
         }}
       >
-        <button
-          onClick={handlePrev}
-          aria-label="Previous Slide"
-          className="lm-interactive-btn"
-          style={{
-            width: '34px',
-            height: '34px',
-            borderRadius: '50%',
-            backgroundColor: '#191816',
-            border: '1px solid rgba(251, 195, 36, 0.25)',
-            color: '#FAF7F2',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.15s ease',
-          }}
-        >
-          <ChevronLeft size={16} />
-        </button>
-
-        {/* Slide Indicator Dots */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          {heroItems.map((item, idx) => {
-            const isCurrent = idx === safeActiveIndex;
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  pauseAutoRotateTemporarily();
-                  goTo(idx);
-                }}
-                aria-label={`Go to ${item.label}`}
-                style={{
-                  width: isCurrent ? '22px' : '7px',
-                  height: '7px',
-                  borderRadius: '3.5px',
-                  backgroundColor: isCurrent ? '#FBC324' : 'rgba(255, 255, 255, 0.22)',
-                  border: 'none',
-                  padding: 0,
-                  cursor: 'pointer',
-                  transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
-                }}
-              />
-            );
-          })}
-        </div>
-
-        <button
-          onClick={handleNext}
-          aria-label="Next Slide"
-          className="lm-interactive-btn"
-          style={{
-            width: '34px',
-            height: '34px',
-            borderRadius: '50%',
-            backgroundColor: '#191816',
-            border: '1px solid rgba(251, 195, 36, 0.25)',
-            color: '#FAF7F2',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.15s ease',
-          }}
-        >
-          <ChevronRight size={16} />
-        </button>
+        {heroItems.map((item, idx) => {
+          const isCurrent = idx === safeActiveIndex;
+          return (
+            <button
+              key={item.id}
+              onClick={() => {
+                pauseAutoRotateTemporarily();
+                goTo(idx);
+              }}
+              aria-label={`Go to ${item.label}`}
+              style={{
+                width: isCurrent ? '22px' : '7px',
+                height: '7px',
+                borderRadius: '3.5px',
+                backgroundColor: isCurrent ? '#FBC324' : 'rgba(255, 255, 255, 0.22)',
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
+              }}
+            />
+          );
+        })}
       </div>
     </section>
   );

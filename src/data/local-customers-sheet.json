@@ -1,0 +1,177 @@
+[
+  {
+    "customer_id": "CUST-C21F3BF9",
+    "name": "Aarav Sharma",
+    "mobile_number": "9876543210",
+    "created_at": "2026-11-04T05:58:18.459Z",
+    "updated_at": "2026-11-09T06:31:40.861Z"
+  },
+  {
+    "customer_id": "CUST-CDC82EB8",
+    "name": "'=HYPERLINK(\"http://malicious.com\", \"Click Here\")",
+    "mobile_number": "9876543211",
+    "created_at": "2026-11-04T05:58:18.498Z",
+    "updated_at": "2026-11-04T05:58:18.498Z"
+  },
+  {
+    "customer_id": "CUST-51E97AB4",
+    "name": "Relay Diner",
+    "mobile_number": "9876543290",
+    "created_at": "2026-11-04T07:15:55.702Z",
+    "updated_at": "2026-11-04T07:15:55.702Z"
+  },
+  {
+    "customer_id": "CUST-A9940ECD",
+    "name": "Kavita Reddy",
+    "mobile_number": "9876518020",
+    "created_at": "2026-11-04T12:12:07.151Z",
+    "updated_at": "2026-11-04T12:12:07.151Z"
+  },
+  {
+    "customer_id": "CUST-4DCD06D8",
+    "name": "Kavita Reddy",
+    "mobile_number": "9876589077",
+    "created_at": "2026-11-04T12:12:24.978Z",
+    "updated_at": "2026-11-04T12:12:24.978Z"
+  },
+  {
+    "customer_id": "CUST-3D6CCE4E",
+    "name": "Kavita Reddy",
+    "mobile_number": "9876578291",
+    "created_at": "2026-11-04T12:13:53.011Z",
+    "updated_at": "2026-11-04T12:13:53.015Z"
+  },
+  {
+    "customer_id": "CUST-20909623",
+    "name": "Test Diner",
+    "mobile_number": "9889259699",
+    "created_at": "2026-11-07T10:34:57.209Z",
+    "updated_at": "2026-11-07T10:34:57.209Z"
+  },
+  {
+    "customer_id": "CUST-9A2E2129",
+    "name": "Audit Diner",
+    "mobile_number": "9866874100",
+    "created_at": "2026-11-07T10:35:11.190Z",
+    "updated_at": "2026-11-07T10:35:11.190Z"
+  },
+  {
+    "customer_id": "CUST-EE488F59",
+    "name": "Audit Diner",
+    "mobile_number": "9826614970",
+    "created_at": "2026-11-07T10:35:13.083Z",
+    "updated_at": "2026-11-07T10:35:13.083Z"
+  },
+  {
+    "customer_id": "CUST-F905F115",
+    "name": "Audit Diner",
+    "mobile_number": "9877319575",
+    "created_at": "2026-11-07T10:35:14.969Z",
+    "updated_at": "2026-11-07T10:35:14.969Z"
+  },
+  {
+    "customer_id": "CUST-582B5FDB",
+    "name": "Audit Diner",
+    "mobile_number": "9811989271",
+    "created_at": "2026-11-07T10:35:16.825Z",
+    "updated_at": "2026-11-07T10:35:16.825Z"
+  },
+  {
+    "customer_id": "CUST-8AB53C09",
+    "name": "Audit Diner",
+    "mobile_number": "9820060908",
+    "created_at": "2026-11-07T10:35:18.754Z",
+    "updated_at": "2026-11-07T10:35:18.754Z"
+  },
+  {
+    "customer_id": "CUST-C3F40FE8",
+    "name": "Audit Diner",
+    "mobile_number": "9855258946",
+    "created_at": "2026-11-07T10:35:20.920Z",
+    "updated_at": "2026-11-07T10:35:20.920Z"
+  },
+  {
+    "customer_id": "CUST-1E427A55",
+    "name": "Carousel Tester",
+    "mobile_number": "9888836252",
+    "created_at": "2026-11-07T10:35:54.648Z",
+    "updated_at": "2026-11-07T10:35:54.648Z"
+  },
+  {
+    "customer_id": "CUST-F5B489F9",
+    "name": "Carousel Tester",
+    "mobile_number": "9893308085",
+    "created_at": "2026-11-07T10:36:17.940Z",
+    "updated_at": "2026-11-07T10:36:17.940Z"
+  },
+  {
+    "customer_id": "CUST-9A932C33",
+    "name": "Cold Brew Inspector",
+    "mobile_number": "9833674100",
+    "created_at": "2026-11-07T10:36:49.101Z",
+    "updated_at": "2026-11-07T10:36:49.101Z"
+  },
+  {
+    "customer_id": "CUST-250B4944",
+    "name": "Cold Brew Inspector",
+    "mobile_number": "9860618675",
+    "created_at": "2026-11-07T10:37:38.314Z",
+    "updated_at": "2026-11-07T10:37:38.314Z"
+  },
+  {
+    "customer_id": "CUST-3F4B568A",
+    "name": "Aarav Sharma",
+    "mobile_number": "9845588012",
+    "created_at": "2026-11-07T10:38:29.471Z",
+    "updated_at": "2026-11-07T10:38:29.471Z"
+  },
+  {
+    "customer_id": "CUST-97C387D0",
+    "name": "Priya Patel",
+    "mobile_number": "9863133923",
+    "created_at": "2026-11-07T11:22:14.136Z",
+    "updated_at": "2026-11-07T11:22:14.136Z"
+  },
+  {
+    "customer_id": "CUST-02A3339F",
+    "name": "Priya Patel",
+    "mobile_number": "9873224348",
+    "created_at": "2026-11-08T15:12:03.212Z",
+    "updated_at": "2026-11-08T15:12:03.212Z"
+  },
+  {
+    "customer_id": "CUST-C78DCEA4",
+    "name": "Aarav Sharma",
+    "mobile_number": "9857655083",
+    "created_at": "2026-11-08T19:41:00.663Z",
+    "updated_at": "2026-11-08T19:41:00.663Z"
+  },
+  {
+    "customer_id": "CUST-9BCE1A9D",
+    "name": "Test Probe",
+    "mobile_number": "9999999999",
+    "created_at": "2026-11-08T20:47:34.520Z",
+    "updated_at": "2026-11-09T06:35:22.312Z"
+  },
+  {
+    "customer_id": "CUST-48259CBE",
+    "name": "Aarav TestDiner",
+    "mobile_number": "9876593672",
+    "created_at": "2026-11-08T20:47:51.928Z",
+    "updated_at": "2026-11-08T20:47:51.928Z"
+  },
+  {
+    "customer_id": "CUST-D781BB9B",
+    "name": "Aarav TestDiner",
+    "mobile_number": "9876512014",
+    "created_at": "2026-11-08T20:48:58.161Z",
+    "updated_at": "2026-11-08T20:48:58.161Z"
+  },
+  {
+    "customer_id": "CUST-643BD399",
+    "name": "tejja",
+    "mobile_number": "7894561235",
+    "created_at": "2026-11-09T04:58:22.779Z",
+    "updated_at": "2026-11-09T04:58:31.952Z"
+  }
+]

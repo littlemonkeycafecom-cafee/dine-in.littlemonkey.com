@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { Product, ProductVariant, ProductAddon, CartItem, CustomerSession, DiningSession } from '../types';
 import {
   ALL_PRODUCTS,
@@ -14,6 +14,8 @@ import {
   persistCustomerSession,
   clearCustomerSession,
   verifyScannedQr,
+  verifyDualFactorChallenge,
+  checkQrProofStatus,
   initiateDiningSession,
   checkDiningSessionStatus,
   terminateDiningSession,
@@ -26,6 +28,9 @@ interface DineInContextType {
   diningSessionRemainingMs: number;
   isQrAuthorized: boolean;
   isQrRequired: boolean;
+  isRequires2fa: boolean;
+  challengeToken: string | null;
+  tableShortCode: string;
   isSessionExpired: boolean;
   qrError: string | null;
   qrProofToken: string | null;
@@ -68,6 +73,9 @@ interface DineInContextType {
   closeCart: () => void;
   setSelectedProduct: (product: Product | null) => void;
   resetSessionState: () => void;
+  authorizeVerifiedQr: (tableNumber: string, qrProofToken: string) => void;
+  submitDualFactor: (symbol?: string, code?: string) => Promise<{ success: boolean; error?: string; message?: string }>;
+  cancelDualFactor: () => void;
 }
 
 const DineInContext = createContext<DineInContextType | undefined>(undefined);
@@ -77,17 +85,46 @@ const CART_STORAGE_KEY = 'lm_dinein_cart_v2';
 export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Table Number state
   const [tableNumber, setTableNumber] = useState<string>('Table 01');
+  const [tableShortCode, setTableShortCode] = useState<string>('T01');
 
   // QR Access State
   const [isQrAuthorized, setIsQrAuthorized] = useState<boolean>(false);
   const [isQrRequired, setIsQrRequired] = useState<boolean>(false);
+  const [isRequires2fa, setIsRequires2fa] = useState<boolean>(false);
+  const [challengeToken, setChallengeToken] = useState<string | null>(null);
   const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
   const [qrError, setQrError] = useState<string | null>(null);
   const [qrProofToken, setQrProofToken] = useState<string | null>(null);
 
-  // 30-Minute Dining Session State
+  // 15-Minute Server-Authoritative Dining Session State
   const [diningSession, setDiningSession] = useState<DiningSession | null>(null);
   const [diningSessionRemainingMs, setDiningSessionRemainingMs] = useState<number>(0);
+
+  // Authoritative Session Timing Reference (for server-relative monotonic countdown immune to clock tampering / tab sleep)
+  const sessionTimingRef = useRef<{
+    sessionId: string;
+    expiresAt: number;
+    serverTimeOffset: number; // estimated (serverTime - performance.now())
+  } | null>(null);
+
+  const handleSessionExpired = useCallback(() => {
+    sessionTimingRef.current = null;
+    setIsSessionExpired(true);
+    setDiningSession(null);
+    setDiningSessionRemainingMs(0);
+    setCustomer(null);
+    clearCustomerSession();
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
+      localStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
+    }
+  }, []);
+
+  const calculateRemainingMs = useCallback(() => {
+    if (!sessionTimingRef.current) return 0;
+    const currentEstimatedServerTime = performance.now() + sessionTimingRef.current.serverTimeOffset;
+    return Math.max(0, sessionTimingRef.current.expiresAt - currentEstimatedServerTime);
+  }, []);
 
   // Customer Session & Validation State
   const [customer, setCustomer] = useState<CustomerSession | null>(null);
@@ -120,15 +157,38 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       // Case 1: Physical QR Code Scanned (cred present in URL)
       if (rawCred) {
         setIsValidatingAuth(true);
+        setIsSessionExpired(false);
+        if (typeof window !== 'undefined') {
+          sessionStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
+          localStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
+          sessionStorage.removeItem(AUTH_STORAGE_KEYS.QR_PROOF);
+        }
         const qrRes = await verifyScannedQr(rawTable || '', rawCred);
         if (!isMounted) return;
 
+        if (qrRes.requires2fa && qrRes.challengeToken && qrRes.tableNumber) {
+          setTableNumber(qrRes.tableNumber);
+          setTableShortCode(qrRes.shortCode || (rawTable ? String(rawTable).toUpperCase() : 'T01'));
+          setChallengeToken(qrRes.challengeToken);
+          setIsRequires2fa(true);
+          setIsQrAuthorized(false);
+          setIsQrRequired(false);
+          setQrError(null);
+          cleanQrUrlParams();
+          setIsValidatingAuth(false);
+          return;
+        }
+
         if (qrRes.valid && qrRes.tableNumber && qrRes.qrProofToken) {
           setTableNumber(qrRes.tableNumber);
+          if (qrRes.shortCode) setTableShortCode(qrRes.shortCode);
           setIsQrAuthorized(true);
+          setIsRequires2fa(false);
+          setChallengeToken(null);
           setQrProofToken(qrRes.qrProofToken);
           setQrError(null);
           setIsQrRequired(false);
+          setIsSessionExpired(false);
           sessionStorage.setItem(AUTH_STORAGE_KEYS.QR_PROOF, qrRes.qrProofToken);
           cleanQrUrlParams();
 
@@ -148,12 +208,23 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
               };
               setCustomer(validCust);
 
-              // Initiate 30-minute dining session
+              // Initiate 15-minute dining session
               const sessRes = await initiateDiningSession(qrRes.qrProofToken, candidate.token);
               if (sessRes.success && sessRes.session) {
+                const sToken = sessRes.sessionToken || sessRes.session.sessionId;
+                const nowMonotonic = performance.now();
+                const sTime = sessRes.session.serverTime || (sessRes.session.expiresAt - sessRes.session.timeRemainingMs);
+                sessionTimingRef.current = {
+                  sessionId: sToken,
+                  expiresAt: sessRes.session.expiresAt,
+                  serverTimeOffset: sTime - nowMonotonic,
+                };
                 setDiningSession(sessRes.session);
                 setDiningSessionRemainingMs(sessRes.session.timeRemainingMs);
-                sessionStorage.setItem(AUTH_STORAGE_KEYS.DINING_SESSION, sessRes.sessionToken || sessRes.session.sessionId);
+                sessionStorage.setItem(AUTH_STORAGE_KEYS.DINING_SESSION, sToken);
+                localStorage.setItem(AUTH_STORAGE_KEYS.DINING_SESSION, sToken);
+                sessionStorage.setItem('lm_dinein_intro_seen', 'true');
+                localStorage.setItem('lm_dinein_intro_seen', 'true');
               }
             }
           }
@@ -167,8 +238,8 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         return;
       }
 
-      // Case 2: Existing Active Dining Session in sessionStorage
-      const savedSessionToken = sessionStorage.getItem(AUTH_STORAGE_KEYS.DINING_SESSION);
+      // Case 2: Existing Active Dining Session in sessionStorage or localStorage
+      const savedSessionToken = sessionStorage.getItem(AUTH_STORAGE_KEYS.DINING_SESSION) || localStorage.getItem(AUTH_STORAGE_KEYS.DINING_SESSION);
       if (savedSessionToken) {
         setIsValidatingAuth(true);
         const statusRes = await checkDiningSessionStatus(savedSessionToken);
@@ -179,40 +250,75 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           setIsQrAuthorized(true);
           setIsQrRequired(false);
           setIsSessionExpired(false);
+          sessionStorage.setItem(AUTH_STORAGE_KEYS.DINING_SESSION, savedSessionToken);
+          localStorage.setItem(AUTH_STORAGE_KEYS.DINING_SESSION, savedSessionToken);
+          sessionStorage.setItem('lm_dinein_intro_seen', 'true');
+          localStorage.setItem('lm_dinein_intro_seen', 'true');
+          const nowMonotonic = performance.now();
+          const sTime = statusRes.serverTime || (statusRes.expiresAt! - (statusRes.timeRemainingMs || 0));
+          sessionTimingRef.current = {
+            sessionId: savedSessionToken,
+            expiresAt: statusRes.expiresAt || 0,
+            serverTimeOffset: sTime - nowMonotonic,
+          };
           setDiningSession({
             sessionId: savedSessionToken,
             tableNumber: statusRes.tableNumber,
             expiresAt: statusRes.expiresAt || 0,
             timeRemainingMs: statusRes.timeRemainingMs || 0,
-            createdAt: (statusRes.expiresAt || 0) - 1800000,
+            createdAt: (statusRes.expiresAt || 0) - (statusRes.durationMs || 900000),
           });
           setDiningSessionRemainingMs(statusRes.timeRemainingMs || 0);
 
-          // Restore customer info if available
-          const candidate = detectCandidateToken();
-          if (candidate?.token) {
-            const customerCheck = await validateSessionToken(candidate.token);
-            if (customerCheck.valid && customerCheck.user) {
-              const cleanDigits = String(customerCheck.user.phone || '').replace(/\D/g, '').slice(-10);
-              setCustomer({
-                id: customerCheck.user.id,
-                mobile: cleanDigits || '9876543210',
-                name: customerCheck.user.name || 'Diner',
-                token: candidate.token,
-                isAuthenticated: true,
-                tableNumber: statusRes.tableNumber,
-              });
+          // Restore customer info from server response or candidate token
+          if (statusRes.customer) {
+            const cleanDigits = String(statusRes.customer.phone || '').replace(/\D/g, '').slice(-10);
+            const restoredCust: CustomerSession = {
+              id: statusRes.customer.id || `user_${cleanDigits || 'diner'}`,
+              mobile: cleanDigits || '9876543210',
+              name: statusRes.customer.name || 'Diner',
+              token: savedSessionToken,
+              isAuthenticated: true,
+              tableNumber: statusRes.tableNumber,
+              role: statusRes.customer.role || 'customer',
+            };
+            setCustomer(restoredCust);
+            persistCustomerSession(restoredCust);
+          } else {
+            const candidate = detectCandidateToken();
+            if (candidate?.token) {
+              const customerCheck = await validateSessionToken(candidate.token);
+              if (customerCheck.valid && customerCheck.user) {
+                const cleanDigits = String(customerCheck.user.phone || '').replace(/\D/g, '').slice(-10);
+                const restoredCust: CustomerSession = {
+                  id: customerCheck.user.id,
+                  mobile: cleanDigits || '9876543210',
+                  name: customerCheck.user.name || 'Diner',
+                  token: candidate.token,
+                  isAuthenticated: true,
+                  tableNumber: statusRes.tableNumber,
+                };
+                setCustomer(restoredCust);
+                persistCustomerSession(restoredCust);
+              }
             }
           }
         } else {
-          sessionStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
+          clearCustomerSession();
           setDiningSession(null);
+          setCustomer(null);
           if (statusRes.error === 'DINING_SESSION_EXPIRED' || statusRes.error === 'EXPIRED_SESSION') {
+            if (statusRes.tableNumber) {
+              setTableNumber(statusRes.tableNumber);
+            }
             setIsSessionExpired(true);
+            setIsQrAuthorized(false);
           } else if (statusRes.error === 'CREDENTIAL_REVOKED') {
             setIsTableRevoked(true);
             setTableRevocationReason(statusRes.message || 'This table QR code was revoked by café staff.');
           } else {
+            sessionStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
+            localStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
             setIsQrRequired(true);
           }
         }
@@ -228,6 +334,27 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setIsQrRequired(false);
         setIsValidatingAuth(false);
         return;
+      }
+
+      // Case 3.5: Active Unconsumed QR Proof in sessionStorage (for page refresh/navigation before login)
+      const savedQrProof = sessionStorage.getItem(AUTH_STORAGE_KEYS.QR_PROOF);
+      if (savedQrProof) {
+        setIsValidatingAuth(true);
+        const proofRes = await checkQrProofStatus(savedQrProof);
+        if (!isMounted) return;
+
+        if (proofRes.valid && proofRes.tableNumber) {
+          setTableNumber(proofRes.tableNumber);
+          setIsQrAuthorized(true);
+          setQrProofToken(savedQrProof);
+          setQrError(null);
+          setIsQrRequired(false);
+          setIsSessionExpired(false);
+          setIsValidatingAuth(false);
+          return;
+        } else {
+          sessionStorage.removeItem(AUTH_STORAGE_KEYS.QR_PROOF);
+        }
       }
 
       // Case 4: Direct URL / Incognito / Copied URL without QR code
@@ -247,26 +374,99 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, []);
 
   // ---------------------------------------------------------------------------
-  // 2. Strict 30-Minute Live Countdown Timer
+  // 2. Strict 15-Minute Server-Authoritative Live Countdown Timer
   // ---------------------------------------------------------------------------
   useEffect(() => {
-    if (!diningSession) return;
+    if (!diningSession || !sessionTimingRef.current) return;
+
+    // Immediate calculation on session mount/change
+    const initialRemaining = calculateRemainingMs();
+    setDiningSessionRemainingMs(initialRemaining);
+    if (initialRemaining <= 0) {
+      handleSessionExpired();
+      return;
+    }
 
     const timer = setInterval(() => {
-      setDiningSessionRemainingMs((prev) => {
-        if (prev <= 1000) {
-          clearInterval(timer);
-          setIsSessionExpired(true);
-          setDiningSession(null);
-          sessionStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
-          return 0;
-        }
-        return prev - 1000;
-      });
+      const remaining = calculateRemainingMs();
+      setDiningSessionRemainingMs(remaining);
+      if (remaining <= 0) {
+        clearInterval(timer);
+        handleSessionExpired();
+      }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [diningSession]);
+  }, [diningSession, calculateRemainingMs, handleSessionExpired]);
+
+  // ---------------------------------------------------------------------------
+  // 2B. Backgrounding, Tab Switching, Window Focus & Device Sleep Resume Handler
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    let isMounted = true;
+
+    const handleSyncOnResume = async () => {
+      if (!sessionTimingRef.current) return;
+
+      // 1. Instantly recalculate remaining time from monotonic clock (survives tab suspension)
+      const remaining = calculateRemainingMs();
+      if (isMounted) {
+        setDiningSessionRemainingMs(remaining);
+      }
+
+      if (remaining <= 0) {
+        handleSessionExpired();
+        return;
+      }
+
+      // 2. Perform authoritative server check when tab is visible to confirm server authorization
+      if (typeof document !== 'undefined' && document.visibilityState === 'visible') {
+        const token = sessionTimingRef.current?.sessionId;
+        if (!token) return;
+
+        try {
+          const statusRes = await checkDiningSessionStatus(token);
+          if (!isMounted) return;
+
+          if (!statusRes.valid) {
+            handleSessionExpired();
+          } else if (statusRes.expiresAt && sessionTimingRef.current) {
+            const nowMonotonic = performance.now();
+            const sTime = statusRes.serverTime || (statusRes.expiresAt - (statusRes.timeRemainingMs || 0));
+            sessionTimingRef.current = {
+              sessionId: token,
+              expiresAt: statusRes.expiresAt,
+              serverTimeOffset: sTime - nowMonotonic,
+            };
+            const freshRemaining = calculateRemainingMs();
+            if (isMounted) {
+              setDiningSessionRemainingMs(freshRemaining);
+            }
+            if (freshRemaining <= 0) {
+              handleSessionExpired();
+            }
+          }
+        } catch {
+          // Network interruption; fallback to monotonic remaining calculation
+        }
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      document.addEventListener('visibilitychange', handleSyncOnResume);
+      window.addEventListener('focus', handleSyncOnResume);
+      window.addEventListener('pageshow', handleSyncOnResume);
+    }
+
+    return () => {
+      isMounted = false;
+      if (typeof window !== 'undefined') {
+        document.removeEventListener('visibilitychange', handleSyncOnResume);
+        window.removeEventListener('focus', handleSyncOnResume);
+        window.removeEventListener('pageshow', handleSyncOnResume);
+      }
+    };
+  }, [calculateRemainingMs, handleSessionExpired]);
 
   // Check Table Status Helper
   const checkTableStatus = useCallback(async (tbl: string) => {
@@ -467,38 +667,82 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const signIn = async (
     mobile: string,
-    name: string = 'Guest Diner',
+    name: string = 'Registered Diner',
     token?: string,
     id?: string,
     role?: string
   ) => {
     const cleanDigits = mobile.replace(/\D/g, '').slice(-10);
-    const isGuest = role === 'guest' || cleanDigits === '9999999999' || mobile.toLowerCase().includes('guest');
-    const effectiveToken = token || (isGuest ? 'dev_token_guest' : `dev_token_${cleanDigits}`);
+    const effectiveToken = token || `dev_token_${cleanDigits}`;
 
     const session: CustomerSession = {
       id: id || `user_${cleanDigits}`,
       mobile: cleanDigits,
-      name,
+      name: name.trim() || 'Registered Diner',
       token: effectiveToken,
       isAuthenticated: true,
       tableNumber,
-      role: role || (isGuest ? 'guest' : 'customer'),
-      isGuest,
+      role: role || 'customer',
+      isGuest: false,
     };
     setCustomer(session);
     persistCustomerSession(session);
     setIsAuthModalOpen(false);
 
-    // If a valid QR Proof exists, initiate the 30-minute Dining Session
+    // If token is already an active dining session token (e.g. returned from submitCustomerRecord)
+    if (token && token.startsWith('dinesess_')) {
+      sessionStorage.setItem(AUTH_STORAGE_KEYS.DINING_SESSION, token);
+      localStorage.setItem(AUTH_STORAGE_KEYS.DINING_SESSION, token);
+      sessionStorage.setItem('lm_dinein_intro_seen', 'true');
+      localStorage.setItem('lm_dinein_intro_seen', 'true');
+      setIsQrAuthorized(true);
+      setIsQrRequired(false);
+      setIsSessionExpired(false);
+
+      checkDiningSessionStatus(token).then((statusRes) => {
+        if (statusRes.valid && statusRes.expiresAt) {
+          const nowMonotonic = performance.now();
+          const sTime = statusRes.serverTime || Date.now();
+          sessionTimingRef.current = {
+            sessionId: token,
+            expiresAt: statusRes.expiresAt,
+            serverTimeOffset: sTime - nowMonotonic,
+          };
+          setDiningSession({
+            sessionId: token,
+            tableNumber: statusRes.tableNumber || tableNumber,
+            credentialId: '',
+            createdAt: sTime,
+            expiresAt: statusRes.expiresAt,
+            timeRemainingMs: statusRes.timeRemainingMs || 900000,
+            durationMs: 900000,
+          });
+          setDiningSessionRemainingMs(statusRes.timeRemainingMs || 900000);
+        }
+      }).catch(() => {});
+      return;
+    }
+
+    // If a valid QR Proof exists, initiate the 15-minute Dining Session
     const proof = qrProofToken || (typeof window !== 'undefined' ? sessionStorage.getItem(AUTH_STORAGE_KEYS.QR_PROOF) : null);
     if (proof) {
       try {
         const sessRes = await initiateDiningSession(proof, effectiveToken);
         if (sessRes.success && sessRes.session) {
+          const sToken = sessRes.sessionToken || sessRes.session.sessionId;
+          const nowMonotonic = performance.now();
+          const sTime = sessRes.session.serverTime || (sessRes.session.expiresAt - sessRes.session.timeRemainingMs);
+          sessionTimingRef.current = {
+            sessionId: sToken,
+            expiresAt: sessRes.session.expiresAt,
+            serverTimeOffset: sTime - nowMonotonic,
+          };
           setDiningSession(sessRes.session);
           setDiningSessionRemainingMs(sessRes.session.timeRemainingMs);
-          sessionStorage.setItem(AUTH_STORAGE_KEYS.DINING_SESSION, sessRes.sessionToken || sessRes.session.sessionId);
+          sessionStorage.setItem(AUTH_STORAGE_KEYS.DINING_SESSION, sToken);
+          localStorage.setItem(AUTH_STORAGE_KEYS.DINING_SESSION, sToken);
+          sessionStorage.setItem('lm_dinein_intro_seen', 'true');
+          localStorage.setItem('lm_dinein_intro_seen', 'true');
           setIsQrAuthorized(true);
           setIsQrRequired(false);
           setIsSessionExpired(false);
@@ -513,24 +757,130 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     if (diningSession?.sessionId) {
       terminateDiningSession(diningSession.sessionId);
     }
+    sessionTimingRef.current = null;
     clearCustomerSession();
+    localStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
+    sessionStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
     setCustomer(null);
     setDiningSession(null);
+    setDiningSessionRemainingMs(0);
     setIsQrAuthorized(false);
     setIsQrRequired(true);
     setIsAuthModalOpen(false);
   };
 
   const resetSessionState = () => {
+    sessionTimingRef.current = null;
     if (typeof window !== 'undefined') {
       sessionStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
+      localStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
       sessionStorage.removeItem(AUTH_STORAGE_KEYS.QR_PROOF);
+      localStorage.removeItem(AUTH_STORAGE_KEYS.QR_PROOF);
     }
+    clearCustomerSession();
+    setCustomer(null);
     setDiningSession(null);
+    setDiningSessionRemainingMs(0);
     setIsSessionExpired(false);
     setIsQrAuthorized(false);
     setIsQrRequired(true);
   };
+
+  const authorizeVerifiedQr = (verifiedTable: string, proofToken: string) => {
+    setTableNumber(verifiedTable);
+    setIsQrAuthorized(true);
+    setQrProofToken(proofToken);
+    setQrError(null);
+    setIsQrRequired(false);
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem(AUTH_STORAGE_KEYS.QR_PROOF, proofToken);
+    }
+  };
+
+  const submitDualFactor = useCallback(
+    async (symbol?: string, code?: string) => {
+      if (!challengeToken) {
+        return { success: false, error: 'MISSING_CHALLENGE', message: 'No active table challenge token found.' };
+      }
+      try {
+        const res = await verifyDualFactorChallenge({
+          challengeToken,
+          symbol,
+          code,
+        });
+        if (res.valid && res.tableNumber && res.qrProofToken) {
+          setTableNumber(res.tableNumber);
+          if (res.shortCode) setTableShortCode(res.shortCode);
+          setIsQrAuthorized(true);
+          setIsRequires2fa(false);
+          setChallengeToken(null);
+          setQrProofToken(res.qrProofToken);
+          setQrError(null);
+          setIsQrRequired(false);
+          if (typeof window !== 'undefined') {
+            sessionStorage.setItem(AUTH_STORAGE_KEYS.QR_PROOF, res.qrProofToken);
+          }
+
+          // Check if candidate customer token exists to auto-sign in
+          const candidate = detectCandidateToken();
+          if (candidate?.token) {
+            const customerCheck = await validateSessionToken(candidate.token);
+            if (customerCheck.valid && customerCheck.user) {
+              const cleanDigits = String(customerCheck.user.phone || '').replace(/\D/g, '').slice(-10);
+              const validCust: CustomerSession = {
+                id: customerCheck.user.id,
+                mobile: cleanDigits || '9876543210',
+                name: customerCheck.user.name || 'Diner',
+                token: candidate.token,
+                isAuthenticated: true,
+                tableNumber: res.tableNumber,
+              };
+              setCustomer(validCust);
+              const sessRes = await initiateDiningSession(res.qrProofToken, candidate.token);
+              if (sessRes.success && sessRes.session) {
+                const sToken = sessRes.sessionToken || sessRes.session.sessionId;
+                const nowMonotonic = performance.now();
+                const sTime = sessRes.session.serverTime || (sessRes.session.expiresAt - sessRes.session.timeRemainingMs);
+                sessionTimingRef.current = {
+                  sessionId: sToken,
+                  expiresAt: sessRes.session.expiresAt,
+                  serverTimeOffset: sTime - nowMonotonic,
+                };
+                setDiningSession(sessRes.session);
+                setDiningSessionRemainingMs(sessRes.session.timeRemainingMs);
+                sessionStorage.setItem(AUTH_STORAGE_KEYS.DINING_SESSION, sToken);
+                localStorage.setItem(AUTH_STORAGE_KEYS.DINING_SESSION, sToken);
+                sessionStorage.setItem('lm_dinein_intro_seen', 'true');
+                localStorage.setItem('lm_dinein_intro_seen', 'true');
+              }
+            }
+          }
+
+          return { success: true, message: res.message || 'Dual-factor verification successful.' };
+        }
+
+        return {
+          success: false,
+          error: res.error || 'VERIFICATION_FAILED',
+          message: res.message || 'Verification failed. Please confirm the symbol or code on your table stand.',
+        };
+      } catch {
+        return {
+          success: false,
+          error: 'NETWORK_ERROR',
+          message: 'Unable to connect to café verification service.',
+        };
+      }
+    },
+    [challengeToken]
+  );
+
+  const cancelDualFactor = useCallback(() => {
+    setIsRequires2fa(false);
+    setChallengeToken(null);
+    setIsQrRequired(true);
+    setIsQrAuthorized(false);
+  }, []);
 
   return (
     <DineInContext.Provider
@@ -540,6 +890,9 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         diningSessionRemainingMs,
         isQrAuthorized,
         isQrRequired,
+        isRequires2fa,
+        challengeToken,
+        tableShortCode,
         isSessionExpired,
         qrError,
         qrProofToken,
@@ -576,6 +929,9 @@ export const DineInProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         closeCart: () => setIsCartDrawerOpen(false),
         setSelectedProduct,
         resetSessionState,
+        authorizeVerifiedQr,
+        submitDualFactor,
+        cancelDualFactor,
       }}
     >
       {children}

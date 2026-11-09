@@ -1,8 +1,26 @@
 import React, { useState } from 'react';
 import { useDineIn } from '../contexts/DineInContext';
-import { customerSignIn, customerSignUp, createGuestSession } from '../services/auth';
+import {
+  lookupCustomer,
+  continueExistingCustomer,
+  submitCustomerRecord,
+  normalizeIndianMobile,
+  isValidIndianMobile,
+  AUTH_STORAGE_KEYS,
+} from '../services/auth';
 import { AdminQrManagementModal } from './AdminQrManagementModal';
-import { Eye, EyeOff, ArrowRight, Utensils, Sparkles, ShieldCheck, Loader2, AlertTriangle, Shield, CheckCircle2 } from 'lucide-react';
+import {
+  ArrowRight,
+  Utensils,
+  ShieldCheck,
+  Loader2,
+  AlertTriangle,
+  Shield,
+  User,
+  Phone,
+  CheckCircle2,
+  Lock,
+} from 'lucide-react';
 
 export const CustomerLoginGate: React.FC = () => {
   const {
@@ -11,88 +29,162 @@ export const CustomerLoginGate: React.FC = () => {
     isTableRevoked,
     tableRevocationReason,
     isQrAuthorized,
+    qrProofToken,
     openAdminModal,
     isAdminModalOpen,
     closeAdminModal,
   } = useDineIn();
-  const [tab, setTab] = useState<'signin' | 'signup'>('signin');
+
+  // Three-step password-free customer access state machine
+  const [step, setStep] = useState<'mobile_entry' | 'existing_customer' | 'new_customer'>('mobile_entry');
   const [mobile, setMobile] = useState('');
-  const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [existingCustomer, setExistingCustomer] = useState<{
+    customerId: string;
+    name: string;
+    mobile: string;
+  } | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const getEffectiveProof = (): string => {
+    return (
+      qrProofToken ||
+      (typeof window !== 'undefined' ? sessionStorage.getItem(AUTH_STORAGE_KEYS.QR_PROOF) : '') ||
+      ''
+    );
+  };
+
+  // Step A: Verify 10-Digit Mobile Number (Lookup)
+  const handleVerifyMobile = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
     setError('');
 
-    const cleanMobile = mobile.replace(/\D/g, '');
-    if (cleanMobile.length !== 10) {
-      setError('Please enter a valid 10-digit mobile number');
+    const cleanMobile = normalizeIndianMobile(mobile);
+    if (!isValidIndianMobile(cleanMobile)) {
+      setError('Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.');
       return;
     }
 
-    if (password.length < 4) {
-      setError('Password must be at least 4 characters');
-      return;
-    }
-
-    if (tab === 'signup' && !name.trim()) {
-      setError('Please enter your full name');
+    const effectiveProof = getEffectiveProof();
+    if (!effectiveProof) {
+      setError('Table QR code verification is missing or expired. Please re-scan your table QR code.');
       return;
     }
 
     setIsSubmitting(true);
     try {
-      if (tab === 'signin') {
-        const result = await customerSignIn(cleanMobile, password);
-        if (!result.success) {
-          setError(result.error || 'Authentication failed. Please check your credentials.');
-          setIsSubmitting(false);
-          return;
-        }
+      const res = await lookupCustomer(cleanMobile, effectiveProof);
+      if (!res.success) {
+        setError(res.message || res.error || 'Failed to verify mobile number. Please try again.');
+        return;
+      }
 
-        const user = result.user || result.session?.user;
-        const customerName =
-          user?.user_metadata?.full_name ||
-          user?.user_metadata?.name ||
-          user?.name ||
-          'Diner ' + cleanMobile.slice(-4);
-
-        signIn(cleanMobile, customerName, result.token, user?.id);
+      if (res.exists && res.customer) {
+        // Step B: Existing Registered Customer Found
+        setExistingCustomer(res.customer);
+        setStep('existing_customer');
       } else {
-        const result = await customerSignUp(name.trim(), cleanMobile, password);
-        if (!result.success) {
-          setError(result.error || 'Failed to create account.');
-          setIsSubmitting(false);
-          return;
-        }
-
-        const user = result.user || result.session?.user;
-        signIn(cleanMobile, name.trim(), result.token, user?.id);
+        // Step C: New Customer Registration
+        setExistingCustomer(null);
+        setStep('new_customer');
       }
     } catch (err: any) {
-      setError(err?.message || 'Authentication error. Please try again.');
+      setError(err?.message || 'Unable to connect to customer verification service. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const isGuestAllowed = Boolean(import.meta.env.DEV || import.meta.env.VITE_ENABLE_GUEST_PREVIEW === 'true');
+  // Step B: Existing Customer Continuation (Never asks for password, preserves stored name)
+  const handleContinueExisting = async () => {
+    if (isSubmitting || !existingCustomer) return;
+    setError('');
 
-  const handleGuestEntry = async () => {
-    if (isSubmitting) return;
+    const effectiveProof = getEffectiveProof();
+    if (!effectiveProof) {
+      setError('Table QR code verification is missing or expired. Please re-scan your table QR code.');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      const guest = await createGuestSession(tableNumber);
-      signIn('9999999999', guest.user?.name || 'Table Guest', guest.token, guest.user?.id, 'guest');
-    } catch {
-      signIn('9999999999', 'Table Guest', undefined, undefined, 'guest');
+      const res = await continueExistingCustomer(existingCustomer.mobile, effectiveProof);
+      if (!res.success || !res.customer || !res.sessionToken) {
+        setError(res.message || res.error || 'Failed to initialize your dining session. Please try again.');
+        return;
+      }
+
+      await signIn(
+        res.customer.mobile,
+        res.customer.name,
+        res.sessionToken,
+        res.customer.customerId,
+        'customer'
+      );
+    } catch (err: any) {
+      setError(err?.message || 'Unable to continue to menu. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Step C: New Customer Registration
+  const handleRegisterNew = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+    setError('');
+
+    const cleanName = name.trim();
+    const cleanMobile = normalizeIndianMobile(mobile);
+
+    if (!cleanName || cleanName.length < 1) {
+      setError('Please enter your full name.');
+      return;
+    }
+
+    if (cleanName.length > 60) {
+      setError('Full name must be 60 characters or fewer.');
+      return;
+    }
+
+    if (!isValidIndianMobile(cleanMobile)) {
+      setError('Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.');
+      return;
+    }
+
+    const effectiveProof = getEffectiveProof();
+    if (!effectiveProof) {
+      setError('Table QR code verification is missing or expired. Please re-scan your table QR code.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await submitCustomerRecord(cleanName, cleanMobile, effectiveProof);
+      if (!res.success || !res.customer || !res.sessionToken) {
+        setError(res.message || res.error || 'Failed to complete customer registration.');
+        return;
+      }
+
+      await signIn(
+        res.customer.mobile,
+        res.customer.name,
+        res.sessionToken,
+        res.customer.customerId,
+        'customer'
+      );
+    } catch (err: any) {
+      setError(err?.message || 'Unable to connect to customer registration service. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleBackToMobile = () => {
+    setError('');
+    setStep('mobile_entry');
   };
 
   return (
@@ -209,27 +301,83 @@ export const CustomerLoginGate: React.FC = () => {
             </div>
           )}
 
-          <h1
-            style={{
-              fontFamily: '"Playfair Display", Georgia, serif',
-              fontSize: '26px',
-              fontWeight: 700,
-              color: '#FAF7F2',
-              margin: '0 0 6px 0',
-              lineHeight: 1.2,
-            }}
-          >
-            {tab === 'signin' ? 'Sign In to Dine' : 'Create Diner Account'}
-          </h1>
-          <p
-            style={{
-              fontSize: '13px',
-              color: '#9C8C7E',
-              margin: 0,
-            }}
-          >
-            Sign in to explore the Little Monkey Café handcrafted digital menu and view item details.
-          </p>
+          {step === 'mobile_entry' && (
+            <>
+              <h1
+                style={{
+                  fontFamily: '"Playfair Display", Georgia, serif',
+                  fontSize: '26px',
+                  fontWeight: 700,
+                  color: '#FAF7F2',
+                  margin: '0 0 6px 0',
+                  lineHeight: 1.2,
+                }}
+              >
+                Welcome to Little Monkey Café
+              </h1>
+              <p
+                style={{
+                  fontSize: '13px',
+                  color: '#9C8C7E',
+                  margin: 0,
+                }}
+              >
+                Enter your mobile number to continue.
+              </p>
+            </>
+          )}
+
+          {step === 'existing_customer' && (
+            <>
+              <h1
+                style={{
+                  fontFamily: '"Playfair Display", Georgia, serif',
+                  fontSize: '24px',
+                  fontWeight: 700,
+                  color: '#FAF7F2',
+                  margin: '0 0 6px 0',
+                  lineHeight: 1.2,
+                }}
+              >
+                Welcome back, {existingCustomer?.name || 'Valued Diner'}
+              </h1>
+              <p
+                style={{
+                  fontSize: '13px',
+                  color: '#9C8C7E',
+                  margin: 0,
+                }}
+              >
+                We found your registered account. You can continue directly to the menu.
+              </p>
+            </>
+          )}
+
+          {step === 'new_customer' && (
+            <>
+              <h1
+                style={{
+                  fontFamily: '"Playfair Display", Georgia, serif',
+                  fontSize: '24px',
+                  fontWeight: 700,
+                  color: '#FAF7F2',
+                  margin: '0 0 6px 0',
+                  lineHeight: 1.2,
+                }}
+              >
+                Welcome! Let's get you started.
+              </h1>
+              <p
+                style={{
+                  fontSize: '13px',
+                  color: '#9C8C7E',
+                  margin: 0,
+                }}
+              >
+                Please enter your full name to start your dining session.
+              </p>
+            </>
+          )}
         </div>
 
         {/* Card with Traveling Yellow Border Beam & Reflection */}
@@ -246,63 +394,7 @@ export const CustomerLoginGate: React.FC = () => {
             boxSizing: 'border-box',
           }}
         >
-          {/* Tab Switcher */}
-          <div
-            style={{
-              display: 'flex',
-              backgroundColor: '#191816',
-              borderRadius: '10px',
-              padding: '4px',
-              marginBottom: '20px',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-            }}
-          >
-            <button
-              type="button"
-              onClick={() => {
-                setTab('signin');
-                setError('');
-              }}
-              className="lm-interactive-btn"
-              style={{
-                flex: 1,
-                padding: '9px 12px',
-                borderRadius: '8px',
-                fontSize: '13px',
-                fontWeight: 700,
-                border: 'none',
-                backgroundColor: tab === 'signin' ? '#FBC324' : 'transparent',
-                color: tab === 'signin' ? '#080808' : '#9C8C7E',
-                cursor: 'pointer',
-              }}
-            >
-              Sign In
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setTab('signup');
-                setError('');
-              }}
-              className="lm-interactive-btn"
-              style={{
-                flex: 1,
-                padding: '9px 12px',
-                borderRadius: '8px',
-                fontSize: '13px',
-                fontWeight: 700,
-                border: 'none',
-                backgroundColor: tab === 'signup' ? '#FBC324' : 'transparent',
-                color: tab === 'signup' ? '#080808' : '#9C8C7E',
-                cursor: 'pointer',
-              }}
-            >
-              Create Account
-            </button>
-          </div>
-
-          {/* Error Message */}
+          {/* Error Message Banner */}
           {error && (
             <div
               style={{
@@ -313,19 +405,26 @@ export const CustomerLoginGate: React.FC = () => {
                 color: '#FCA5A5',
                 fontSize: '12.5px',
                 marginBottom: '18px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
               }}
             >
-              {error}
+              <AlertTriangle size={15} style={{ color: '#EF4444', flexShrink: 0 }} />
+              <span>{error}</span>
             </div>
           )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit}>
-            {tab === 'signup' && (
-              <div style={{ marginBottom: '16px' }}>
+          {/* STEP A: Mobile Entry */}
+          {step === 'mobile_entry' && (
+            <form onSubmit={handleVerifyMobile}>
+              <div style={{ marginBottom: '20px' }}>
                 <label
+                  htmlFor="customer-mobile"
                   style={{
-                    display: 'block',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
                     fontSize: '11px',
                     color: '#9C8C7E',
                     marginBottom: '6px',
@@ -334,13 +433,334 @@ export const CustomerLoginGate: React.FC = () => {
                     letterSpacing: '0.04em',
                   }}
                 >
-                  Full Name *
+                  <Phone size={13} style={{ color: '#FBC324' }} />
+                  <span>Mobile Number (10 Digits) *</span>
+                </label>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: '#191816',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    transition: 'border-color 0.18s ease',
+                  }}
+                >
+                  <span
+                    style={{
+                      padding: '12px 14px',
+                      color: '#FBC324',
+                      fontWeight: 800,
+                      fontSize: '13.5px',
+                      borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+                      backgroundColor: 'rgba(251, 195, 36, 0.05)',
+                      userSelect: 'none',
+                    }}
+                  >
+                    +91
+                  </span>
+                  <input
+                    id="customer-mobile"
+                    type="tel"
+                    required
+                    maxLength={10}
+                    inputMode="numeric"
+                    placeholder="9876543210"
+                    value={mobile}
+                    onChange={(e) => setMobile(e.target.value.replace(/\D/g, ''))}
+                    disabled={isSubmitting}
+                    autoFocus
+                    style={{
+                      flex: 1,
+                      padding: '12px 14px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: '#FAF7F2',
+                      fontSize: '13.5px',
+                      outline: 'none',
+                      letterSpacing: '0.04em',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting || mobile.replace(/\D/g, '').length !== 10}
+                className="lm-interactive-btn"
+                style={{
+                  width: '100%',
+                  backgroundColor: isSubmitting || mobile.replace(/\D/g, '').length !== 10 ? '#786016' : '#FBC324',
+                  color: '#080808',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '14px',
+                  fontSize: '14px',
+                  fontWeight: 800,
+                  letterSpacing: '0.04em',
+                  cursor: isSubmitting || mobile.replace(/\D/g, '').length !== 10 ? 'not-allowed' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  boxShadow: '0 4px 16px rgba(251, 195, 36, 0.25)',
+                  opacity: isSubmitting ? 0.8 : 1,
+                  transition: 'all 0.18s ease',
+                }}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={17} className="lm-spin" />
+                    <span>VERIFYING MOBILE...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Verify Mobile Number</span>
+                    <ArrowRight size={17} />
+                  </>
+                )}
+              </button>
+            </form>
+          )}
+
+          {/* STEP B: Existing Registered Customer */}
+          {step === 'existing_customer' && existingCustomer && (
+            <div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  backgroundColor: 'rgba(16, 185, 129, 0.12)',
+                  border: '1px solid rgba(16, 185, 129, 0.35)',
+                  borderRadius: '10px',
+                  padding: '12px 14px',
+                  marginBottom: '18px',
+                }}
+              >
+                <CheckCircle2 size={18} style={{ color: '#10B981', flexShrink: 0 }} />
+                <div style={{ fontSize: '12.5px', color: '#FAF7F2', lineHeight: 1.4 }}>
+                  <span>Registered account found for </span>
+                  <strong style={{ color: '#10B981' }}>+91 {existingCustomer.mobile}</strong>
+                </div>
+              </div>
+
+              {/* Read-Only Customer Profile Display */}
+              <div
+                style={{
+                  backgroundColor: '#191816',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  marginBottom: '20px',
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: '11px',
+                    color: '#9C8C7E',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
+                    marginBottom: '4px',
+                  }}
+                >
+                  Registered Diner Name
+                </div>
+                <div
+                  style={{
+                    fontSize: '18px',
+                    fontWeight: 700,
+                    color: '#FAF7F2',
+                    marginBottom: '12px',
+                  }}
+                >
+                  {existingCustomer.name}
+                </div>
+
+                <div
+                  style={{
+                    fontSize: '11px',
+                    color: '#9C8C7E',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
+                    marginBottom: '4px',
+                  }}
+                >
+                  Mobile Number
+                </div>
+                <div
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#FBC324',
+                    marginBottom: '10px',
+                  }}
+                >
+                  +91 {existingCustomer.mobile}
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontSize: '11.5px',
+                    color: '#A3A3A3',
+                    marginTop: '8px',
+                    paddingTop: '8px',
+                    borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                  }}
+                >
+                  <Lock size={12} style={{ color: '#FBC324' }} />
+                  <span>Trusted identity record • Preserved without modification</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <button
+                  type="button"
+                  disabled={isSubmitting}
+                  onClick={handleContinueExisting}
+                  className="lm-interactive-btn"
+                  style={{
+                    width: '100%',
+                    backgroundColor: isSubmitting ? '#d4a319' : '#FBC324',
+                    color: '#080808',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '14px',
+                    fontSize: '14px',
+                    fontWeight: 800,
+                    letterSpacing: '0.04em',
+                    cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    boxShadow: '0 4px 16px rgba(251, 195, 36, 0.3)',
+                    transition: 'all 0.18s ease',
+                  }}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={17} className="lm-spin" />
+                      <span>STARTING SESSION...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Continue to Menu</span>
+                      <ArrowRight size={17} />
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  disabled={isSubmitting}
+                  onClick={handleBackToMobile}
+                  className="lm-interactive-btn"
+                  style={{
+                    width: '100%',
+                    backgroundColor: 'transparent',
+                    color: '#9C8C7E',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: '8px',
+                    padding: '11px',
+                    fontSize: '12.5px',
+                    fontWeight: 600,
+                    cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                  }}
+                >
+                  Change mobile number
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* STEP C: New Customer Registration */}
+          {step === 'new_customer' && (
+            <form onSubmit={handleRegisterNew}>
+              {/* Pre-populated Read-Only Mobile Number */}
+              <div style={{ marginBottom: '16px' }}>
+                <label
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    fontSize: '11px',
+                    color: '#9C8C7E',
+                    marginBottom: '6px',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
+                  }}
+                >
+                  <Lock size={12} style={{ color: '#FBC324' }} />
+                  <span>Verified Mobile Number</span>
+                </label>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    backgroundColor: 'rgba(251, 195, 36, 0.05)',
+                    border: '1px solid rgba(251, 195, 36, 0.25)',
+                    borderRadius: '8px',
+                    padding: '10px 14px',
+                  }}
+                >
+                  <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#FBC324' }}>
+                    +91 {mobile}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleBackToMobile}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#9C8C7E',
+                      fontSize: '11.5px',
+                      textDecoration: 'underline',
+                      cursor: 'pointer',
+                      padding: '2px 4px',
+                    }}
+                  >
+                    Change
+                  </button>
+                </div>
+              </div>
+
+              {/* Full Name Input */}
+              <div style={{ marginBottom: '20px' }}>
+                <label
+                  htmlFor="customer-name"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    fontSize: '11px',
+                    color: '#9C8C7E',
+                    marginBottom: '6px',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
+                  }}
+                >
+                  <User size={13} style={{ color: '#FBC324' }} />
+                  <span>Full Name *</span>
                 </label>
                 <input
+                  id="customer-name"
                   type="text"
-                  placeholder="e.g. John Doe"
+                  required
+                  maxLength={60}
+                  placeholder="e.g. Aarav Sharma"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  disabled={isSubmitting}
+                  autoFocus
                   style={{
                     width: '100%',
                     padding: '12px 14px',
@@ -351,193 +771,73 @@ export const CustomerLoginGate: React.FC = () => {
                     fontSize: '13.5px',
                     outline: 'none',
                     boxSizing: 'border-box',
+                    transition: 'border-color 0.18s ease',
                   }}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = '#FBC324')}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)')}
                 />
               </div>
-            )}
 
-            {/* Mobile Number */}
-            <div style={{ marginBottom: '16px' }}>
-              <label
-                style={{
-                  display: 'block',
-                  fontSize: '11px',
-                  color: '#9C8C7E',
-                  marginBottom: '6px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.04em',
-                }}
-              >
-                Mobile Number *
-              </label>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  backgroundColor: '#191816',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  borderRadius: '8px',
-                  overflow: 'hidden',
-                }}
-              >
-                <span
+              {/* Submit Button */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !name.trim()}
+                  className="lm-interactive-btn"
                   style={{
-                    padding: '12px 14px',
-                    color: '#FBC324',
+                    width: '100%',
+                    backgroundColor: isSubmitting || !name.trim() ? '#786016' : '#FBC324',
+                    color: '#080808',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '14px',
+                    fontSize: '14px',
                     fontWeight: 800,
-                    fontSize: '13.5px',
-                    borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+                    letterSpacing: '0.04em',
+                    cursor: isSubmitting || !name.trim() ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    boxShadow: '0 4px 16px rgba(251, 195, 36, 0.3)',
+                    opacity: isSubmitting ? 0.8 : 1,
+                    transition: 'all 0.18s ease',
                   }}
                 >
-                  +91
-                </span>
-                <input
-                  type="tel"
-                  maxLength={10}
-                  placeholder="Enter 10-digit number"
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value.replace(/\D/g, ''))}
-                  style={{
-                    flex: 1,
-                    padding: '12px 14px',
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    color: '#FAF7F2',
-                    fontSize: '13.5px',
-                    outline: 'none',
-                  }}
-                />
-              </div>
-            </div>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={17} className="lm-spin" />
+                      <span>REGISTERING CUSTOMER...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Register &amp; Continue</span>
+                      <ArrowRight size={17} />
+                    </>
+                  )}
+                </button>
 
-            {/* Password */}
-            <div style={{ marginBottom: '22px' }}>
-              <label
-                style={{
-                  display: 'block',
-                  fontSize: '11px',
-                  color: '#9C8C7E',
-                  marginBottom: '6px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.04em',
-                }}
-              >
-                Password *
-              </label>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  backgroundColor: '#191816',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  borderRadius: '8px',
-                  paddingRight: '12px',
-                }}
-              >
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  style={{
-                    flex: 1,
-                    padding: '12px 14px',
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    color: '#FAF7F2',
-                    fontSize: '13.5px',
-                    outline: 'none',
-                  }}
-                />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  disabled={isSubmitting}
+                  onClick={handleBackToMobile}
+                  className="lm-interactive-btn"
                   style={{
-                    background: 'none',
-                    border: 'none',
+                    width: '100%',
+                    backgroundColor: 'transparent',
                     color: '#9C8C7E',
-                    cursor: 'pointer',
-                    padding: 0,
-                    display: 'flex',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: '8px',
+                    padding: '11px',
+                    fontSize: '12.5px',
+                    fontWeight: 600,
+                    cursor: isSubmitting ? 'not-allowed' : 'pointer',
                   }}
                 >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  Change mobile number
                 </button>
               </div>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="lm-interactive-btn"
-              style={{
-                width: '100%',
-                backgroundColor: isSubmitting ? '#d4a319' : '#FBC324',
-                color: '#080808',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '14px',
-                fontSize: '14px',
-                fontWeight: 800,
-                letterSpacing: '0.04em',
-                cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                boxShadow: '0 4px 16px rgba(251, 195, 36, 0.3)',
-                opacity: isSubmitting ? 0.8 : 1,
-              }}
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 size={17} className="lm-spin" />
-                  <span>VERIFYING ACCOUNT...</span>
-                </>
-              ) : (
-                <>
-                  <span>{tab === 'signin' ? 'ENTER DIGITAL MENU' : 'CREATE ACCOUNT & ENTER'}</span>
-                  <ArrowRight size={17} />
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* Quick Table Guest Entry (Dev Preview Only) */}
-          {isGuestAllowed && (
-            <div
-              style={{
-                marginTop: '20px',
-                paddingTop: '16px',
-                borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-                textAlign: 'center',
-              }}
-            >
-              <button
-                onClick={handleGuestEntry}
-                className="lm-interactive-btn"
-                style={{
-                  background: 'none',
-                  border: '1px solid rgba(251, 195, 36, 0.25)',
-                  borderRadius: '999px',
-                  padding: '7px 18px',
-                  color: '#FAF7F2',
-                  fontSize: '12px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                }}
-              >
-                <Sparkles size={13} style={{ color: '#FBC324' }} />
-                <span>Continue as Guest (Dev Preview)</span>
-              </button>
-            </div>
+            </form>
           )}
         </div>
 

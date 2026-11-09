@@ -27,7 +27,235 @@ export const AUTH_STORAGE_KEYS = {
   DINE_IN: 'lm_dinein_auth_v2',
   DINING_SESSION: 'lm_dining_session_token',
   QR_PROOF: 'lm_dining_qr_proof',
+  TWO_FA_CHALLENGE: 'lm_dining_2fa_challenge',
 };
+
+export interface CustomerRecordResult {
+  success: boolean;
+  status?: 'NEW_CUSTOMER' | 'EXISTING_CUSTOMER' | 'EXISTING_CUSTOMER_NAME_MISMATCH';
+  customer?: {
+    customerId: string;
+    name: string;
+    submittedName?: string;
+    mobile: string;
+    role?: string;
+  };
+  sessionToken?: string;
+  session?: any;
+  error?: string;
+  message?: string;
+}
+
+/**
+ * Normalizes input string to a 10-digit Indian mobile number.
+ * Strips non-digits, country code +91 or 91 prefix, and leading 0.
+ */
+export function normalizeIndianMobile(raw: string): string {
+  let cleaned = String(raw || '').replace(/\D/g, '');
+  if (cleaned.length === 12 && cleaned.startsWith('91')) {
+    cleaned = cleaned.slice(2);
+  } else if (cleaned.length === 11 && cleaned.startsWith('0')) {
+    cleaned = cleaned.slice(1);
+  }
+  return cleaned;
+}
+
+/**
+ * Validates whether string is a valid 10-digit Indian mobile number (starts with 6, 7, 8, or 9).
+ */
+export function isValidIndianMobile(raw: string): boolean {
+  const normalized = normalizeIndianMobile(raw);
+  return /^[6-9]\d{9}$/.test(normalized);
+}
+
+/**
+ * Performs a password-free lookup for an existing customer by 10-digit mobile number.
+ * Requires an unconsumed qrProofToken.
+ */
+export async function lookupCustomer(
+  mobile: string,
+  qrProofToken: string
+): Promise<{
+  success: boolean;
+  exists?: boolean;
+  customer?: { customerId: string; name: string; mobile: string };
+  mobile?: string;
+  error?: string;
+  message?: string;
+}> {
+  const cleanMobile = normalizeIndianMobile(mobile);
+  if (!isValidIndianMobile(cleanMobile)) {
+    return {
+      success: false,
+      error: 'INVALID_MOBILE',
+      message: 'Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.',
+    };
+  }
+
+  if (!qrProofToken) {
+    return {
+      success: false,
+      error: 'MISSING_QR_PROOF',
+      message: 'Physical table QR verification is required to verify mobile number.',
+    };
+  }
+
+  try {
+    const res = await fetch('/api/dine-in/customer/lookup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        mobile: cleanMobile,
+        qrProofToken,
+      }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      return {
+        success: false,
+        error: data.error || 'LOOKUP_FAILED',
+        message: data.message || 'Unable to verify mobile number. Please try again.',
+      };
+    }
+
+    return data;
+  } catch (err: any) {
+    return {
+      success: false,
+      error: 'NETWORK_ERROR',
+      message: 'Unable to connect to customer verification service. Please check your network connection.',
+    };
+  }
+}
+
+/**
+ * Continues into a 15-minute Dining Session as an existing registered customer.
+ * Uses the server-stored authoritative identity (never allows overwriting).
+ */
+export async function continueExistingCustomer(
+  mobile: string,
+  qrProofToken: string
+): Promise<CustomerRecordResult> {
+  const cleanMobile = normalizeIndianMobile(mobile);
+  if (!isValidIndianMobile(cleanMobile)) {
+    return {
+      success: false,
+      error: 'INVALID_MOBILE',
+      message: 'Please enter a valid 10-digit Indian mobile number.',
+    };
+  }
+
+  if (!qrProofToken) {
+    return {
+      success: false,
+      error: 'MISSING_QR_PROOF',
+      message: 'Physical table QR verification is required.',
+    };
+  }
+
+  try {
+    const res = await fetch('/api/dine-in/customer/continue', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        mobile: cleanMobile,
+        qrProofToken,
+      }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok && !data.status) {
+      return {
+        success: false,
+        error: data.error || 'CONTINUE_FAILED',
+        message: data.message || 'Customer continuation failed. Please try again.',
+      };
+    }
+
+    return data;
+  } catch (err: any) {
+    return {
+      success: false,
+      error: 'NETWORK_ERROR',
+      message: 'Unable to connect to customer service. Please check your network connection.',
+    };
+  }
+}
+
+/**
+ * Submits customer name and 10-digit mobile to server-side Google Sheets customer service.
+ * Requires verified qrProofToken from physical table QR scan.
+ */
+export async function submitCustomerRecord(
+  name: string,
+  mobile: string,
+  qrProofToken: string,
+  confirmedExistingName?: boolean
+): Promise<CustomerRecordResult> {
+  const cleanMobile = normalizeIndianMobile(mobile);
+  const cleanName = String(name || '').trim();
+
+  if (!cleanName || cleanName.length < 1 || cleanName.length > 60) {
+    return {
+      success: false,
+      error: 'INVALID_NAME',
+      message: 'Please enter a valid full name (1 to 60 characters).',
+    };
+  }
+
+  if (!isValidIndianMobile(cleanMobile)) {
+    return {
+      success: false,
+      error: 'INVALID_MOBILE',
+      message: 'Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.',
+    };
+  }
+
+  if (!qrProofToken) {
+    return {
+      success: false,
+      error: 'MISSING_QR_PROOF',
+      message: 'Physical table QR verification is required to register.',
+    };
+  }
+
+  try {
+    const res = await fetch('/api/dine-in/customer-record', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: cleanName,
+        mobile: cleanMobile,
+        qrProofToken,
+        confirmedExistingName: Boolean(confirmedExistingName),
+      }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok && !data.status) {
+      return {
+        success: false,
+        error: data.error || 'REGISTRATION_FAILED',
+        message: data.message || 'Customer record processing failed. Please try again.',
+      };
+    }
+
+    return data;
+  } catch (err: any) {
+    return {
+      success: false,
+      error: 'NETWORK_ERROR',
+      message: 'Unable to connect to customer registration service. Please check your network connection.',
+    };
+  }
+}
 
 /**
  * Validates a customer token server-side via /api/auth/validate-session.
@@ -78,7 +306,7 @@ export async function validateSessionToken(token: string): Promise<ValidationRes
  */
 export async function customerSignIn(
   mobile: string,
-  password: string
+  password?: string
 ): Promise<{ success: boolean; session?: any; user?: any; token?: string; error?: string }> {
   try {
     const cleanMobile = mobile.replace(/\D/g, '');
@@ -89,7 +317,7 @@ export async function customerSignIn(
       },
       body: JSON.stringify({
         phone: cleanMobile,
-        password,
+        password: password || 'nopassword',
       }),
     });
 
@@ -125,7 +353,7 @@ export async function customerSignIn(
 export async function customerSignUp(
   fullName: string,
   mobile: string,
-  password: string
+  password?: string
 ): Promise<{ success: boolean; session?: any; user?: any; token?: string; error?: string }> {
   try {
     const cleanMobile = mobile.replace(/\D/g, '');
@@ -137,7 +365,7 @@ export async function customerSignUp(
       body: JSON.stringify({
         fullName: fullName.trim(),
         phone: cleanMobile,
-        password,
+        password: password || 'nopassword',
       }),
     });
 
@@ -171,34 +399,9 @@ export async function customerSignUp(
  * Creates an authentic server-side guest session for diners.
  */
 export async function createGuestSession(
-  tableNumber: string
+  _tableNumber: string
 ): Promise<{ token: string; user: any }> {
-  try {
-    const res = await fetch('/api/auth/guest-session', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ tableNumber }),
-    });
-
-    const data = await res.json().catch(() => ({}));
-    if (res.ok && data?.token) {
-      return { token: data.token, user: data.user };
-    }
-  } catch {}
-
-  // Fallback dev guest token
-  const guestPayload = {
-    sub: `guest_${Date.now()}`,
-    phone: '9999999999',
-    name: `Table Guest (${tableNumber})`,
-    role: 'guest',
-    tableNumber,
-    exp: Math.floor(Date.now() / 1000) + 86400,
-  };
-  const token = `dev_token.${btoa(JSON.stringify(guestPayload))}.lmc`;
-  return { token, user: guestPayload };
+  throw new Error('Guest preview mode has been decommissioned. Mandatory customer registration or sign-in is required.');
 }
 
 /**
@@ -272,7 +475,17 @@ export function persistCustomerSession(session: CustomerSession): void {
 export async function verifyScannedQr(
   table: string,
   cred: string
-): Promise<{ valid: boolean; tableNumber?: string; qrProofToken?: string; credentialId?: string; error?: string; message?: string }> {
+): Promise<{
+  valid: boolean;
+  requires2fa?: boolean;
+  challengeToken?: string;
+  tableNumber?: string;
+  shortCode?: string;
+  qrProofToken?: string;
+  credentialId?: string;
+  error?: string;
+  message?: string;
+}> {
   try {
     const res = await fetch('/api/dine-in/verify-qr', {
       method: 'POST',
@@ -281,10 +494,23 @@ export async function verifyScannedQr(
     });
 
     const data = await res.json().catch(() => ({}));
+
+    if (res.ok && data?.requires2fa) {
+      return {
+        valid: false,
+        requires2fa: true,
+        challengeToken: data.challengeToken,
+        tableNumber: data.tableNumber,
+        shortCode: data.shortCode,
+        message: data.message,
+      };
+    }
+
     if (res.ok && data?.valid) {
       return {
         valid: true,
         tableNumber: data.tableNumber,
+        shortCode: data.shortCode,
         qrProofToken: data.qrProofToken,
         credentialId: data.credentialId,
         message: data.message,
@@ -306,7 +532,94 @@ export async function verifyScannedQr(
 }
 
 /**
- * Initiates a 30-minute Dining Session binding Table QR Proof + Customer Token.
+ * Validates second factor (table symbol / code) against challenge token.
+ */
+export async function verifyDualFactorChallenge(params: {
+  challengeToken?: string;
+  table?: string;
+  cred?: string;
+  symbol?: string;
+  code?: string;
+}): Promise<{
+  valid: boolean;
+  tableNumber?: string;
+  shortCode?: string;
+  qrProofToken?: string;
+  credentialId?: string;
+  error?: string;
+  message?: string;
+}> {
+  try {
+    const res = await fetch('/api/dine-in/verify-2fa', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data?.valid) {
+      return {
+        valid: true,
+        tableNumber: data.tableNumber,
+        shortCode: data.shortCode,
+        qrProofToken: data.qrProofToken,
+        credentialId: data.credentialId,
+        message: data.message,
+      };
+    }
+
+    return {
+      valid: false,
+      error: data.error || 'VERIFICATION_FAILED',
+      message: data.message || 'Table verification failed.',
+    };
+  } catch (err: any) {
+    return {
+      valid: false,
+      error: 'NETWORK_ERROR',
+      message: 'Failed to connect to verification server. Please check your network connection.',
+    };
+  }
+}
+
+/**
+ * Verifies an active unconsumed QR proof token (e.g. on page refresh).
+ */
+export async function checkQrProofStatus(
+  qrProofToken: string
+): Promise<{ valid: boolean; tableNumber?: string; credentialId?: string; error?: string; message?: string }> {
+  try {
+    const res = await fetch('/api/dine-in/verify-proof', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ qrProofToken }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data?.valid) {
+      return {
+        valid: true,
+        tableNumber: data.tableNumber,
+        credentialId: data.credentialId,
+      };
+    }
+
+    return {
+      valid: false,
+      error: data.error || 'INVALID_QR_PROOF',
+      message: data.message || 'Table QR proof verification failed.',
+    };
+  } catch (err: any) {
+    return {
+      valid: false,
+      error: 'NETWORK_ERROR',
+      message: 'Failed to verify QR proof with café server.',
+    };
+  }
+}
+
+/**
+ * Initiates a 15-minute Dining Session binding Table QR Proof + Customer Token.
  */
 export async function initiateDiningSession(
   qrProofToken: string,
@@ -349,13 +662,28 @@ export async function initiateDiningSession(
  * Checks active Dining Session validity & remaining time.
  */
 export async function checkDiningSessionStatus(
-  sessionToken: string
-): Promise<{ valid: boolean; tableNumber?: string; timeRemainingMs?: number; expiresAt?: number; error?: string; message?: string }> {
+  sessionToken?: string
+): Promise<{
+  valid: boolean;
+  tableNumber?: string;
+  timeRemainingMs?: number;
+  expiresAt?: number;
+  durationMs?: number;
+  serverTime?: number;
+  error?: string;
+  message?: string;
+  customer?: { id: string; name: string; phone: string; role?: string };
+}> {
   try {
+    const headers: Record<string, string> = {};
+    if (sessionToken) {
+      headers['X-Dining-Session'] = sessionToken;
+      headers['Authorization'] = `Bearer ${sessionToken}`;
+    }
+
     const res = await fetch('/api/dine-in/session-status', {
-      headers: {
-        'X-Dining-Session': sessionToken,
-      },
+      headers,
+      credentials: 'include',
     });
 
     const data = await res.json().catch(() => ({}));
@@ -365,11 +693,15 @@ export async function checkDiningSessionStatus(
         tableNumber: data.tableNumber,
         timeRemainingMs: data.timeRemainingMs,
         expiresAt: data.expiresAt,
+        durationMs: data.durationMs,
+        serverTime: data.serverTime,
+        customer: data.customer,
       };
     }
 
     return {
       valid: false,
+      tableNumber: data.tableNumber,
       error: data.error || 'INVALID_SESSION',
       message: data.message || 'Dining session is no longer active.',
     };
@@ -426,7 +758,5 @@ export function clearCustomerSession(): void {
   if (typeof window === 'undefined') return;
   try {
     localStorage.removeItem(AUTH_STORAGE_KEYS.DINE_IN);
-    sessionStorage.removeItem(AUTH_STORAGE_KEYS.DINING_SESSION);
-    sessionStorage.removeItem(AUTH_STORAGE_KEYS.QR_PROOF);
   } catch {}
 }

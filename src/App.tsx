@@ -8,16 +8,17 @@ import { BrandMarquee } from './components/BrandMarquee';
 import { ColdBrewHeroBanner } from './components/ColdBrewHeroBanner';
 import { MustTryRail } from './components/MustTryRail';
 import { MenuSection } from './components/MenuSection';
-import { EditorialReviews } from './components/EditorialReviews';
 import { ProductDetailsModal } from './components/ProductDetailsModal';
 import { CategorySheetModal } from './components/CategorySheetModal';
 import { BrandedIntroScreen } from './components/BrandedIntroScreen';
-import { FloatingNavigation } from './components/FloatingNavigation';
 import { CustomerAuthModal } from './components/CustomerAuthModal';
 import { CustomerLoginGate } from './components/CustomerLoginGate';
 import { TableQrRequiredGate, DiningSessionExpiredGate } from './components/QrAccessGates';
+import { DualFactorChallengeGate } from './components/DualFactorChallengeGate';
 import { AdminQrManagementModal } from './components/AdminQrManagementModal';
 import { SearchModal } from './components/SearchModal';
+import { InBuiltQrScanner } from './components/InBuiltQrScanner';
+import { OpticalMarkerLab } from './components/lab/OpticalMarkerLab';
 import { Product } from './types';
 import { AlertTriangle } from 'lucide-react';
 
@@ -35,10 +36,39 @@ const DiningAppContent: React.FC = () => {
     tableRevocationReason,
     isQrAuthorized,
     isQrRequired,
+    isRequires2fa,
     isSessionExpired,
     isAdminModalOpen,
     closeAdminModal,
+    authorizeVerifiedQr,
   } = useDineIn();
+
+  const [isScannerRoute, setIsScannerRoute] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
+    const params = new URLSearchParams(window.location.search);
+    return path === '/scanner' || params.get('scanner') === '1' || params.get('scan') === '1';
+  });
+
+  const [isLabRoute, setIsLabRoute] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
+    const params = new URLSearchParams(window.location.search);
+    return path === '/lab' || params.get('lab') === '1' || params.get('lab') === 'true' || params.get('experiment') === '1';
+  });
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
+      const params = new URLSearchParams(window.location.search);
+      setIsScannerRoute(path === '/scanner' || params.get('scanner') === '1' || params.get('scan') === '1');
+      setIsLabRoute(path === '/lab' || params.get('lab') === '1' || params.get('lab') === 'true' || params.get('experiment') === '1');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -52,6 +82,8 @@ const DiningAppContent: React.FC = () => {
   const mustTryProducts = products.filter((p) => p.is_must_try);
 
   const handleExploreClick = () => {
+    setSelectedCategoryId('all');
+    setSearchQuery('');
     const el = document.getElementById('main-menu-catalog');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
@@ -73,19 +105,50 @@ const DiningAppContent: React.FC = () => {
 
   const handleSelectCategory = (categoryId: string) => {
     setSelectedCategoryId(categoryId);
-    if (categoryId && categoryId !== 'all') {
-      handleOpenCategorySheet(categoryId);
-    } else {
-      const el = document.getElementById('main-menu-catalog');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
+    const el = document.getElementById('main-menu-catalog');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const handleProductSelect = (product: Product) => {
     setSelectedProduct(product);
   };
+
+  // Scanner Route (Dedicated in-built camera scanner)
+  if (isScannerRoute) {
+    return (
+      <InBuiltQrScanner
+        onSuccess={(result) => {
+          authorizeVerifiedQr(result.tableNumber, result.qrProofToken);
+          if (typeof window !== 'undefined') {
+            window.history.pushState({}, '', '/');
+            setIsScannerRoute(false);
+          }
+        }}
+        onCancel={() => {
+          if (typeof window !== 'undefined') {
+            window.history.pushState({}, '', '/');
+            setIsScannerRoute(false);
+          }
+        }}
+      />
+    );
+  }
+
+  // Laboratory Route (Experimental Optical Marker Prototype)
+  if (isLabRoute) {
+    return (
+      <OpticalMarkerLab
+        onBack={() => {
+          if (typeof window !== 'undefined') {
+            window.history.pushState({}, '', '/');
+            setIsLabRoute(false);
+          }
+        }}
+      />
+    );
+  }
 
   // 0. Branded Welcome Intro Screen (First visit in session)
   if (!isIntroComplete) {
@@ -151,15 +214,20 @@ const DiningAppContent: React.FC = () => {
     );
   }
 
-  // 2. Strict 30-Minute Dining Session Expiry Gate (Scenario F)
+  // 2. Strict 15-Minute Dining Session Expiry Gate (Scenario F)
   if (isSessionExpired) {
     return <DiningSessionExpiredGate />;
+  }
+
+  // 2.5 Mandatory Table Dual-Factor Challenge Gate
+  if (isRequires2fa) {
+    return <DualFactorChallengeGate />;
   }
 
   // 3. Mandatory Table QR Scan Gate (Scenarios A, B, C, D)
   // Direct URL, copied URL, incognito without valid QR cred are strictly blocked!
   if (isQrRequired || !isQrAuthorized) {
-    return <TableQrRequiredGate />;
+    return <TableQrRequiredGate onOpenScanner={() => setIsScannerRoute(true)} />;
   }
 
   // 4. Login-First Gate: Customer MUST authenticate before accessing menu
@@ -180,7 +248,7 @@ const DiningAppContent: React.FC = () => {
       }}
     >
       {/* 1. Compact Dining Header */}
-      <CompactHeader onSearchClick={() => setIsSearchOpen(true)} />
+      <CompactHeader />
 
       {/* Revoked Table Alert Banner */}
       {isTableRevoked && (
@@ -205,7 +273,7 @@ const DiningAppContent: React.FC = () => {
         >
           <AlertTriangle size={17} style={{ color: '#FEE2E2', flexShrink: 0 }} />
           <span>
-            {tableRevocationReason || `Table ${tableNumber} QR has been deactivated by café administration. Orders cannot be placed at this table.`}
+            {tableRevocationReason || `Table ${tableNumber} QR has been deactivated by café administration. Please scan an active table QR to explore our dining menu.`}
           </span>
         </div>
       )}
@@ -218,7 +286,7 @@ const DiningAppContent: React.FC = () => {
       />
 
       {/* 3. Main Content Container */}
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '100%', minWidth: 0 }}>
         {/* 3A. Hero Carousel — The Defining Visual Feature (Section 7) */}
         <HeroCarousel
           products={products}
@@ -226,7 +294,6 @@ const DiningAppContent: React.FC = () => {
           onExploreClick={handleExploreClick}
           selectedCategoryId={selectedCategoryId}
           onSelectCategory={handleSelectCategory}
-          onSearchClick={() => setIsSearchOpen(true)}
         />
 
         {/* 3B. Scrolling Little Monkey Café Brand Marquee */}
@@ -245,15 +312,13 @@ const DiningAppContent: React.FC = () => {
         <MenuSection
           onProductClick={handleProductSelect}
           searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
           onClearSearch={() => setSearchQuery('')}
           selectedCategoryId={selectedCategoryId}
           onSelectCategory={setSelectedCategoryId}
-          onOpenCategorySheet={handleOpenCategorySheet}
         />
 
-        {/* 3D. Verified Guest Feedback & Customer Reviews */}
-        <EditorialReviews />
-      </main>
+              </main>
 
       {/* 4. Category Bottom Sheet / Modal Experience */}
       <CategorySheetModal
@@ -271,12 +336,6 @@ const DiningAppContent: React.FC = () => {
       <ProductDetailsModal
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
-      />
-
-      {/* 5. Floating Bottom Navigation (Section 12) */}
-      <FloatingNavigation
-        onMenuClick={handleExploreClick}
-        onSearchClick={() => setIsSearchOpen(true)}
       />
 
       {/* 6. Search Modal */}
@@ -297,7 +356,7 @@ const DiningAppContent: React.FC = () => {
         style={{
           borderTop: '1px solid rgba(255, 255, 255, 0.08)',
           backgroundColor: '#050505',
-          padding: '24px 20px 90px 20px',
+          padding: '28px 20px 36px 20px',
           textAlign: 'center',
           fontSize: '11px',
           color: '#9C8C7E',
@@ -318,14 +377,14 @@ const DiningAppContent: React.FC = () => {
           © 2019–Present Little Monkey Café. All rights reserved.
         </p>
         <p style={{ margin: '4px 0 0', fontStyle: 'italic', fontSize: '11.5px', color: '#B8B3A8' }}>
-          Good Food. Great Coffee. A Little More Joy.
+          Coffee and More
         </p>
       </footer>
     </div>
   );
 };
 
-const VALID_DINE_IN_PATHS = ['/', '/index.html', '/dinein.html', '/menu', '/dining', '/dine-in'];
+const VALID_DINE_IN_PATHS = ['/', '/index.html', '/dinein.html', '/menu', '/dining', '/dine-in', '/scanner', '/lab'];
 
 export const App: React.FC = () => {
   const [currentPath, setCurrentPath] = useState(() => {
